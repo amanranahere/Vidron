@@ -93,12 +93,12 @@ const loginUser = asyncHandler(async (req, res) => {
   // check for email, username and password
   const { email, username, password } = req.body;
 
-  if (!username || !email) {
+  if (!username && !email) {
     throw new ApiError(404, "username and email are required");
   }
 
   // check if user exists or not
-  const user = User.findOne({
+  const user = await User.findOne({
     $or: [{ username }, { email }],
   });
 
