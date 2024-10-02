@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { options } from "../constants.js";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -378,7 +379,11 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, channel[0], "User channel fetched successfully")
+      new ApiResponse(
+        200,
+        channel[0],
+        "User channel profile fetched successfully"
+      )
     );
 });
 
