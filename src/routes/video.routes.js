@@ -12,8 +12,9 @@ import {
 } from "../controllers/video.controller.js";
 
 const router = Router();
-router.use(verifyJWT); // applies verifyJWT to all the routes in this file
+router.use(verifyJWT);
 
+// routes
 router
   .route("/")
   .get(getAllVideos)

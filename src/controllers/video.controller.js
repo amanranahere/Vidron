@@ -127,9 +127,7 @@ const getVideoById = asyncHandler(async (req, res) => {
   try {
     const { videoId } = req.params;
 
-    const video = await Video.findById(videoId).select(
-      "-createdAt - updatedAt"
-    );
+    const video = await Video.findById(videoId).select("-createdAt -updatedAt");
 
     if (!video) {
       throw new ApiError(404, "Video not found");
@@ -148,7 +146,7 @@ const updateVideoDetails = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
     const { title, description } = req.body;
 
-    if (!title || !description) {
+    if (!title && !description) {
       throw new ApiError(400, "Invalid input(s)");
     }
 
@@ -202,11 +200,13 @@ const deleteVideo = asyncHandler(async (req, res) => {
   try {
     const { videoId } = req.params;
 
-    const video = await Video.deleteOne({
-      _id: videoId,
-    });
+    if (!isValidObjectId(videoId)) {
+      throw new ApiError(400, "Invalid Video Id");
+    }
 
-    if (video.deletedCount === 0) {
+    const video = await Video.findByIdAndDelete(videoId);
+
+    if (!video) {
       throw new ApiError(404, "Video not found");
     }
 

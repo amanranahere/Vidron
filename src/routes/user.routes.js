@@ -17,6 +17,7 @@ import {
 
 const router = Router();
 
+// routes
 router.route("/register").post(
   upload.fields([
     {
