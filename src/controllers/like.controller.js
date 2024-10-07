@@ -202,7 +202,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     if (videoIds.length === 0) {
       return res
         .status(200)
-        .json(new ApiResponse(200, null, "No liked videos"));
+        .json(new ApiResponse(204, null, "No liked videos"));
     }
 
     const videoDetails = await Video.aggregate([
@@ -260,7 +260,7 @@ const getLikedTweets = asyncHandler(async (req, res) => {
     if (tweetIds.length === 0) {
       return res
         .status(200)
-        .json(new ApiResponse(200, null, "No liked tweets"));
+        .json(new ApiResponse(204, null, "No liked tweets"));
     }
 
     const tweetDetails = await Tweet.aggregate([
