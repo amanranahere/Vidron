@@ -1,5 +1,6 @@
+import mongoose from "mongoose";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const healthCheck = asyncHandler(async (req, res) => {
   // mongoose ready-state

@@ -13,7 +13,7 @@ const createTweet = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findOne({
-    refreshtoken: req.cookies.refreshToken,
+    refreshToken: req.cookies.refreshToken,
   });
 
   if (!user) {
