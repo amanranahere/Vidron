@@ -14,6 +14,10 @@ const likeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Tweet",
     },
+    snap: {
+      type: Schema.Types.ObjectId,
+      ref: "Snap",
+    },
     likedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -26,6 +26,7 @@ import likeRouter from "./routes/like.routes.js";
 import playlistRouter from "./routes/playlist.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
 import healthCheckRouter from "./routes/healthCheck.routes.js";
+import snapRouter from "./routes/snap.routes.js";
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
@@ -37,5 +38,6 @@ app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/playlists", playlistRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/health", healthCheckRouter);
+app.use("/api/v1/snaps", snapRouter);
 
 export { app };

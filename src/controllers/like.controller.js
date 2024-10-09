@@ -7,6 +7,7 @@ import { Video } from "../models/video.model.js";
 import { User } from "../models/user.model.js";
 import { Comment } from "../models/comment.model.js";
 import { Tweet } from "../models/tweet.model.js";
+import { Snap } from "../models/snaps.model.js";
 
 const toggleVideoLike = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
@@ -48,7 +49,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, like, "Video liked successfully"));
     } else {
-      const unLike = await Like.deleteOne({
+      await Like.deleteOne({
         video: videoId,
         likedBy: user._id,
       });
@@ -179,6 +180,63 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   }
 });
 
+const toggleSnapLike = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+
+  if (!isValidObjectId(snapId)) {
+    throw new ApiError(400, "Invalid snap id");
+  }
+
+  const snap = await Snap.findById(snapId);
+
+  if (!snap) {
+    throw new ApiError(404, "Snap does not exist");
+  }
+
+  const user = await User.findOne({
+    refreshToken: req.cookies.refreshToken,
+  });
+
+  if (!user) {
+    return res
+      .status(401)
+      .json(new ApiResponse(401, null, "Unauthorized User"));
+  }
+
+  // check if the snap is liked or not and toggle the like/unlike based on that
+  try {
+    const isLiked = await Like.findOne({
+      snap: snapId,
+      likedBy: user._id,
+    });
+
+    if (!isLiked) {
+      const like = await Like.create({
+        snap: snapId,
+        likedBy: user._id,
+      });
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, like, "Snap liked successfully"));
+    } else {
+      await Like.deleteOne({
+        snap: snapId,
+        likedBy: user._id,
+      });
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, null, "Snap unliked successfully"));
+    }
+  } catch (error) {
+    throw new ApiError(
+      500,
+      "An error occured while toggling like/unlike of the snap"
+    );
+  }
+});
+
 const getLikedVideos = asyncHandler(async (req, res) => {
   try {
     const user = await User.findOne({
@@ -293,10 +351,68 @@ const getLikedTweets = asyncHandler(async (req, res) => {
   }
 });
 
+const getLikedSnaps = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findOne({
+      refreshToken: req.cookies.refreshToken,
+    });
+
+    if (!user) {
+      return res
+        .status(401)
+        .json(new ApiResponse(401, null, "Unauthorized User"));
+    }
+
+    const likedSnaps = await Like.find({
+      likedBy: user._id,
+      snap: { $exists: true },
+    });
+
+    // Extract snap IDs from the liked snaps
+    const snapIds = likedSnaps.map((like) => like.snap);
+
+    if (snapIds.length === 0) {
+      return res.status(200).json(new ApiResponse(204, null, "No liked snaps"));
+    }
+
+    const snapDetails = await Snap.aggregate([
+      {
+        $match: {
+          _id: { $in: snapIds },
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          views: 1,
+          owner: 1,
+          thumbnail: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          numOfSnaps: snapDetails.length,
+          snapDetails,
+        },
+        "All the liked snaps fetched successfully"
+      )
+    );
+  } catch (error) {
+    throw new ApiError(500, "An error occured while fetching liked snaps");
+  }
+});
+
 export {
   toggleVideoLike,
   toggleCommentLike,
   toggleTweetLike,
   getLikedVideos,
   getLikedTweets,
+  toggleSnapLike,
+  getLikedSnaps,
 };
