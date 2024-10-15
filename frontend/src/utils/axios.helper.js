@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { parseErrorMessage } from "./parseErrorMsg";
+import { parseErrorMessage } from "./parseErrorMsg.js";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api/v1",
