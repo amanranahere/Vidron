@@ -5,13 +5,14 @@ import {
   getUserTweets,
   updateTweet,
   deleteTweet,
+  getAllTweets,
 } from "../controllers/tweet.controller.js";
 
 const router = Router();
 router.use(verifyJWT);
 
 // routes
-router.route("/").post(createTweet);
+router.route("/").get(getAllTweets).post(createTweet);
 
 router.route("/user/:userId").get(getUserTweets);
 

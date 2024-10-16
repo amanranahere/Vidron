@@ -8,6 +8,7 @@ import {
   getSnapById,
   deleteSnap,
   updateSnapDetails,
+  getUserSnaps,
 } from "../controllers/snaps.controller.js";
 
 const router = Router();
@@ -36,5 +37,7 @@ router
   .get(getSnapById)
   .delete(deleteSnap)
   .patch(upload.single("snapThumbnail"), updateSnapDetails);
+
+router.route("/user/:userId").get(getUserSnaps);
 
 export default router;

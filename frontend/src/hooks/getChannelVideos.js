@@ -4,7 +4,7 @@ import { setVideos } from "../store/dashboardSlice.js";
 
 const getChannelVideos = async (dispatch) => {
   try {
-    const response = await axiosInstance.get(`/dashboard/videos`);
+    const response = await axiosInstance.get("/dashboard/videos");
 
     if (response?.data?.success) {
       dispatch(setVideos(response.data.data));

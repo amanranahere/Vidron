@@ -106,7 +106,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, like, "Comment liked successfully"));
     } else {
-      const unLike = await Like.deleteOne({
+      await Like.deleteOne({
         comment: commentId,
         likedBy: user._id,
       });
@@ -163,7 +163,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, like, "Tweet liked successfully"));
     } else {
-      const unLike = await Like.deleteOne({
+      await Like.deleteOne({
         tweet: tweetId,
         likedBy: user._id,
       });
@@ -239,6 +239,8 @@ const toggleSnapLike = asyncHandler(async (req, res) => {
 
 const getLikedVideos = asyncHandler(async (req, res) => {
   try {
+    const { page = 1, limit = 10 } = req.query;
+
     const user = await User.findOne({
       refreshToken: req.cookies.refreshToken,
     });
@@ -254,7 +256,6 @@ const getLikedVideos = asyncHandler(async (req, res) => {
       video: { $exists: true },
     });
 
-    // Extract video IDs from the liked videos
     const videoIds = likedVideos.map((like) => like.video);
 
     if (videoIds.length === 0) {
@@ -278,6 +279,12 @@ const getLikedVideos = asyncHandler(async (req, res) => {
           createdAt: 1,
         },
       },
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: parseInt(limit),
+      },
     ]);
 
     return res.status(200).json(
@@ -291,7 +298,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
       )
     );
   } catch (error) {
-    throw new ApiError(500, "An error occured while fetching liked videos");
+    throw new ApiError(500, "An error occurred while fetching liked videos");
   }
 });
 
@@ -353,6 +360,8 @@ const getLikedTweets = asyncHandler(async (req, res) => {
 
 const getLikedSnaps = asyncHandler(async (req, res) => {
   try {
+    const { page = 1, limit = 10 } = req.query;
+
     const user = await User.findOne({
       refreshToken: req.cookies.refreshToken,
     });
@@ -389,6 +398,12 @@ const getLikedSnaps = asyncHandler(async (req, res) => {
           thumbnail: 1,
           createdAt: 1,
         },
+      },
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: parseInt(limit),
       },
     ]);
 

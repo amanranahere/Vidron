@@ -10,7 +10,7 @@ const getUserVideos = async (
   limit = 10
 ) => {
   try {
-    const response = await axiosInstance.get(`/videos/`, {
+    const response = await axiosInstance.get(`/videos/user/${userId}`, {
       params: {
         sortType: sortType,
         page: page,

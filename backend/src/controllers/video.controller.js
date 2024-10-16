@@ -27,10 +27,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
   let filter = {};
   let sortObject = {};
 
+  // filter by userId if provided
   if (userId) {
     filter.owner = userId;
   }
 
+  // filter by query if provided
   if (query) {
     filter["$or"] = [
       { title: new RegExp(query, "i") },
@@ -38,29 +40,27 @@ const getAllVideos = asyncHandler(async (req, res) => {
     ];
   }
 
+  // fort by sortBy field if provided
   if (sortBy) {
-    sortObject[sortBy] = parseInt(sortType);
+    sortObject[sortBy] = sortType === "desc" ? -1 : 1;
   }
 
-  const sortAllVideo = async (page, limit, sortObject, filter) => {
-    try {
-      return await Video.find(filter)
-        .sort(sortObject)
-        .skip((page - 1) * limit)
-        .limit(Number(limit));
-    } catch (error) {
-      throw new ApiError(500, "Error occurred while fetching the videos");
-    }
-  };
+  try {
+    const videos = await Video.find(filter)
+      .sort(sortObject)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
 
-  const allVideos = await sortAllVideo(page, limit, sortObject, filter);
+    const totalVideos = await Video.countDocuments(filter);
 
-  if (allVideos?.length > 0) {
-    return res
-      .status(200)
-      .json(new ApiResponse(200, { allVideos }, "Videos fetched successfully"));
-  } else {
-    throw new ApiError(404, "No Videos found");
+    return res.status(200).json({
+      success: true,
+      totalVideos,
+      videos,
+      message: "Videos fetched successfully",
+    });
+  } catch (error) {
+    throw new ApiError(500, "Error occurred while fetching the videos");
   }
 });
 
@@ -284,6 +284,83 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserVideos = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10, sortType = "desc" } = req.query;
+  const { userId } = req.params;
+
+  if (!isValidObjectId(userId)) {
+    throw new ApiError(400, "Invalid user Id");
+  }
+
+  const videos = await Video.aggregate([
+    {
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $match: { isPublished: true },
+    },
+    {
+      $sort: {
+        createdAt: sortType === "asc" ? 1 : -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: parseInt(limit),
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              avatar: 1,
+              username: 1,
+              fullname: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        owner: 1,
+        videoFile: 1,
+        thumbnail: 1,
+        createdAt: 1,
+        description: 1,
+        title: 1,
+        duration: 1,
+        views: 1,
+        isPublished: 1,
+      },
+    },
+  ]);
+
+  if (!videos) {
+    throw new ApiError(404, "Error while fetching videos");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, videos, "Videos fetched successfully"));
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -291,4 +368,5 @@ export {
   updateVideoDetails,
   deleteVideo,
   togglePublishStatus,
+  getUserVideos,
 };

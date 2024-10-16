@@ -161,4 +161,39 @@ const deleteTweet = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Tweet deleted successfully"));
 });
 
-export { createTweet, getUserTweets, updateTweet, deleteTweet };
+const getAllTweets = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 20, userId, sortBy, sortType } = req.query;
+
+  let filter = {};
+  let sortObject = {};
+
+  // filter by userId if provided
+  if (userId) {
+    filter.owner = userId;
+  }
+
+  // sort by sortBy field if provided
+  if (sortBy) {
+    sortObject[sortBy] = sortType === "desc" ? -1 : 1;
+  }
+
+  try {
+    const tweets = await Tweet.find(filter)
+      .sort(sortObject)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const totalTweets = await Tweet.countDocuments(filter);
+
+    return res.status(200).json({
+      success: true,
+      totalTweets,
+      tweets,
+      message: "Tweets fetched successfully",
+    });
+  } catch (error) {
+    throw new ApiError(500, "Error occurred while fetching the tweets");
+  }
+});
+
+export { createTweet, getUserTweets, updateTweet, deleteTweet, getAllTweets };

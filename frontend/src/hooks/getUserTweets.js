@@ -2,11 +2,9 @@ import axiosInstance from "../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import { addUserTweets } from "../store/userSlice.js";
 
-const getUserTweets = async (dispatch, userId, page = 1, limit = 30) => {
+const getUserTweets = async (dispatch, userId) => {
   try {
-    const response = await axiosInstance.get(
-      `/tweets/user/${userId}?page=${page}&limit=${limit}`
-    );
+    const response = await axiosInstance.get(`/tweets/user/${userId}`);
 
     if (response?.data?.data) {
       dispatch(addUserTweets(response.data.data));

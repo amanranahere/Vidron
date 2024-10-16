@@ -16,3 +16,5 @@ const getUserSubscribed = async (dispatch, subscriberId) => {
     toast.error("Error fetching subscribed channels");
   }
 };
+
+export default getUserSubscribed;

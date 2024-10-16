@@ -244,10 +244,84 @@ const deleteSnap = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Snap deleted successfully"));
 });
 
+const getUserSnaps = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10, sortType = "desc" } = req.query;
+  const { userId } = req.params;
+
+  if (!isValidObjectId(userId)) {
+    throw new ApiError(400, "Invalid user Id");
+  }
+
+  const snaps = await Snap.aggregate([
+    {
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $sort: {
+        createdAt: sortType === "asc" ? 1 : -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: parseInt(limit),
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              avatar: 1,
+              username: 1,
+              fullname: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        owner: 1,
+        snapFile: 1,
+        snapThumbnail: 1,
+        createdAt: 1,
+        description: 1,
+        title: 1,
+        duration: 1,
+        views: 1,
+      },
+    },
+  ]);
+
+  if (!snaps) {
+    throw new ApiError(404, "Error while fetching snaps");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, snaps, "Snaps fetched successfully"));
+});
+
 export {
   getAllSnaps,
   publishASnap,
   getSnapById,
   updateSnapDetails,
   deleteSnap,
+  getUserSnaps,
 };

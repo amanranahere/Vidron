@@ -10,9 +10,22 @@ const getUserSnaps = async (
   limit = 10
 ) => {
   try {
-    const response = await axiosInstance.get(`/snaps/`);
+    const response = await axiosInstance.get(`/snaps/user/${userId}`, {
+      params: {
+        sortType: sortType,
+        page: page,
+        limit: limit,
+      },
+    });
+
+    if (response?.data?.data) {
+      dispatch(addUserSnaps(response.data.data));
+      return response.data;
+    }
   } catch (error) {
     toast.error("Error fetching user snaps");
     console.log(error);
   }
 };
+
+export default getUserSnaps;
