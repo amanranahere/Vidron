@@ -58,7 +58,7 @@ function Signup() {
     <div className="h-screen w-full overflow-y-auto bg-[#121212] text-white">
       <div className="mx-auto my-10 flex w-full max-w-sm flex-col px-4">
         <div className="mx-auto inline-block">
-          <Link className="mx-auto inline-block">
+          <Link to="/">
             <Logo />
           </Link>
 
@@ -152,7 +152,7 @@ function Signup() {
             <Input
               label="Password"
               placeholder="Create your password"
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               className="px-2 rounded-lg"
               className2="pt-5"
               {...register("password", {

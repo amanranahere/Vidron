@@ -182,6 +182,7 @@ function LoginPopup({ route, message = "Login to continue..." }, ref) {
                   </p>
                 )}
 
+                {/* submit button */}
                 <Button
                   type="submit"
                   disabled={loading}
