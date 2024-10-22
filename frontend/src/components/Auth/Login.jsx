@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axios.helper.js";
 import Logo from "../Logo";
 import Input from "../Input";
 import Button from "../Button";
+import { icons } from "../Icons.jsx";
 
 function Login() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function Login() {
       const response = await axiosInstance.post("/users/login", data);
 
       if (response?.data?.data) {
-        dispatch(setUser(response.data.data.user));
+        dispatch(login(response.data.data.user));
         localStorage.setItem(response.data.data.accessToken);
 
         toast.success(response.data.message);

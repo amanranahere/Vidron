@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axios.helper.js";
-import { icons } from "../../assets/Icons.jsx";
+import { icons } from "../Icons.jsx";
 import { IoClose } from "react-icons/io5";
 import Logo from "../Logo";
 import Input from "../Input";

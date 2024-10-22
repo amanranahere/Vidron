@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axios.helper";
-import { icons } from "../../assets/Icons.jsx";
+import { icons } from "../Icons.jsx";
 import { toast } from "react-toastify";
 import Logo from "../Logo";
 import Input from "../Input";
