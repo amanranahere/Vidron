@@ -10,6 +10,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import LoginPopup from "./Auth/LoginPopup.jsx";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import getTimeDistanceToNow from "../utils/getTimeDistance.js";
+import { icons } from "./Icons.jsx";
 
 function Comments({ video }) {
   const { status, userData } = useSelector((state) => state.auth);
@@ -122,8 +124,8 @@ function Comments({ video }) {
                     ...comment,
                     isLiked: !comment.isLiked,
                     likesCount: comment.isLiked
-                      ? comment.isLiked - 1
-                      : comment.isLiked + 1,
+                      ? comment.likesCount - 1
+                      : comment.likesCount + 1,
                   }
                 : comment
             )
@@ -183,36 +185,40 @@ function Comments({ video }) {
               ? `${comments.length} Comments`
               : "No Comments"}
           </p>
+
           <form
-            className="mt-3 mb-4 flex items-center"
             onSubmit={handleSubmit(handleCommentSubmit)}
+            className="mt-3 mb-4 flex items-center"
           >
             <div className="">
               <img
-                className="w-9 h-9 rounded-full mr-5 object-cover"
                 src={userData?.avatar || video?.owner?.avatar}
                 alt="user"
+                className="w-9 h-9 rounded-full mr-5 object-cover"
               />
             </div>
+
             <Input
               {...register("content", { required: true })}
-              className="mr-3 px-4 rounded-lg"
               placeholder="Add a comment"
+              className="mr-3 px-4 rounded-lg"
             />
+
             <LoginPopup
               ref={LoginPopupDialog}
-              message="Login to Comment..."
               route={location.pathname}
+              message="Login to Comment..."
             />
+
             <Button
               type="submit"
               className="ml-4 font-semibold border rounded-lg border-gray-300 flex items-center hover:bg-zinc-800"
-              bgColor=""
             >
               Comment
             </Button>
           </form>
         </div>
+
         <div className="w-full">
           {Array.isArray(comments) && comments?.length > 0 && (
             <InfiniteScroll
@@ -233,10 +239,11 @@ function Comments({ video }) {
                 >
                   <div className="flex">
                     <img
-                      className="w-9 h-9 rounded-full object-cover"
                       src={`${comment?.owner?.avatar}`}
                       alt=""
+                      className="w-9 h-9 rounded-full object-cover"
                     />
+
                     <div className="px-3 justify-start flex-grow">
                       <div className="flex text-gray-300 text-sm">
                         <p>@{comment?.owner?.username}</p>
@@ -244,12 +251,13 @@ function Comments({ video }) {
                           · {getTimeDistanceToNow(comment?.createdAt)}
                         </p>
                       </div>
+
                       {update === comment._id ? (
                         <form
-                          className="mt-1 flex items-center"
                           onSubmit={handleSubmit2((data) =>
                             handleCommentUpdate(data, comment._id)
                           )}
+                          className="mt-1 flex items-center"
                         >
                           <input
                             {...register2("newContent", {
@@ -257,6 +265,7 @@ function Comments({ video }) {
                             })}
                             className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
                           />
+
                           <Button
                             type="submit"
                             className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-pink-700"
@@ -264,6 +273,7 @@ function Comments({ video }) {
                           >
                             Update
                           </Button>
+
                           <Button
                             onClick={cancelEditing}
                             className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-zinc-800"
@@ -280,9 +290,10 @@ function Comments({ video }) {
 
                       <LoginPopup
                         ref={LoginLikePopupDialog}
-                        message="Login to Like Comment..."
                         route={location.pathname}
+                        message="Login to Like Comment..."
                       />
+
                       <button
                         onClick={() => toggleCommentLike(comment._id)}
                         className={`mt-1 flex items-center text-sm`}
@@ -292,6 +303,7 @@ function Comments({ video }) {
                         ) : (
                           <BiLike className="w-4 h-4" />
                         )}
+
                         <p className="ml-1">{comment?.likesCount}</p>
                       </button>
                     </div>
@@ -306,6 +318,7 @@ function Comments({ video }) {
                         >
                           <BsThreeDotsVertical />
                         </button>
+
                         {activeCommentId === comment._id && (
                           <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
                             <button
@@ -314,6 +327,7 @@ function Comments({ video }) {
                             >
                               Update
                             </button>
+
                             <button
                               onClick={() => handleDelete(comment._id)}
                               className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
@@ -334,3 +348,5 @@ function Comments({ video }) {
     </>
   );
 }
+
+export default Comments;
