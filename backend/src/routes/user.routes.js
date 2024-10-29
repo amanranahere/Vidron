@@ -10,7 +10,7 @@ import {
   logoutUser,
   refreshAccessToken,
   registerUser,
-  updatAccountDetails,
+  updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
 } from "../controllers/user.controller.js";
@@ -44,7 +44,7 @@ router.route("/change-password").post(verifyJWT, changeCurrentPassword);
 
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 
-router.route("/update-account").patch(verifyJWT, updatAccountDetails);
+router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 
 router
   .route("/avatar")

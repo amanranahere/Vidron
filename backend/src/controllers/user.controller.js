@@ -229,23 +229,34 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
 });
 
-const updatAccountDetails = asyncHandler(async (req, res) => {
-  const { fullname, email } = req.body;
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { fullname, email, username, description } = req.body;
 
-  if (!fullname || !email) {
-    throw new ApiError(400, "All fields are required");
+  if (!fullname && !email && !username && !description) {
+    throw new ApiError(400, "At least one field is required");
+  }
+
+  if (username) {
+    const isExist = await User.find({ username });
+    if (isExist?.length > 0) {
+      throw new ApiError(409, "Username not available");
+    }
   }
 
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
-        fullname: fullname,
-        email: email,
+        fullname: fullname || req.user.fullname,
+        email: email || req.user.email,
+        username: username || req.user.username,
+        description: description || req.user.description,
       },
     },
-    { new: true }
-  ).select("-password");
+    {
+      new: true,
+    }
+  ).select("-password -refreshToken");
 
   return res
     .status(200)
@@ -461,7 +472,7 @@ export {
   refreshAccessToken,
   changeCurrentPassword,
   getCurrentUser,
-  updatAccountDetails,
+  updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
