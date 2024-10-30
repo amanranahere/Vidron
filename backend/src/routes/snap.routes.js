@@ -8,6 +8,7 @@ import {
   getSnapById,
   deleteSnap,
   updateSnapDetails,
+  togglePublishStatus,
   getUserSnaps,
 } from "../controllers/snaps.controller.js";
 
@@ -39,5 +40,7 @@ router
   .patch(upload.single("snapThumbnail"), updateSnapDetails);
 
 router.route("/user/:userId").get(getUserSnaps);
+
+router.route("/toggle/publish/:snapId").patch(togglePublishStatus);
 
 export default router;

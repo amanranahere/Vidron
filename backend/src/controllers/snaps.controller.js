@@ -244,6 +244,56 @@ const deleteSnap = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Snap deleted successfully"));
 });
 
+const togglePublishStatus = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+
+  const userSnap = await findVideoByIdAndOwner(snapId, req.user._id);
+
+  if (!userSnap) {
+    throw new ApiError(404, "Snap not found");
+  }
+
+  if (userSnap.isPublished) {
+    const updateSnapPublishedStatus = await Snap.findByIdAndUpdate(
+      snapId,
+      {
+        $set: {
+          isPublished: false,
+        },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updateSnapPublishedStatus,
+          "Snap has been unpublished successfully"
+        )
+      );
+  } else {
+    const updateSnapPublishedStatus = await Snap.findByIdAndUpdate(
+      snapId,
+      {
+        $set: {
+          isPublished: true,
+        },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updateSnapPublishedStatus,
+          "Snap has been published successfully"
+        )
+      );
+  }
+});
+
 const getUserSnaps = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, sortType = "desc" } = req.query;
   const { userId } = req.params;
@@ -323,5 +373,6 @@ export {
   getSnapById,
   updateSnapDetails,
   deleteSnap,
+  togglePublishStatus,
   getUserSnaps,
 };
