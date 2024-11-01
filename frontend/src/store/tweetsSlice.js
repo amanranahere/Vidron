@@ -22,7 +22,7 @@ const tweetsSlice = createSlice({
       state.tweets = [];
     },
 
-    updateTweets: (state, action) => {
+    updateTweet: (state, action) => {
       state.tweets = state.tweets.map((tweet) =>
         tweet._id === action.payload._id ? action.payload : tweet
       );
@@ -42,12 +42,7 @@ const tweetsSlice = createSlice({
   },
 });
 
-export const {
-  addTweets,
-  deleteTweet,
-  removeTweets,
-  updateTweets,
-  toggleLike,
-} = tweetsSlice.actions;
+export const { addTweets, deleteTweet, removeTweets, updateTweet, toggleLike } =
+  tweetsSlice.actions;
 
 export default tweetsSlice.reducer;
