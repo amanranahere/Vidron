@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -253,6 +253,44 @@ const updatePlaylist = asyncHandler(async (req, res) => {
     );
 });
 
+const getVideoPlaylist = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!videoId || !isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid video id");
+  }
+
+  const playlists = await Playlist.aggregate([
+    {
+      $match: {
+        owner: new mongoose.Types.ObjectId(req.user?._id),
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        isVideoPresent: {
+          $cond: {
+            if: {
+              $in: [new mongoose.Types.ObjectId(videoId), "$videos"],
+            },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+  ]);
+
+  if (!playlists) {
+    throw new ApiError(500, "Error while fetching playlists");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, playlists, "Playlists fetched successfully"));
+});
+
 export {
   createPlaylist,
   getUserPlaylists,
@@ -261,4 +299,5 @@ export {
   removeVideoFromPlaylist,
   deletePlaylist,
   updatePlaylist,
+  getVideoPlaylist,
 };

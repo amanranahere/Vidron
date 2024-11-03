@@ -8,6 +8,7 @@ import {
   removeVideoFromPlaylist,
   deletePlaylist,
   updatePlaylist,
+  getVideoPlaylist,
 } from "../controllers/playlist.controller.js";
 
 const router = Router();
@@ -29,5 +30,7 @@ router
   .delete(removeVideoFromPlaylist);
 
 router.route("/user/:userId").get(getUserPlaylists);
+
+router.route("/user/playlist/:videoId").get(getVideoPlaylist);
 
 export default router;
