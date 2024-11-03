@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserSubscribed } from "../../hooks/getUserSubscribed.js";
 import { icons } from "../Icons.jsx";
 import { GoSearch } from "react-icons/go";
-// import SubscriptionCard from "../Subscription/SubscriptionCard.jsx"
+import SubscriptionCard from "../Subscription/SubscriptionCard.jsx";
 
 function ChannelSubscribed() {
   const dispatch = useDispatch();

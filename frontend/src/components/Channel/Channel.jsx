@@ -15,8 +15,7 @@ import Button from "../Button.jsx";
 import { FaBell, FaCheckCircle } from "react-icons/fa";
 import axiosInstance from "../../utils/axios.helper.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
-// import GuestComponent from "../GuestPages/GuestComponent.jsx";
-// import streamify_cover from "../../assets/Streamify_Cover.png"
+import GuestComponent from "../GuestPages/GuestComponent.jsx";
 
 function Channel() {
   const dispatch = useDispatch();
@@ -27,6 +26,8 @@ function Channel() {
   const { status, userData } = useSelector((state) => state.auth);
   const LoginPopupDialog = useRef();
   const location = useLocation();
+
+  const viewify_coverImage = "/viewify_coverImage.jpg";
 
   useEffect(() => {
     setError("");
@@ -79,7 +80,7 @@ function Channel() {
       <div className="relative min-h-[150px] w-full pt-[20%]">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src={profile?.coverImage || streamify_cover}
+            src={profile?.coverImage || viewify_coverImage}
             alt="user"
             className="object-cover"
           />
@@ -95,6 +96,7 @@ function Channel() {
               className="h-full w-full object-cover"
             />
           </span>
+
           <div className="mr-auto inline-block">
             <h1 className="font-bold text-xl">{profile?.fullName}</h1>
             <p className="text-sm text-gray-400">@{profile?.username}</p>
@@ -103,6 +105,7 @@ function Channel() {
               {profile?.channelsSubscribedToCount} Subscribed
             </p>
           </div>
+
           <div className="inline-block">
             {status === true ? (
               userData?.username === profile?.username ? (
@@ -147,6 +150,7 @@ function Channel() {
                   message="Login to Subscribe..."
                   route={location.pathname}
                 />
+
                 <Button
                   onClick={() => {
                     LoginPopupDialog.current.open();
@@ -162,6 +166,7 @@ function Channel() {
             )}
           </div>
         </div>
+
         <ul className="no-scrollbar sticky top-0 bg-zinc-950 z-[2] flex flex-row gap-x-2 overflow-auto border-b-2 border-gray-400 py-2">
           <li className="w-full">
             <NavLink
@@ -176,6 +181,7 @@ function Channel() {
               <button className="w-full">Videos</button>
             </NavLink>
           </li>
+
           <li className="w-full">
             <NavLink
               to={"playlist"}
@@ -188,6 +194,7 @@ function Channel() {
               <button className="w-full">Playlist</button>
             </NavLink>
           </li>
+
           <li className="w-full">
             <NavLink
               to={"tweets"}
@@ -200,6 +207,7 @@ function Channel() {
               <button className="w-full">Tweets</button>
             </NavLink>
           </li>
+
           <li className="w-full">
             <NavLink
               to={"subscribed"}
@@ -212,6 +220,7 @@ function Channel() {
               <button className="w-full">Subscribed</button>
             </NavLink>
           </li>
+
           <li className="w-full">
             <NavLink
               to={"about"}

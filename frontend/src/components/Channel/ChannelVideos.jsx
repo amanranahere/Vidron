@@ -5,8 +5,7 @@ import ChannelEmptyVideo from "./ChannelEmptyVideo.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserVideo } from "../../store/userSlice.js";
-
-// import VideoCard from "../Video/VideoCard.jsx";
+import VideoCard from "../Video/VideoCard.jsx";
 
 function ChannelVideos() {
   const [loading, setLoading] = useState(true);

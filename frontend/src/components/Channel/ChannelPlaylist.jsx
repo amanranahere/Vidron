@@ -6,7 +6,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { icons } from "../Icons.jsx";
 import { IoAdd } from "react-icons/io5";
 import formatDate from "../../utils/formatDate.js";
-// import PlaylistForm from "../Playlist/PlaylistForm.jsx";
+import PlaylistForm from "../Playlist/PlaylistForm.jsx";
 
 function ChannelPlaylist() {
   const dispatch = useDispatch();

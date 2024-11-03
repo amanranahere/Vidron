@@ -5,7 +5,7 @@ import ChannelEmptySnap from "./ChannelEmptySnap.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserSnaps } from "../../store/userSlice.js";
-// import SnapCard from "../Snap/SnapCard.jsx";
+import SnapCard from "../Snap/SnapCard.jsx";
 
 function ChannelSnaps() {
   const [loading, setLoading] = useState(true);

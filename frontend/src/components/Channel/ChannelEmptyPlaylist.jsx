@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { FaRegFolderOpen } from "react-icons/fa";
 import { IoAdd } from "react-icons/io5";
-// import PlaylistForm from "../Playlist/"
+import PlaylistForm from "../Playlist/PlaylistForm.jsx";
 
 function ChannelEmptyPlaylist({ videos = false }) {
   const { status, userData } = useSelector((state) => state.auth);
