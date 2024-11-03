@@ -298,7 +298,7 @@ function VideoInfo({ video }) {
               </p>
 
               <p className="text-gray-300  text-[0.8rem]">
-                {formatSubscription(video?.owner?.subscriberCount)}
+                {formatSubscriber(video?.owner?.subscriberCount)}
               </p>
             </div>
           </div>

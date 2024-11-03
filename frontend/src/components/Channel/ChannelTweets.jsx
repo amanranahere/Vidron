@@ -10,7 +10,7 @@ import Button from "../Button.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserTweets } from "../../store/userSlice.js";
-// import Tweet from "../Tweet/TweetCard.jsx";
+import Tweet from "../Tweet/TweetCard.jsx";
 
 function ChannelTweets() {
   const dispatch = useDispatch();

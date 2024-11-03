@@ -12,8 +12,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { setPlaylist, removePlaylistVideo } from "../../store/playlistSlice.js";
-// import VideoListCard from "../Video/VideoListCard.jsx";
-// import GuestComponent from "../GuestPages/GuestComponent.jsx";
+import VideoListCard from "../Video/VideoListCard.jsx";
+import GuestComponent from "../GuestPages/GuestComponent.jsx";
 
 function PlaylistVideos() {
   const { playlistId } = useParams();
