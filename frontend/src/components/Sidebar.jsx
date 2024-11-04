@@ -170,7 +170,7 @@ function Sidebar() {
           className={({ isActive }) =>
             `${isActive ? "text-pink-700" : "text-gray-200"}`
           }
-          to="/support"
+          to="/help"
         >
           <li
             className={`py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
@@ -181,7 +181,7 @@ function Sidebar() {
               <GoQuestion className="w-6 h-6" />
             </span>
 
-            {!isWatchPage && "Support"}
+            {!isWatchPage && "Help"}
           </li>
         </NavLink>
       </ul>

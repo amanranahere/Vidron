@@ -10,6 +10,7 @@ import {
   deleteVideo,
   togglePublishStatus,
   getUserVideos,
+  getSubscribedVideos,
 } from "../controllers/video.controller.js";
 
 const router = Router();
@@ -42,5 +43,7 @@ router
 router.route("/user/:userId").get(getUserVideos);
 
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
+
+router.route("/subscribed").get(getSubscribedVideos);
 
 export default router;

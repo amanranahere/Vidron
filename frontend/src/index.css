@@ -144,7 +144,7 @@
   background-color: black;
   padding-left: 0.3em;
   padding-right: 0.3em;
-  font-size: 0.75em;
+  font-size: 1em;
   color: white;
   letter-spacing: 0;
   border-radius: 5px;
@@ -300,6 +300,7 @@
   border-radius: 50%;
   background-color: black;
   box-shadow: inset 1px 1px 0px #4d4d4d, inset -2px -2px 0px #4d4d4d;
+  margin-top: 0.5em;
 }
 
 .speakers .g2 {
@@ -350,7 +351,7 @@
   height: 0.15em;
   width: 17.5em;
   background-color: #4d4d4d;
-  margin-top: 0.8em;
+  margin-top: 1em;
 }
 
 /* Not found TV - end */

@@ -23,7 +23,7 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const login = async (data) => {
+  const handleLogin = async (data) => {
     setError("");
     setLoading(true);
 
@@ -68,7 +68,7 @@ function Login() {
         {error && <p className="text-red-600 mt-4 text-center">{error}</p>}
 
         <form
-          onSubmit={handleSubmit(login)}
+          onSubmit={handleSubmit(handleLogin)}
           className="mx-auto mt-2 flex w-full max-w-sm flex-col px-4"
         >
           {/* email input */}

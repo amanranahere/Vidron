@@ -23,16 +23,14 @@ function PageNotFound() {
                 <div class="screen_out">
                   <div class="screen_out1">
                     <div class="screen">
-                      <span class="notfound_text"> NOT FOUND</span>
+                      <span class="notfound_text">NOT FOUND</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="buttons_div">
-                <div class="b1">
-                  <div></div>
-                </div>
+                <div class="b1"></div>
 
                 <div class="b2"></div>
 
@@ -42,9 +40,6 @@ function PageNotFound() {
                     <div class="g12"></div>
                     <div class="g13"></div>
                   </div>
-
-                  <div class="g"></div>
-                  <div class="g"></div>
                 </div>
               </div>
             </div>
@@ -58,7 +53,7 @@ function PageNotFound() {
         </div>
       </div>
 
-      {/*  */}
+      {/* Home redirection */}
       <div className="h-screen w-full flex flex-col items-center justify-center overflow-y-auto bg-black/95">
         <h1 className="text-xl mt-5 p-2">
           <Button
