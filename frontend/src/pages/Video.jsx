@@ -6,7 +6,7 @@ import { setVideo } from "../store/videoSlice.js";
 import VideoPlayer from "../components/Video/VideoPlayer.jsx";
 import VideoListCard from "../components/Video/VideoListCard.jsx";
 import VideoInfo from "../components/Video/VideoInfo.jsx";
-import Comments from "../components/Comments.jsx";
+import Comments from "../components/VideoComments.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { icons } from "../components/Icons.jsx";
@@ -16,7 +16,7 @@ function Video() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { videoId } = useParams();
-  const [videos, setVideos] = useDispatch([]);
+  const [videos, setVideos] = useState([]);
   const { video } = useSelector((state) => state.video);
   const authStatus = useSelector((state) => state.auth.status);
 

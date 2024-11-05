@@ -13,12 +13,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import getTimeDistanceToNow from "../utils/getTimeDistance.js";
 import { icons } from "./Icons.jsx";
 
-function Comments({ video }) {
+function SnapComments({ snap }) {
   const { status, userData } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { videoId } = useParams();
+  const { snapId } = useParams();
   const [comments, setComments] = useState([]);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [activeCommentId, setActiveCommentId] = useState(null);
@@ -35,10 +35,10 @@ function Comments({ video }) {
   const menuRefs = useRef([]);
   const location = useLocation();
 
-  const getVideoComments = async () => {
+  const getSnapComments = async () => {
     try {
       const response = await axiosInstance.get(
-        `/comments/video/${videoId}?page=${page}&limit=10`
+        `/comments/snap/${snapId}?page=${page}&limit=10`
       );
       if (response?.data?.data.length === 10) {
         setComments((prev) => [...prev, ...response.data.data]);
@@ -56,7 +56,7 @@ function Comments({ video }) {
       LoginPopupDialog.current.open();
     } else {
       try {
-        await axiosInstance.post(`/comments/video/${videoId}`, {
+        await axiosInstance.post(`/comments/snap/${snapId}`, {
           content: data.content,
         });
         reset();
@@ -100,8 +100,8 @@ function Comments({ video }) {
       setComments([]);
     }
 
-    getVideoComments().then(() => setLoading(false));
-  }, [videoId, commentsUpdated, page]);
+    getSnapComments().then(() => setLoading(false));
+  }, [snapId, commentsUpdated, page]);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
@@ -192,7 +192,7 @@ function Comments({ video }) {
           >
             <div className="">
               <img
-                src={userData?.avatar || video?.owner?.avatar}
+                src={userData?.avatar || snap?.owner?.avatar}
                 alt="user"
                 className="w-9 h-9 rounded-full mr-5 object-cover"
               />
@@ -307,6 +307,7 @@ function Comments({ video }) {
                         <p className="ml-1">{comment?.likesCount}</p>
                       </button>
                     </div>
+
                     {comment?.owner?._id === userData?._id && (
                       <div
                         ref={(el) => (menuRefs.current[index] = el)}
@@ -349,4 +350,4 @@ function Comments({ video }) {
   );
 }
 
-export default Comments;
+export default SnapComments;

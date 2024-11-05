@@ -6,7 +6,7 @@ import { setSnap } from "../store/snapSlice.js";
 import SnapPlayer from "../components/Snap/SnapListCard.jsx";
 import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import SnapInfo from "../components/Snap/SnapInfo.jsx";
-// import Comments from "../components/Comments.jsx";
+import Comments from "../components/SnapsComments.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { icons } from "../components/Icons.jsx";
@@ -16,7 +16,7 @@ function Snap() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { snapId } = useParams();
-  const [snaps, setSnaps] = useDispatch([]);
+  const [snaps, setSnaps] = useState([]);
   const { snap } = useSelector((state) => state.snap);
   const authStatus = useSelector((state) => state.auth.status);
 
@@ -74,16 +74,16 @@ function Snap() {
         <div className="flex">
           <div className="w-[70%] p-4">
             <div>
-              <SnapPlayer key={video._id} videoFile={video.videoFile} />
+              <SnapPlayer key={snap._id} snapFile={snap.snapFile} />
             </div>
 
             <div>
-              <SnapInfo video={video} />
+              <SnapInfo snap={snap} />
             </div>
 
-            {/* <div>
-              <Comments video={video} />
-            </div> */}
+            <div>
+              <Comments snap={snap} />
+            </div>
           </div>
 
           <div className="w-[30%]">

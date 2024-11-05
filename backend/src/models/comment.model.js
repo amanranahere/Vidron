@@ -11,6 +11,10 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Video",
     },
+    snap: {
+      type: Schema.Types.ObjectId,
+      ref: "Snap",
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",

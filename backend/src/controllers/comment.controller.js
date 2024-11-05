@@ -5,6 +5,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
 
+// video comments
+
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   let { page = 1, limit = 10 } = req.query;
@@ -48,7 +50,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
     );
 });
 
-const addComment = asyncHandler(async (req, res) => {
+const addVideoComment = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   const { content } = req.body;
 
@@ -64,6 +66,10 @@ const addComment = asyncHandler(async (req, res) => {
     refreshToken: req.cookies.refreshToken,
   });
 
+  if (!user) {
+    throw new ApiError(401, "User not authenticated");
+  }
+
   const comment = await Comment.create({
     content,
     video: videoId,
@@ -74,6 +80,8 @@ const addComment = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, comment, "Comment created successfully"));
 });
+
+// common functions for both video and snap
 
 const updateComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
@@ -87,23 +95,29 @@ const updateComment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Content required");
   }
 
-  const updatedComment = await Comment.findByIdAndUpdate(
-    commentId,
-    {
-      $set: {
-        content,
-      },
-    },
-    { new: true }
-  );
-
-  if (!updatedComment) {
-    throw new ApiError(400, "Error while updating the comment");
+  const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
+  if (!user) {
+    throw new ApiError(401, "User not authenticated");
   }
+
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    throw new ApiError(404, "Comment not found");
+  }
+
+  if (!comment.owner.equals(user._id)) {
+    throw new ApiError(
+      403,
+      "You do not have permission to update this comment"
+    );
+  }
+
+  comment.content = content;
+  await comment.save();
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedComment, "Comment updated successfully"));
+    .json(new ApiResponse(200, comment, "Comment updated successfully"));
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
@@ -113,15 +127,113 @@ const deleteComment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid Comment Id");
   }
 
-  const deletedComment = await Comment.findByIdAndDelete(commentId);
+  const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
 
-  if (!deletedComment) {
+  if (!user) {
+    throw new ApiError(401, "User not authenticated");
+  }
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
     throw new ApiError(404, "Comment not found");
   }
+
+  if (!comment.owner.equals(user._id)) {
+    throw new ApiError(
+      403,
+      "You do not have permission to delete this comment"
+    );
+  }
+
+  await comment.remove();
 
   return res
     .status(200)
     .json(new ApiResponse(200, null, "Comment deleted successfully"));
 });
 
-export { getVideoComments, addComment, updateComment, deleteComment };
+// snap comments
+
+const getSnapComments = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+  let { page = 1, limit = 10 } = req.query;
+
+  if (!isValidObjectId(snapId)) {
+    throw new ApiError(400, "Invalid snap Id");
+  }
+
+  page = Number(page);
+  limit = Number(limit);
+
+  if (!Number.isFinite(page)) {
+    throw new ApiError(400, "Page is required");
+  }
+
+  if (!Number.isFinite(limit)) {
+    throw new ApiError(400, "Limit is required");
+  }
+
+  const pipeline = [
+    {
+      $match: {
+        snap: snapId,
+      },
+    },
+  ];
+
+  const comments = await Comment.aggregatePaginate(
+    Comment.aggregate(pipeline),
+    { page, limit }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        comments,
+        "Fetched all the comments on the snap successfully"
+      )
+    );
+});
+
+const addSnapComment = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+  const { content } = req.body;
+
+  if (!isValidObjectId(snapId)) {
+    throw new ApiError(400, "Invalid snap Id");
+  }
+
+  if (!content) {
+    throw new ApiError(400, "Content required");
+  }
+
+  const user = await User.findOne({
+    refreshToken: req.cookies.refreshToken,
+  });
+
+  if (!user) {
+    throw new ApiError(401, "User not authenticated");
+  }
+
+  const comment = await Comment.create({
+    content,
+    snap: snapId,
+    owner: user._id,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, comment, "Comment created successfully"));
+});
+
+export {
+  getVideoComments,
+  addVideoComment,
+  updateComment,
+  deleteComment,
+  getSnapComments,
+  addSnapComment,
+};
