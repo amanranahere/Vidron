@@ -78,9 +78,8 @@ function Tweet({ tweet, page = false }) {
                 toggleLike({
                   tweetId: tweet._id,
                   isLiked: !tweet?.isLiked,
-                  likesCount: tweet?.isLiked
-                    ? tweet.likesCount - 1
-                    : tweet.likesCount + 1,
+                  likesCount:
+                    Number(tweet?.likesCount || 0) + (tweet.isLiked ? -1 : 1),
                 })
               );
             } else {
@@ -116,7 +115,6 @@ function Tweet({ tweet, page = false }) {
   };
 
   useEffect(() => {
-    console.log("userdata: ", userData);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -130,11 +128,11 @@ function Tweet({ tweet, page = false }) {
           to={`${
             userData?._id === tweet?.owner?._id
               ? ""
-              : "/channel/" + tweet.owner.username
+              : "/channel/" + tweet?.owner?.username
           }`}
         >
           <img
-            src={tweet.owner.avatar}
+            src={tweet?.owner?.avatar}
             alt="user"
             className="h-full w-full rounded-full object-cover"
           />

@@ -16,7 +16,9 @@ function ChannelEmptyTweet() {
             <TiMessages className="w-6 h-6" />
           </span>
         </p>
+
         <h5 className="mb-2 font-semibold">No Tweets</h5>
+
         <p>
           {isOwner
             ? "You have yet to make an "

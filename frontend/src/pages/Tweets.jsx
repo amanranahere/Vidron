@@ -161,8 +161,8 @@ function Tweets() {
           scrollableTarget="scrollableDiv"
         >
           <ul className="py-4 px-4">
-            {tweets.map((tweet) => (
-              <Tweet key={tweet._id} tweet={tweet} page={true} />
+            {tweets.map((tweet, index) => (
+              <Tweet key={tweet._id || index} tweet={tweet} page={true} />
             ))}
           </ul>
         </InfiniteScroll>

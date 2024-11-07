@@ -179,6 +179,7 @@ const getAllTweets = asyncHandler(async (req, res) => {
 
   try {
     const tweets = await Tweet.find(filter)
+      .populate("owner", "username fullname avatar like")
       .sort(sortObject)
       .skip((page - 1) * limit)
       .limit(Number(limit));

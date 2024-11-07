@@ -159,6 +159,9 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         likedBy: user._id,
       });
 
+      tweet.likesCount += 1;
+      await tweet.save();
+
       return res
         .status(200)
         .json(new ApiResponse(200, like, "Tweet liked successfully"));
@@ -167,6 +170,9 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         tweet: tweetId,
         likedBy: user._id,
       });
+
+      tweet.likesCount = Math.max(0, tweet.likesCount - 1);
+      await tweet.save();
 
       return res
         .status(200)
