@@ -169,14 +169,14 @@ function PlaylistVideos() {
               <Link to={`/channel/${playlist.owner.username}`}>
                 <img
                   src={playlist.owner.avatar}
-                  alt={playlist.owner.fullName}
+                  alt={playlist.owner.fullname}
                   className="h-full w-full rounded-full object-cover"
                 />
               </Link>
             </div>
 
             <div className="w-full">
-              <h6 className="font-semibold">{playlist.owner.fullName}</h6>
+              <h6 className="font-semibold">{playlist.owner.fullname}</h6>
 
               <p className="text-sm text-gray-300">
                 @{playlist.owner.username}

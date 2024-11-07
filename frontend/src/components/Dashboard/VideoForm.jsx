@@ -9,7 +9,7 @@ import UploadSuccess from "./UploadSuccess.jsx";
 import UploadingVideo from "./UploadingVideo.jsx";
 import { addVideoStats } from "../../store/dashboardSlice.js";
 import { useDispatch } from "react-redux";
-import { getChannelVideos } from "../../hooks/getChannelVideos.js";
+import getChannelVideos from "../../hooks/getChannelVideos.js";
 
 function VideoForm({ video = false }, ref) {
   const dialog = useRef();

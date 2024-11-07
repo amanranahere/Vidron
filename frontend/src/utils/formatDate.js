@@ -6,7 +6,7 @@ function formatDate(timestamp) {
   const day = days < 10 ? "0" + days : days;
   const month = months < 10 ? "0" + months : months;
 
-  return day + "/" + month + "/" + date.getFullYear();
+  return `${day}/${month}/${date.getFullYear()}`;
 }
 
 export default formatDate;

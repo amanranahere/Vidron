@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserVideos } from "../../hooks/getUserVideos.js";
+import getUserVideos from "../../hooks/getUserVideos.js";
 import ChannelEmptyVideo from "./ChannelEmptyVideo.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";

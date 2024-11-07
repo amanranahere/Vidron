@@ -40,7 +40,10 @@ const userSlice = createSlice({
     },
 
     addUserTweets: (state, action) => {
-      state.userTweets = [...state.userTweets, ...action.payload];
+      state.userTweets = [
+        ...state.userTweets,
+        ...(Array.isArray(action.payload) ? action.payload : []),
+      ];
     },
 
     removeUserTweets: (state) => {

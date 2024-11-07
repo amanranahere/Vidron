@@ -15,7 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 function Tweets() {
   const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.auth.status);
+  const status = useSelector((state) => state.auth.status);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -34,11 +34,19 @@ function Tweets() {
     try {
       const response = await axiosInstance.get(`/tweets?page=${page}&limit=30`);
 
-      if (response?.data?.data?.length === 30) {
-        dispatch(addTweets(response.data.data));
+      const tweetsData = response?.data?.tweets;
+
+      if (tweetsData) {
+        if (page === 1) {
+          dispatch(removeTweets());
+        }
+        dispatch(addTweets(tweetsData));
+
+        if (tweetsData.length < 30) {
+          setHasMore(false);
+        }
       } else {
-        dispatch(addTweets(response.data.data));
-        setHasMore(false);
+        console.error("No tweets found in the response");
       }
     } catch (error) {
       console.log("Error while fetching tweets", error);
@@ -50,7 +58,9 @@ function Tweets() {
       LoginPopupDialog.current.open();
     } else {
       try {
-        await axiosInstance.post(`/tweets`, data);
+        const response = await axiosInstance.post(`/tweets`, data);
+
+        dispatch(addTweets([response.data]));
         reset();
         setTweetsUpdated((prev) => !prev);
         setPage(1);

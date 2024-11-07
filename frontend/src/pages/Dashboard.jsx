@@ -4,8 +4,8 @@ import { icons } from "../components/Icons.jsx";
 import GuestDashboard from "../components/GuestPages/GuestDashboard.jsx";
 import ChannelStats from "../components/Dashboard/ChannelStats.jsx";
 import VideoPanel from "../components/Dashboard/VideoPanel.jsx";
-import { getChannelStats } from "../hooks/getChannelStats.js";
-import { getChannelVideos } from "../hooks/getChannelVideos.js";
+import getChannelStats from "../hooks/getChannelStats.js";
+import getChannelVideos from "../hooks/getChannelVideos.js";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -14,13 +14,13 @@ function Dashboard() {
   const [videoLoading, setVideoLoading] = useState(true);
 
   useEffect(() => {
-    if (status) {
+    if (status && userData && userData._id) {
       getChannelVideos(dispatch).then(() => setVideoLoading(false));
       getChannelStats(dispatch, userData._id).then(() =>
         setStatsLoading(false)
       );
     }
-  }, []);
+  }, [status, userData, dispatch]);
 
   const { videos, stats } = useSelector((state) => state.dashboard);
 

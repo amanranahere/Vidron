@@ -143,13 +143,13 @@ function SnapInfo({ snap }) {
               <img
                 className={`w-11 h-11 mr-3 rounded-full object-cover`}
                 src={`${snap?.owner?.avatar}`}
-                alt={snap?.owner?.fullName}
+                alt={snap?.owner?.fullname}
               />
             </Link>
 
             <div>
               <p className="text-gray-100 text-[0.9rem]">
-                {snap?.owner?.fullName}
+                {snap?.owner?.fullname}
               </p>
 
               <p className="text-gray-300  text-[0.8rem]">

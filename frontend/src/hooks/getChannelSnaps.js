@@ -1,4 +1,4 @@
-import { axiosInstance } from "../utils/axios.helper.js";
+import axiosInstance from "../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import { setSnaps } from "../store/dashboardSlice.js";
 

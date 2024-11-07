@@ -5,7 +5,7 @@ import ConfirmPopup from "../ConfirmPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { updateVideoPublishedStatus } from "../../store/dashboardSlice.js";
 import { deleteVideo } from "../../store/dashboardSlice.js";
-import { getChannelStats } from "../../hooks/getChannelStats.js";
+import getChannelStats from "../../hooks/getChannelStats.js";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MdDelete, MdEdit } from "react-icons/md";

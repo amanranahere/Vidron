@@ -6,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { convertToMMSS } from "../utils/convertToMMSS.js";
 import { cloudinary } from "../utils/cloudinary.js";
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 
 const findVideoByIdAndOwner = async (id, owner) => {
   try {
@@ -410,7 +410,7 @@ const getSubscribedVideos = asyncHandler(async (req, res) => {
             $project: {
               avatar: 1,
               username: 1,
-              fullName: 1,
+              fullname: 1,
             },
           },
         ],

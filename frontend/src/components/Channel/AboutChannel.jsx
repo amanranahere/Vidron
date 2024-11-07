@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { icons } from "../Icons.jsx";
 import formatDate from "../../utils/formatDate.js";
 import axiosInstance from "../../utils/axios.helper.js";
@@ -74,7 +75,9 @@ function AboutChannel() {
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <BsPlayBtn className="w-6 h-6" />
           <span>
-            <span className="font-semibold">{aboutChannel.totalVideos}</span>{" "}
+            <span className="font-semibold">
+              {aboutChannel.totalVideos > 0 ? aboutChannel.totalVideos : 0}
+            </span>{" "}
             Videos
           </span>
         </p>
@@ -82,7 +85,9 @@ function AboutChannel() {
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <IoEyeOutline className="w-6 h-6" />
           <span>
-            <span className="font-semibold">{aboutChannel.totalViews}</span>{" "}
+            <span className="font-semibold">
+              {aboutChannel.totalViews > 0 ? aboutChannel.totalViews : 0}
+            </span>{" "}
             Views
           </span>
         </p>
@@ -90,7 +95,9 @@ function AboutChannel() {
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <BiLike className="w-6 h-6" />
           <span>
-            <span className="font-semibold">{aboutChannel.totalLikes}</span>{" "}
+            <span className="font-semibold">
+              {aboutChannel.totalLikes > 0 ? aboutChannel.totalLikes : 0}
+            </span>{" "}
             Likes
           </span>
         </p>
@@ -98,7 +105,9 @@ function AboutChannel() {
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <AiOutlineMessage className="w-6 h-6" />
           <span>
-            <span className="font-semibold">{aboutChannel.totalTweets}</span>{" "}
+            <span className="font-semibold">
+              {aboutChannel.totalTweets > 0 ? aboutChannel.totalTweets : 0}
+            </span>{" "}
             Tweets
           </span>
         </p>
@@ -106,7 +115,9 @@ function AboutChannel() {
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <BsPlayBtn className="w-6 h-6" />
           <span>
-            <span className="font-semibold">{aboutChannel.totalSnaps}</span>{" "}
+            <span className="font-semibold">
+              {aboutChannel.totalSnaps > 0 ? aboutChannel.totalSnaps : 0}
+            </span>{" "}
             Snaps
           </span>
         </p>
@@ -115,7 +126,9 @@ function AboutChannel() {
           <GoInfo className="w-6 h-6" />
           <span>
             Joined on{" "}
-            <span className="font-semibold">{formatDate(user.createdAt)}</span>
+            <span className="font-semibold">
+              {formatDate(aboutChannel.createdAt)}
+            </span>
           </span>
         </p>
       </div>

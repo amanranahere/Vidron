@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import ChannelEmptyPlaylist from "./ChannelEmptyPlaylist.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserPlaylist } from "../../hooks/getUserPlaylist.js";
+import getUserPlaylist from "../../hooks/getUserPlaylist.js";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { icons } from "../Icons.jsx";
 import { IoAdd } from "react-icons/io5";
@@ -12,16 +12,20 @@ function ChannelPlaylist() {
   const dispatch = useDispatch();
   const { username } = useParams();
   const [loading, setLoading] = useState(true);
+  const [playlists, setPlaylists] = useState([]);
   const { status, userData } = useSelector((state) => state.auth);
   const userId = useSelector((state) => state.user.user._id);
   const dialog = useRef();
   const location = useLocation();
 
   useEffect(() => {
-    getUserPlaylist(dispatch, userId || userData._id).then(() =>
-      setLoading(false)
-    );
-  }, [username]);
+    getUserPlaylist(dispatch, userId || userData._id)
+      .then((fetchedPlaylists) => {
+        setPlaylists(fetchedPlaylists);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [username, userId, userData._id, dispatch]);
 
   if (loading) {
     return (

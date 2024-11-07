@@ -61,10 +61,10 @@ function VideoListCard({
                   <img
                     className={`${avatarWidth} ${avatarHeight} mr-3 rounded-full object-cover`}
                     src={`${video?.owner?.avatar}`}
-                    alt={video?.owner?.fullName}
+                    alt={video?.owner?.fullname}
                   />
 
-                  <p className="text-gray-300">{video?.owner?.fullName}</p>
+                  <p className="text-gray-300">{video?.owner?.fullname}</p>
                 </div>
               </div>
 

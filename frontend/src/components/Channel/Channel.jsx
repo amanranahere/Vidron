@@ -98,7 +98,7 @@ function Channel() {
           </span>
 
           <div className="mr-auto inline-block">
-            <h1 className="font-bold text-xl">{profile?.fullName}</h1>
+            <h1 className="font-bold text-xl">{profile?.fullname}</h1>
             <p className="text-sm text-gray-400">@{profile?.username}</p>
             <p className="text-sm text-gray-400">
               {profile?.subscribersCount} Subscribers ·{" "}

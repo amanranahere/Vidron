@@ -17,7 +17,7 @@ function ChannelStats({ stats }) {
     <>
       <div className="flex flex-wrap justify-between gap-4">
         <div className="block">
-          <h1 className="text-2xl font-bold">Welcome Back, {user?.fullName}</h1>
+          <h1 className="text-2xl font-bold">Welcome Back, {user?.fullname}</h1>
           <p className="text-sm text-gray-300">
             Track and manage your channel, videos and snaps.
           </p>
@@ -64,21 +64,21 @@ function ChannelStats({ stats }) {
         <InfoBox
           key="total-views"
           title="Total Views"
-          value={stats.totalViews}
+          value={stats.totalViews > 0 ? stats.totalViews : 0}
           icon={<MdOutlineRemoveRedEye className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-subscribers"
           title="Total Subscribers"
-          value={stats.subscriberCount}
+          value={stats.subscriberCount > 0 ? stats.subscriberCount : 0}
           icon={<FaRegUser className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-likes"
           title="Total Likes"
-          value={stats.totalLikes}
+          value={stats.totalLikes > 0 ? stats.totalLikes : 0}
           icon={<FaRegHeart className="h-6 w-6" />}
         />
       </div>

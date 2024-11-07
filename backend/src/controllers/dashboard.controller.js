@@ -98,6 +98,8 @@ const getChannelStats = asyncHandler(async (req, res) => {
 
     const snapsCount = snapsResult.length > 0 ? snapsResult[0].snaps : 0;
 
+    const userCreatedAt = user.createdAt;
+
     return res.status(200).json(
       new ApiResponse(
         200,
@@ -107,6 +109,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
           snaps: snapsCount,
           likes: likesCount,
           views: viewsCount,
+          createdAt: userCreatedAt,
         },
         "Successfully fetched channel statistics"
       )

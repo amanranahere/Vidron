@@ -288,13 +288,13 @@ function VideoInfo({ video }) {
               <img
                 className={`w-11 h-11 mr-3 rounded-full object-cover`}
                 src={`${video?.owner?.avatar}`}
-                alt={video?.owner?.fullName}
+                alt={video?.owner?.fullname}
               />
             </Link>
 
             <div>
               <p className="text-gray-100 text-[0.9rem]">
-                {video?.owner?.fullName}
+                {video?.owner?.fullname}
               </p>
 
               <p className="text-gray-300  text-[0.8rem]">

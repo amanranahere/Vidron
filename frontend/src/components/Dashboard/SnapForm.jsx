@@ -9,7 +9,7 @@ import SnapUploadSuccess from "./SnapUploadSuccess.jsx";
 import UploadingSnap from "./UploadingSnap.jsx";
 import { addSnapStats } from "../../store/dashboardSlice.js";
 import { useDispatch } from "react-redux";
-import { getChannelSnaps } from "../../hooks/getChannelSnaps.js";
+import getChannelSnaps from "../../hooks/getChannelSnaps.js";
 
 function SnapForm({ snap = false }, ref) {
   const dialog = useRef();

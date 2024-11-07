@@ -12,8 +12,8 @@ function EditPersonalInfo() {
   const dispatch = useDispatch();
 
   const defaultValues = {
-    fullname: userData.fullname,
-    email: userData.email,
+    fullname: userData?.fullname,
+    email: userData?.email,
   };
 
   const [data, setData] = useState(defaultValues);
@@ -59,7 +59,7 @@ function EditPersonalInfo() {
               className="w-full px-2 py-1.5 border rounded-lg bg-transparent"
               placeholder="Enter your full name"
               required
-              defaultValue={userData.fullname}
+              defaultValue={userData?.fullname}
               {...register("fullname", {
                 required: true,
                 maxLength: {
@@ -98,7 +98,7 @@ function EditPersonalInfo() {
                 id="email"
                 className="w-full pr-2 py-1.5 pl-10 border rounded-lg bg-transparent"
                 required
-                defaultValue={userData.email}
+                defaultValue={userData?.email}
                 {...register("email", {
                   required: true,
                   validate: {

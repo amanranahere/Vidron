@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChannelEmptyTweet from "./ChannelEmptyTweet.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserTweets } from "../../hooks/getUserTweets.js";
+import getUserTweets from "../../hooks/getUserTweets.js";
 import { icons } from "../Icons.jsx";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";

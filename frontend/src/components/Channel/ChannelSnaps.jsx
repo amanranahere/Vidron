@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserSnaps } from "../../hooks/getUserSnaps.js";
+import getUserSnaps from "../../hooks/getUserSnaps.js";
 import ChannelEmptySnap from "./ChannelEmptySnap.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";

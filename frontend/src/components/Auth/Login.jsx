@@ -32,7 +32,7 @@ function Login() {
 
       if (response?.data?.data) {
         dispatch(login(response.data.data.user));
-        localStorage.setItem(response.data.data.accessToken);
+        localStorage.setItem("accessToken", response.data.data.accessToken);
 
         toast.success(response.data.message);
         navigate("/");

@@ -27,7 +27,9 @@ function Signup() {
       formData.append(key, data[key]);
     }
 
-    formData.append("avatar", (data.avatar = [0]));
+    if (data.avatar && data.avatar[0]) {
+      formData.append("avatar", data.avatar[0]);
+    }
 
     if (data.coverImage) {
       formData.append("coverImage", data.coverImage[0]);

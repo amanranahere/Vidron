@@ -9,7 +9,16 @@ const tweetsSlice = createSlice({
   initialState,
   reducers: {
     addTweets: (state, action) => {
-      state.tweets = [...state.tweets, ...action.payload];
+      const newTweets = action.payload;
+      state.tweets = [
+        ...state.tweets,
+        ...newTweets.filter(
+          (tweet) =>
+            !state.tweets.some(
+              (existingTweet) => existingTweet._id === tweet._id
+            )
+        ),
+      ];
     },
 
     deleteTweet: (state, action) => {

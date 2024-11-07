@@ -61,10 +61,10 @@ function SnapListCard({
                   <img
                     className={`${avatarWidth} ${avatarHeight} mr-3 rounded-full object-cover`}
                     src={`${snap?.owner?.avatar}`}
-                    alt={snap?.owner?.fullName}
+                    alt={snap?.owner?.fullname}
                   />
 
-                  <p className="text-gray-300">{snap?.owner?.fullName}</p>
+                  <p className="text-gray-300">{snap?.owner?.fullname}</p>
                 </div>
               </div>
 

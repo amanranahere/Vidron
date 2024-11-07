@@ -14,7 +14,7 @@ function SubscriptionCard({ profile }) {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { status } = useSelector((state) => state.auth);
+  const status = useSelector((state) => state.auth.status);
 
   const toggleSubscribe = async () => {
     if (!status) {
@@ -66,7 +66,7 @@ function SubscriptionCard({ profile }) {
           </div>
 
           <div className="block">
-            <h6 className="font-semibold">{profile.fullName}</h6>
+            <h6 className="font-semibold">{profile.fullname}</h6>
             <p className="text-sm text-gray-300">
               {formatSubscribers(profile.subscribersCount)}
             </p>

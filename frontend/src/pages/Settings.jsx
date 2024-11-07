@@ -21,6 +21,7 @@ function Settings() {
   const [loadingAvatar, setLoadingAvatar] = useState(false);
 
   const viewify_coverImage = "/viewify_coverImage.jpg";
+  const viewify_avatar = "/viewify_avatar";
 
   const {
     register,
@@ -89,12 +90,18 @@ function Settings() {
     }
   };
 
+  if (!userData) {
+    return (
+      <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+    );
+  }
+
   return (
     <section className="w-full">
       <div className="relative min-h-[150px] w-full pt-[20%]">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src={userData.coverImage || viewify_coverImage}
+            src={userData?.coverImage || viewify_coverImage}
             alt="cover-image"
             className="object-cover"
           />
@@ -147,7 +154,9 @@ function Settings() {
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
           <div className="relative -mt-12 inline-block h-32 w-32 shrink-0 overflow-hidden rounded-full border-2">
             <img
-              src={userData.avatar}
+              src={
+                userData && userData.avatar ? userData.avatar : viewify_avatar
+              }
               alt="image"
               className="h-full w-full object-cover"
             />
@@ -196,8 +205,21 @@ function Settings() {
           </div>
 
           <div className="mr-auto inline-block">
-            <h1 className="font-bold text-xl">{userData.fullName}</h1>
-            <p className="text-sm text-gray-400">@{userData.username}</p>
+            <h1 className="font-bold text-xl">
+              {userData && userData.fullname ? (
+                userData.fullname
+              ) : (
+                <span className="text-red-500">Error: Full Name Missing</span>
+              )}
+            </h1>
+
+            <p className="text-sm text-gray-400">
+              {userData && userData.username ? (
+                `@${userData.username}`
+              ) : (
+                <span className="text-red-500">Error: Username Missing</span>
+              )}
+            </p>
           </div>
 
           <div className="inline-block">

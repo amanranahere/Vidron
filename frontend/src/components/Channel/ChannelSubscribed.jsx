@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ChannelEmptySubscribed from "./ChannelEmptySubscribed.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserSubscribed } from "../../hooks/getUserSubscribed.js";
+import getUserSubscribed from "../../hooks/getUserSubscribed.js";
 import { icons } from "../Icons.jsx";
 import { GoSearch } from "react-icons/go";
 import SubscriptionCard from "../Subscription/SubscriptionCard.jsx";

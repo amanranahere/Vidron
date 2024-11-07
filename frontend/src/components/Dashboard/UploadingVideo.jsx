@@ -10,18 +10,19 @@ function UploadingVideo({ video, updating = false }, ref) {
 
   useImperativeHandle(
     ref,
-    () => {
-      return {
-        open() {
-          dialog.current.showModal();
-        },
-        close() {
-          dialog.current.close();
-        },
-      };
-    },
+    () => ({
+      open() {
+        dialog.current.showModal();
+      },
+      close() {
+        dialog.current.close();
+      },
+    }),
     []
   );
+
+  const isVideoFileAvailable = video?.videoFile?.length > 0;
+  const videoFile = isVideoFileAvailable ? video.videoFile[0] : {};
 
   return createPortal(
     <dialog
@@ -47,6 +48,7 @@ function UploadingVideo({ video, updating = false }, ref) {
                   type="button"
                   onClick={() => dialog.current.close()}
                   className="h-6 w-6 hover:text-red-500"
+                  aria-label="Close dialog"
                 >
                   <IoClose className="w-6 h-6" />
                 </button>
@@ -61,17 +63,12 @@ function UploadingVideo({ video, updating = false }, ref) {
 
                 <div className="flex flex-col">
                   <h6>
-                    {updating
-                      ? "Updating " + video.title
-                      : video?.videoFile?.length > 0 &&
-                        video?.videoFile[0].name}
+                    {updating ? "Updating " + video.title : videoFile?.name}
                   </h6>
 
-                  {!updating && (
+                  {!updating && isVideoFileAvailable && (
                     <p className="text-sm">
-                      {video?.videoFile?.length > 0 &&
-                        (video?.videoFile[0].size / 1000000).toFixed(2)}{" "}
-                      MB
+                      {(videoFile.size / 1000000).toFixed(2)} MB
                     </p>
                   )}
 

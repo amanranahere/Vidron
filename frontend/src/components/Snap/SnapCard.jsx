@@ -36,7 +36,7 @@ function SnapCard({ snap, name = true }) {
             <img
               className="w-9 h-9 bg-gray-100 rounded-full object-cover"
               src={snap?.owner?.avatar}
-              alt={snap?.owner?.fullName}
+              alt={snap?.owner?.fullname}
             />
           </div>
 
@@ -48,7 +48,7 @@ function SnapCard({ snap, name = true }) {
               {snap?.title}
             </h2>
 
-            {name && <h2 className="text-gray-200">{snap?.owner?.fullName}</h2>}
+            {name && <h2 className="text-gray-200">{snap?.owner?.fullname}</h2>}
 
             <p className="text-gray-300 text-[0.95rem]">{`${snap?.views} views • ${timeDistance}`}</p>
           </div>

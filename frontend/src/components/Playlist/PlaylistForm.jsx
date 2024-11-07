@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { updatePlaylist } from "../../store/playlistSlice.js";
-import { getUserPlaylist } from "../../hooks/getUserPlaylist.js";
+import getUserPlaylist from "../../hooks/getUserPlaylist.js";
 
 function PlaylistForm({ playlist, route }, ref) {
   const dialog = useRef();

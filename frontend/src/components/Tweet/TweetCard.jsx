@@ -6,7 +6,7 @@ import axiosInstance from "../../utils/axios.helper.js";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import Button from "../Button.jsx";
 import LoginPopup from "../Auth/LoginPopup.jsx";
-import { getUserTweets } from "../../hooks/getUserTweets.js";
+import getUserTweets from "../../hooks/getUserTweets.js";
 import { removeUserTweets } from "../../store/userSlice.js";
 import { useForm } from "react-hook-form";
 import { BiLike, BiSolidLike } from "react-icons/bi";
@@ -116,6 +116,7 @@ function Tweet({ tweet, page = false }) {
   };
 
   useEffect(() => {
+    console.log("userdata: ", userData);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -142,7 +143,7 @@ function Tweet({ tweet, page = false }) {
 
       <div className="px-3 justify-start flex-grow">
         <div className="flex">
-          <p className="font-semibold">{tweet?.owner?.fullName}</p>
+          <p className="font-semibold">{tweet?.owner?.fullname}</p>
           <p className="ml-2 text-gray-300">
             · {getTimeDistanceToNow(tweet?.createdAt)}
           </p>
