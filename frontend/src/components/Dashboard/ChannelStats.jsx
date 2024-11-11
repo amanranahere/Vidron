@@ -50,35 +50,42 @@ function ChannelStats({ stats }) {
         <InfoBox
           key="total-videos"
           title="Total Videos"
-          value={stats.totalVideos}
+          value={stats.videos}
           icon={<GoDeviceCameraVideo className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-snaps"
           title="Total Snaps"
-          value={stats.totalSnaps}
+          value={stats.snaps}
+          icon={<FaPlayCircle className="h-6 w-6" />}
+        />
+
+        <InfoBox
+          key="total-tweets"
+          title="Total Tweets"
+          value={stats.tweets}
           icon={<FaPlayCircle className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-views"
           title="Total Views"
-          value={stats.totalViews > 0 ? stats.totalViews : 0}
+          value={stats.views > 0 ? stats.views : 0}
           icon={<MdOutlineRemoveRedEye className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-subscribers"
           title="Total Subscribers"
-          value={stats.subscriberCount > 0 ? stats.subscriberCount : 0}
+          value={stats.subscribers > 0 ? stats.subscribers : 0}
           icon={<FaRegUser className="h-6 w-6" />}
         />
 
         <InfoBox
           key="total-likes"
           title="Total Likes"
-          value={stats.totalLikes > 0 ? stats.totalLikes : 0}
+          value={stats.likes > 0 ? stats.likes : 0}
           icon={<FaRegHeart className="h-6 w-6" />}
         />
       </div>

@@ -22,7 +22,11 @@ const userSlice = createSlice({
     },
 
     addUserVideo: (state, action) => {
-      state.userVideo = [...state.userVideo, ...action.payload];
+      const newVideos = action.payload.filter(
+        (newVideo) =>
+          !state.userVideo.some((video) => video._id === newVideo._id)
+      );
+      state.userVideo = [...state.userVideo, ...newVideos];
     },
 
     removeUserVideo: (state) => {
@@ -57,7 +61,10 @@ const userSlice = createSlice({
     },
 
     addUserSnaps: (state, action) => {
-      state.userSnaps = [...state.userSnaps, ...action.payload];
+      const newSnaps = action.payload.filter(
+        (newSnap) => !state.userSnaps.some((snap) => snap._id === newSnap._id)
+      );
+      state.userSnaps = [...state.userSnaps, ...newSnaps];
     },
 
     removeUserSnaps: (state) => {

@@ -1,10 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
-import formatDuration from "../../utils/formatDuration.js";
 
 function SnapCard({ snap, name = true }) {
-  const formattedDuration = formatDuration(parseInt(snap?.duration));
+  const formattedDuration = snap?.duration;
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
   const navigate = useNavigate();
 

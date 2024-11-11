@@ -40,14 +40,19 @@ function VideoComments({ video }) {
       const response = await axiosInstance.get(
         `/comments/video/${videoId}?page=${page}&limit=10`
       );
-      if (response?.data?.data.length === 10) {
-        setComments((prev) => [...prev, ...response.data.data]);
-      } else {
-        setComments((prev) => [...prev, ...response.data.data]);
-        setHasMore(false);
+
+      const commentsArray = response.data.data?.docs;
+
+      if (Array.isArray(commentsArray)) {
+        if (commentsArray.length === 10) {
+          setComments((prev) => [...prev, ...commentsArray]);
+        } else {
+          setComments((prev) => [...prev, ...commentsArray]);
+          setHasMore(false);
+        }
       }
     } catch (error) {
-      console.log("Error fetching comments", error);
+      console.error("Error fetching comments", error);
     }
   };
 

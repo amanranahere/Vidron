@@ -179,7 +179,7 @@ function SnapForm({ snap = false }, ref) {
                             {...register("snapFile", {
                               required: "Snap file is required",
                               validate: (file) => {
-                                const allowedExtensions = ["snap/mp4"];
+                                const allowedExtensions = ["video/mp4"];
                                 const fileType = file[0].type;
                                 return allowedExtensions.includes(fileType)
                                   ? true

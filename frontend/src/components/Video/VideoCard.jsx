@@ -1,10 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
-import formatDuration from "../../utils/formatDuration.js";
 
 function VideoCard({ video, name = true }) {
-  const formattedDuration = formatDuration(parseInt(video?.duration));
+  const formattedDuration = video?.duration;
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
   const navigate = useNavigate();
 

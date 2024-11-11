@@ -3,6 +3,7 @@ import { Subscription } from "../models/subscription.model.js";
 import { Like } from "../models/like.model.js";
 import { User } from "../models/user.model.js";
 import { Snap } from "../models/snaps.model.js";
+import { Tweet } from "../models/tweet.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -70,6 +71,15 @@ const getChannelStats = asyncHandler(async (req, res) => {
     },
   ];
 
+  const tweetsPipeline = [
+    {
+      $match: { owner: user._id },
+    },
+    {
+      $count: "tweets",
+    },
+  ];
+
   try {
     // execute all aggregation pipelines
     const [
@@ -78,12 +88,14 @@ const getChannelStats = asyncHandler(async (req, res) => {
       likesResult,
       viewsResult,
       snapsResult,
+      tweetsResult,
     ] = await Promise.all([
       Subscription.aggregate(subscribersPipeline),
       Video.aggregate(videosPipeline),
       Like.aggregate(likesPipeline),
       Video.aggregate(viewsPipeline),
       Snap.aggregate(snapsPipeline),
+      Tweet.aggregate(tweetsPipeline),
     ]);
 
     // extract counts and defaulting to 0 if no results
@@ -98,6 +110,8 @@ const getChannelStats = asyncHandler(async (req, res) => {
 
     const snapsCount = snapsResult.length > 0 ? snapsResult[0].snaps : 0;
 
+    const tweetsCount = tweetsResult.length > 0 ? tweetsResult[0].tweets : 0;
+
     const userCreatedAt = user.createdAt;
 
     return res.status(200).json(
@@ -107,6 +121,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
           subscribers: subscribersCount,
           videos: videosCount,
           snaps: snapsCount,
+          tweets: tweetsCount,
           likes: likesCount,
           views: viewsCount,
           createdAt: userCreatedAt,
