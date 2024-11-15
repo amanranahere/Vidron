@@ -21,6 +21,7 @@ function ChannelTweets() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
   const [tweetsUpdated, setTweetsUpdated] = useState(false);
+  const [tweets, setTweets] = useState([]);
 
   const {
     register,
@@ -39,10 +40,9 @@ function ChannelTweets() {
       if (res.data.length !== 30) {
         setHasMore(false);
       }
+      setTweets(res.data.tweets);
     });
   }, [username, tweetsUpdated, page]);
-
-  const tweets = useSelector((state) => state.user.userTweets);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
@@ -90,6 +90,7 @@ function ChannelTweets() {
               },
             })}
           />
+
           <div className="flex items-center justify-between gap-x-3 px-3">
             <div className="flex-grow">
               {errors.content && (
@@ -98,6 +99,7 @@ function ChannelTweets() {
                 </p>
               )}
             </div>
+
             <div className="flex items-center gap-x-3">
               <Button
                 className="rounded-lg hover:bg-slate-800"
@@ -117,6 +119,7 @@ function ChannelTweets() {
             </div>
           </div>
         </form>
+
         {tweets?.length > 0 ? (
           <InfiniteScroll
             dataLength={tweets.length}
@@ -130,8 +133,8 @@ function ChannelTweets() {
             scrollableTarget="scrollableDiv"
           >
             <ul className="py-4">
-              {tweets.map((tweet) => (
-                <Tweet key={tweet._id} tweet={tweet} />
+              {tweets.map((tweet, index) => (
+                <Tweet key={tweet._id || index} tweet={tweet} page={true} />
               ))}
             </ul>
           </InfiniteScroll>
@@ -156,8 +159,8 @@ function ChannelTweets() {
             scrollableTarget="scrollableDiv"
           >
             <ul className="py-4">
-              {tweets.map((tweet) => (
-                <Tweet key={tweet._id} tweet={tweet} />
+              {tweets.map((tweet, index) => (
+                <Tweet key={tweet._id || index} tweet={tweet} page={true} />
               ))}
             </ul>
           </InfiniteScroll>

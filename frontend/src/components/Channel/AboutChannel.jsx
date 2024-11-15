@@ -76,7 +76,7 @@ function AboutChannel() {
           <BsPlayBtn className="w-6 h-6" />
           <span>
             <span className="font-semibold">
-              {aboutChannel.totalVideos > 0 ? aboutChannel.totalVideos : 0}
+              {aboutChannel.videos > 0 ? aboutChannel.videos : 0}
             </span>{" "}
             Videos
           </span>
@@ -86,7 +86,7 @@ function AboutChannel() {
           <IoEyeOutline className="w-6 h-6" />
           <span>
             <span className="font-semibold">
-              {aboutChannel.totalViews > 0 ? aboutChannel.totalViews : 0}
+              {aboutChannel.views > 0 ? aboutChannel.views : 0}
             </span>{" "}
             Views
           </span>
@@ -96,7 +96,7 @@ function AboutChannel() {
           <BiLike className="w-6 h-6" />
           <span>
             <span className="font-semibold">
-              {aboutChannel.totalLikes > 0 ? aboutChannel.totalLikes : 0}
+              {aboutChannel.likes > 0 ? aboutChannel.likes : 0}
             </span>{" "}
             Likes
           </span>
@@ -106,7 +106,7 @@ function AboutChannel() {
           <AiOutlineMessage className="w-6 h-6" />
           <span>
             <span className="font-semibold">
-              {aboutChannel.totalTweets > 0 ? aboutChannel.totalTweets : 0}
+              {aboutChannel.tweets > 0 ? aboutChannel.tweets : 0}
             </span>{" "}
             Tweets
           </span>
@@ -116,7 +116,7 @@ function AboutChannel() {
           <BsPlayBtn className="w-6 h-6" />
           <span>
             <span className="font-semibold">
-              {aboutChannel.totalSnaps > 0 ? aboutChannel.totalSnaps : 0}
+              {aboutChannel.snaps > 0 ? aboutChannel.snaps : 0}
             </span>{" "}
             Snaps
           </span>

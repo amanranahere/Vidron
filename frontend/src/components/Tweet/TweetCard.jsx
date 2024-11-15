@@ -22,11 +22,9 @@ function Tweet({ tweet, page = false }) {
   const [update, setUpdate] = useState(false);
   const [menu, setMenu] = useState(false);
   const dispatch = useDispatch();
-
   const LoginLikePopupDialog = useRef();
   const ref = useRef(null);
   const location = useLocation();
-
   const { register, handleSubmit, setValue } = useForm();
 
   const handleTweetDelete = async () => {
