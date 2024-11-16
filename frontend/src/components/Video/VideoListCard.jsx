@@ -30,7 +30,7 @@ function VideoListCard({
 
   return (
     <div className={`${mainDivWidth}`}>
-      <Link to={`/watchpage/${video?._id}`}>
+      <Link to={`/video-watchpage/${video?._id}`}>
         <div className={`${paddingY} hover:bg-zinc-900 rounded-lg`}>
           <div className={`text-white ${marginLeft} flex`}>
             <div className="relative flex-shrink-0">

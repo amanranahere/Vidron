@@ -14,7 +14,9 @@ const findSnapByIdAndOwner = async (id, owner) => {
     return await Snap.findOne({
       _id: id,
       owner: owner,
-    }).select("-createdAt -updatedAt");
+    })
+      .select("-createdAt -updatedAt")
+      .populate("owner", "avatar fullname username");
   } catch (error) {
     throw new ApiError(
       500,
@@ -43,15 +45,16 @@ const getAllSnaps = asyncHandler(async (req, res) => {
   }
 
   try {
-    const allSnaps = await Snap.find(filter)
+    const snaps = await Snap.find(filter)
       .sort(sortObject)
       .skip((Number(page) - 1) * Number(limit))
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .populate("owner", "avatar fullname username");
 
-    if (allSnaps.length > 0) {
+    if (snaps.length > 0) {
       return res
         .status(200)
-        .json(new ApiResponse(200, { allSnaps }, "Snaps fetched successfully"));
+        .json(new ApiResponse(200, { snaps }, "Snaps fetched successfully"));
     } else {
       throw new ApiError(404, "No Snaps found");
     }
@@ -147,7 +150,9 @@ const getSnapById = asyncHandler(async (req, res) => {
   }
 
   // get snap
-  const snap = await Snap.findById(snapId).select("-createdAt -updatedAt");
+  const snap = await Snap.findById(snapId)
+    .select("-createdAt -updatedAt")
+    .populate("owner", "avatar fullname username");
 
   if (!snap) {
     throw new ApiError(404, "Snap not found");

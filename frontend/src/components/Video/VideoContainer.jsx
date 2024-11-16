@@ -14,10 +14,11 @@ function VideoContainer() {
   const getData = async (page) => {
     try {
       const response = await axiosInstance.get(`/videos?page=${page}&limit=20`);
-      if (response?.data?.data?.length > 0) {
-        setVideos((prevVideos) => [...prevVideos, ...response.data.data]);
+
+      if (response?.data?.videos?.length > 0) {
+        setVideos(response.data.videos);
         setLoading(false);
-        if (response.data.data.length !== 20) {
+        if (response.data.videos.length !== 20) {
           setHasMore(false);
         }
       } else {

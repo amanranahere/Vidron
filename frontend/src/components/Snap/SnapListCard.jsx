@@ -30,7 +30,7 @@ function SnapListCard({
 
   return (
     <div className={`${mainDivWidth}`}>
-      <Link to={`/watchpage/${snap?._id}`}>
+      <Link to={`/snap-watchpage/${snap?._id}`}>
         <div className={`${paddingY} hover:bg-zinc-900 rounded-lg`}>
           <div className={`text-white ${marginLeft} flex`}>
             <div className="relative flex-shrink-0">

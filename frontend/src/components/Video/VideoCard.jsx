@@ -13,7 +13,7 @@ function VideoCard({ video, name = true }) {
   };
 
   return (
-    <Link to={`/watchpage/${video?._id}`}>
+    <Link to={`/video-watchpage/${video?._id}`}>
       <div
         key={video._id}
         className="rounded-xl mt-2 text-white p-1 hover:bg-zinc-900"

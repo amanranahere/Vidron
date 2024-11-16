@@ -20,6 +20,7 @@ import {
   Subscriptions,
   Tweets,
   Video,
+  SnapsHome,
 } from "./pages/index.js";
 import ChannelVideos from "./components/Channel/ChannelVideos.jsx";
 import ChannelSnaps from "./components/Channel/ChannelSnaps.jsx";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/snaps",
+        element: <SnapsHome />,
+      },
+      {
         path: "/login",
         element: <Login />,
       },
@@ -52,11 +57,11 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
-        path: "/watchpage/:videoId",
+        path: "/video-watchpage/:videoId",
         element: <Video />,
       },
       {
-        path: "/watchpage/:snapId",
+        path: "/snap-watchpage/:snapId",
         element: <Snaps />,
       },
       {
@@ -87,10 +92,10 @@ const router = createBrowserRouter([
             path: "/channel/:username",
             element: <ChannelVideos />,
           },
-          // {
-          //   path: "/channel/:username",
-          //   element: <ChannelSnaps />,
-          // },
+          {
+            path: "/channel/:username/snaps",
+            element: <ChannelSnaps />,
+          },
           {
             path: "/channel/:username/tweets",
             element: <ChannelTweets />,

@@ -95,7 +95,7 @@ function VideoCard({ video }) {
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-start items-center gap-4">
           {publishStatus ? (
-            <Link to={`/watchpage/${video._id}`}>
+            <Link to={`/video-watchpage/${video._id}`}>
               <img
                 className="h-10 w-10 rounded-full object-cover"
                 src={video.thumbnail}
@@ -113,7 +113,7 @@ function VideoCard({ video }) {
           <h3 className="font-semibold">
             {publishStatus ? (
               <Link
-                to={`/watchpage/${video._id}`}
+                to={`/video-watchpage/${video._id}`}
                 className="hover:text-gray-300"
               >
                 {video.title?.length > 35

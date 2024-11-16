@@ -13,7 +13,9 @@ const findVideoByIdAndOwner = async (id, owner) => {
     return await Video.findOne({
       _id: id,
       owner: owner,
-    }).select("-createdAt -updatedAt");
+    })
+      .select("-createdAt -updatedAt")
+      .populate("owner", "avatar fullname username");
   } catch (error) {
     throw new ApiError(
       500,
@@ -41,7 +43,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     ];
   }
 
-  // fort by sortBy field if provided
+  // sortBy field if provided
   if (sortBy) {
     sortObject[sortBy] = sortType === "desc" ? -1 : 1;
   }
@@ -50,7 +52,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
     const videos = await Video.find(filter)
       .sort(sortObject)
       .skip((page - 1) * limit)
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .populate("owner", "avatar fullname username");
 
     const totalVideos = await Video.countDocuments(filter);
 
@@ -132,7 +135,9 @@ const getVideoById = asyncHandler(async (req, res) => {
   try {
     const { videoId } = req.params;
 
-    const video = await Video.findById(videoId).select("-createdAt -updatedAt");
+    const video = await Video.findById(videoId)
+      .select("-createdAt -updatedAt")
+      .populate("owner", "avatar fullname username");
 
     if (!video) {
       throw new ApiError(404, "Video not found");

@@ -42,8 +42,10 @@ function Dashboard() {
     return (
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
         <ChannelStats stats={stats} />
+
         <h1 className="text-center text-2xl">Videos</h1>
         <VideoPanel channelVideos={videos} />
+
         <h1 className="pt-10 text-center text-2xl">Snaps</h1>
         <SnapPanel channelSnaps={snaps} />
       </div>

@@ -13,11 +13,12 @@ function SnapContainer() {
 
   const getData = async (page) => {
     try {
-      const response = await axiosInstance.get(`/snaps?page=${page}&limit=20`);
-      if (response?.data?.data?.length > 0) {
-        setSnaps((prevSnaps) => [...prevSnaps, ...response.data.data]);
+      const response = await axiosInstance.get(`/snaps?page=${page}&limit=10`);
+
+      if (response?.data?.data?.snaps?.length > 0) {
+        setSnaps(response.data.data.snaps);
         setLoading(false);
-        if (response.data.data.length !== 20) {
+        if (response.data.data.snaps.length !== 20) {
           setHasMore(false);
         }
       } else {

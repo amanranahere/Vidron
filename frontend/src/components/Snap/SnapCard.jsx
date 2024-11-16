@@ -13,7 +13,7 @@ function SnapCard({ snap, name = true }) {
   };
 
   return (
-    <Link to={`/watchpage/${snap?._id}`}>
+    <Link to={`/snap-watchpage/${snap?._id}`}>
       <div
         key={snap._id}
         className="rounded-xl mt-2 text-white p-1 hover:bg-zinc-900"
@@ -22,7 +22,7 @@ function SnapCard({ snap, name = true }) {
           <div className="absolute inset-0">
             <img
               className="w-full h-full object-cover mb-2 rounded-xl border border-gray-800"
-              src={snap?.thumbnail}
+              src={snap?.snapThumbnail}
               alt={snap?.title}
             />
           </div>

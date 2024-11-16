@@ -28,7 +28,7 @@ function ChannelSnaps() {
     });
   }, [userId, sortType, page]);
 
-  const snaps = useSelector((state) => state.user.userVideo);
+  const snaps = useSelector((state) => state.user.userSnap);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);

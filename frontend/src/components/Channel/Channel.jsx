@@ -184,6 +184,20 @@ function Channel() {
 
           <li className="w-full">
             <NavLink
+              to="snaps"
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
+                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
+              }
+            >
+              <button className="w-full">Snaps</button>
+            </NavLink>
+          </li>
+
+          <li className="w-full">
+            <NavLink
               to={"playlist"}
               className={({ isActive }) =>
                 isActive

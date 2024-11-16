@@ -95,7 +95,7 @@ function SnapCard({ snap }) {
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-start items-center gap-4">
           {publishStatus ? (
-            <Link to={`/watchpage/${snap._id}`}>
+            <Link to={`/snap-watchpage/${snap._id}`}>
               <img
                 className="h-10 w-10 rounded-full object-cover"
                 src={snap.thumbnail}
@@ -105,7 +105,7 @@ function SnapCard({ snap }) {
           ) : (
             <img
               className="h-10 w-10 rounded-full object-cover"
-              src={snap.thumbnail}
+              src={snap.snapThumbnail}
               alt={snap.title}
             />
           )}
@@ -113,7 +113,7 @@ function SnapCard({ snap }) {
           <h3 className="font-semibold">
             {publishStatus ? (
               <Link
-                to={`/watchpage/${snap._id}`}
+                to={`/snap-watchpage/${snap._id}`}
                 className="hover:text-gray-300"
               >
                 {snap.title?.length > 35
