@@ -98,7 +98,7 @@ function SnapCard({ snap }) {
             <Link to={`/snap-watchpage/${snap._id}`}>
               <img
                 className="h-10 w-10 rounded-full object-cover"
-                src={snap.thumbnail}
+                src={snap.snapThumbnail}
                 alt={snap.title}
               />
             </Link>

@@ -36,7 +36,7 @@ function SnapListCard({
             <div className="relative flex-shrink-0">
               <img
                 className={`${imgWidth} ${imgHeight} object-cover rounded-xl`}
-                src={snap?.thumbnail}
+                src={snap?.snapThumbnail}
                 alt={snap?.title}
               />
 

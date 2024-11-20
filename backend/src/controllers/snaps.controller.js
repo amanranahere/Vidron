@@ -1,6 +1,6 @@
 import { getVideoDurationInSeconds } from "get-video-duration";
 import fs from "fs";
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Snap } from "../models/snaps.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -31,7 +31,6 @@ const getAllSnaps = asyncHandler(async (req, res) => {
   const filter = {};
   const sortObject = {};
 
-  // If a query is provided, use it to filter by title or description
   if (query) {
     filter["$or"] = [
       { title: new RegExp(query, "i") },
@@ -39,27 +38,29 @@ const getAllSnaps = asyncHandler(async (req, res) => {
     ];
   }
 
-  // If sort options are provided, set the sorting object
   if (sortBy) {
-    sortObject[sortBy] = Number(sortType);
+    sortObject[sortBy] =
+      sortType === "1" || sortType === "-1" ? Number(sortType) : 1;
   }
 
   try {
+    console.log({ filter, sortObject, page, limit });
     const snaps = await Snap.find(filter)
       .sort(sortObject)
       .skip((Number(page) - 1) * Number(limit))
       .limit(Number(limit))
       .populate("owner", "avatar fullname username");
 
-    if (snaps.length > 0) {
-      return res
-        .status(200)
-        .json(new ApiResponse(200, { snaps }, "Snaps fetched successfully"));
-    } else {
+    if (!snaps || snaps.length === 0) {
       throw new ApiError(404, "No Snaps found");
     }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { snaps }, "Snaps fetched successfully"));
   } catch (error) {
-    throw new ApiError(500, "Error occurred while fetching the snaps");
+    console.error("Error while fetching snaps:", error);
+    throw new ApiError(500, error.message || "Internal Server Error");
   }
 });
 

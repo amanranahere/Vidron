@@ -34,7 +34,7 @@ router
   );
 
 router
-  .route("/snap/:snapId")
+  .route("/:snapId")
   .get(getSnapById)
   .delete(deleteSnap)
   .patch(upload.single("snapThumbnail"), updateSnapDetails);

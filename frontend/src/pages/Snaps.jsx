@@ -3,7 +3,7 @@ import axiosInstance from "../utils/axios.helper.js";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setSnap } from "../store/snapSlice.js";
-import SnapPlayer from "../components/Snap/SnapListCard.jsx";
+import SnapPlayer from "../components/Snap/SnapPlayer.jsx";
 import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import SnapInfo from "../components/Snap/SnapInfo.jsx";
 import Comments from "../components/SnapsComments.jsx";
@@ -49,8 +49,9 @@ function Snap() {
   const fetchSnaps = async () => {
     try {
       const response = await axiosInstance.get(`/snaps?sortBy=views&limit=8`);
-      if (response?.data?.data?.length > 0) {
-        setSnaps(response.data.data);
+
+      if (response?.data?.data?.snaps?.length > 0) {
+        setSnaps(response.data.data.snaps);
       }
     } catch (error) {
       console.log("Error fetching snaps", error);

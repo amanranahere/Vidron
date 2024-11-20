@@ -49,8 +49,8 @@ function Video() {
   const fetchVideos = async () => {
     try {
       const response = await axiosInstance.get(`/videos?sortBy=views&limit=8`);
-      if (response?.data?.data?.length > 0) {
-        setVideos(response.data.data);
+      if (response?.data?.videos?.length > 0) {
+        setVideos(response.data.videos);
       }
     } catch (error) {
       console.log("Error fetching videos", error);

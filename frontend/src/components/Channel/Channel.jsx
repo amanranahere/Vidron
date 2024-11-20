@@ -184,7 +184,7 @@ function Channel() {
 
           <li className="w-full">
             <NavLink
-              to="snaps"
+              to={"snaps"}
               end
               className={({ isActive }) =>
                 isActive
