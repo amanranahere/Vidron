@@ -51,7 +51,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 
   const tweets = await Tweet.find({
     owner: userId,
-  });
+  }).populate("owner", "username fullname avatar like");
 
   if (tweets.length === 0) {
     return res.status(200).json(new ApiResponse(200, [], "User has no tweets"));

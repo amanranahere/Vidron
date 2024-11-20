@@ -277,10 +277,23 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerDetails",
+        },
+      },
+      {
         $project: {
           title: 1,
           views: 1,
-          owner: 1,
+          owner: {
+            _id: 1,
+            avatar: { $arrayElemAt: ["$ownerDetails.avatar", 0] },
+            fullname: { $arrayElemAt: ["$ownerDetails.fullname", 0] },
+            username: { $arrayElemAt: ["$ownerDetails.username", 0] },
+          },
           thumbnail: 1,
           createdAt: 1,
         },
@@ -310,6 +323,8 @@ const getLikedVideos = asyncHandler(async (req, res) => {
 
 const getLikedTweets = asyncHandler(async (req, res) => {
   try {
+    const { page = 1, limit = 20 } = req.query;
+
     const user = await User.findOne({
       refreshToken: req.cookies.refreshToken,
     });
@@ -341,11 +356,30 @@ const getLikedTweets = asyncHandler(async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerDetails",
+        },
+      },
+      {
         $project: {
           content: 1,
-          owner: 1,
+          owner: {
+            _id: 1,
+            avatar: { $arrayElemAt: ["$ownerDetails.avatar", 0] },
+            fullname: { $arrayElemAt: ["$ownerDetails.fullname", 0] },
+            username: { $arrayElemAt: ["$ownerDetails.username", 0] },
+          },
           createdAt: 1,
         },
+      },
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: parseInt(limit),
       },
     ]);
 
@@ -397,11 +431,24 @@ const getLikedSnaps = asyncHandler(async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerDetails",
+        },
+      },
+      {
         $project: {
           title: 1,
           views: 1,
-          owner: 1,
-          thumbnail: 1,
+          owner: {
+            _id: 1,
+            avatar: { $arrayElemAt: ["$ownerDetails.avatar", 0] },
+            fullname: { $arrayElemAt: ["$ownerDetails.fullname", 0] },
+            username: { $arrayElemAt: ["$ownerDetails.username", 0] },
+          },
+          snapThumbnail: 1,
           createdAt: 1,
         },
       },

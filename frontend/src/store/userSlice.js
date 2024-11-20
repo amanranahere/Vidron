@@ -78,7 +78,13 @@ const userSlice = createSlice({
     },
 
     addUserLikedVideos: (state, action) => {
-      state.userLikedVideos = [...state.userLikedVideos, ...action.payload];
+      if (Array.isArray(action.payload.videoDetails)) {
+        const newLikedVideos = action.payload.videoDetails.filter(
+          (newVideo) =>
+            !state.userLikedVideos.some((video) => video._id === newVideo._id)
+        );
+        state.userLikedVideos = [...state.userLikedVideos, ...newLikedVideos];
+      }
     },
 
     removeUserLikedVideos: (state) => {
@@ -86,7 +92,13 @@ const userSlice = createSlice({
     },
 
     addUserLikedSnaps: (state, action) => {
-      state.userLikedSnaps = [...state.userLikedSnaps, ...action.payload];
+      if (Array.isArray(action.payload.snapDetails)) {
+        const newLikedSnaps = action.payload.snapDetails.filter(
+          (newSnap) =>
+            !state.userLikedSnaps.some((snap) => snap._id === newSnap._id)
+        );
+        state.userLikedSnaps = [...state.userLikedSnaps, ...newLikedSnaps];
+      }
     },
 
     removeUserLikedSnaps: (state) => {
@@ -94,7 +106,13 @@ const userSlice = createSlice({
     },
 
     addUserLikedTweets: (state, action) => {
-      state.userLikedTweets = [...state.userLikedTweets, ...action.payload];
+      if (Array.isArray(action.payload.tweetDetails)) {
+        const newLikedTweets = action.payload.tweetDetails.filter(
+          (newTweet) =>
+            !state.userLikedTweets.some((tweet) => tweet._id === newTweet._id)
+        );
+        state.userLikedTweets = [...state.userLikedTweets, ...newLikedTweets];
+      }
     },
 
     removeUserLikedTweets: (state) => {

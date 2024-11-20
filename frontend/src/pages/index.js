@@ -4,6 +4,8 @@ import Help from "./Help.jsx";
 import History from "./History.jsx";
 import Home from "./Home.jsx";
 import LikedVideos from "./LikedVideo.jsx";
+import LikedSnaps from "./LikedSnap.jsx";
+import LikedTweets from "./LikedTweet.jsx";
 import Login from "./Login.jsx";
 import Search from "./Search.jsx";
 import Settings from "./Settings.jsx";
@@ -21,6 +23,8 @@ export {
   History,
   Home,
   LikedVideos,
+  LikedSnaps,
+  LikedTweets,
   Login,
   Search,
   Settings,

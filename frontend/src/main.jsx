@@ -12,6 +12,8 @@ import {
   History,
   Home,
   LikedVideos,
+  LikedSnaps,
+  LikedTweets,
   Login,
   Search,
   Settings,
@@ -67,6 +69,14 @@ const router = createBrowserRouter([
       {
         path: "/liked-videos",
         element: <LikedVideos />,
+      },
+      {
+        path: "/liked-snaps",
+        element: <LikedSnaps />,
+      },
+      {
+        path: "/liked-tweets",
+        element: <LikedTweets />,
       },
       {
         path: "/history",

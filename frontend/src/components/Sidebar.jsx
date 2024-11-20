@@ -47,6 +47,16 @@ function Sidebar() {
       icon: <BiLike className="w-6 h-6" />,
     },
     {
+      name: "Liked Snaps",
+      route: "/liked-snaps",
+      icon: <BiLike className="w-6 h-6" />,
+    },
+    {
+      name: "Liked Tweets",
+      route: "/liked-tweets",
+      icon: <BiLike className="w-6 h-6" />,
+    },
+    {
       name: "History",
       route: "/history",
       icon: <GoHistory className="w-6 h-6" />,

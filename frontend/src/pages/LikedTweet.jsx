@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import getUserLikedVideos from "../hooks/getUserLikedVideos.js";
-import VideoListCard from "../components/Video/VideoListCard.jsx";
-import { BiLike } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../components/Icons.jsx";
-import GuestLikedContent from "../components/GuestPages/GuestLikedContent.jsx";
+import Tweet from "../components/Tweet/TweetCard.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
-import { removeUserLikedVideos } from "../store/userSlice.js";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { BiLike } from "react-icons/bi";
 
-function LikedVideos() {
+import InfiniteScroll from "react-infinite-scroll-component";
+import { removeUserLikedTweets } from "../store/userSlice.js";
+import getUserLikedTweets from "../hooks/getUserLikedTweets.js";
+import GuestLikedContent from "../components/GuestPages/GuestLikedContent.jsx";
+
+function LikedTweets() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -19,25 +20,25 @@ function LikedVideos() {
   useEffect(() => {
     if (status) {
       if (page === 1) {
-        dispatch(removeUserLikedVideos());
+        dispatch(removeUserLikedTweets());
       }
-      getUserLikedVideos(dispatch, page).then((res) => {
+      getUserLikedTweets(dispatch, page).then((res) => {
         setLoading(false);
-        if (res.data.length !== 10) {
+        if (res.data.length !== 20) {
           setHasMore(false);
         }
       });
     }
   }, [status, page]);
 
-  const likedVideos = useSelector((state) => state.user.userLikedVideos);
+  const likedTweets = useSelector((state) => state.user.userLikedTweets);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
   if (!status) {
-    return <GuestLikedContent content={"videos"} />;
+    return <GuestLikedContent content={"tweets"} />;
   }
 
   return (
@@ -46,9 +47,9 @@ function LikedVideos() {
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
 
-      {likedVideos?.length > 0 && !loading && (
+      {likedTweets?.length > 0 && !loading && (
         <InfiniteScroll
-          dataLength={likedVideos.length}
+          dataLength={likedTweets.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={
@@ -56,27 +57,23 @@ function LikedVideos() {
           }
           scrollableTarget="scrollableDiv"
         >
-          {likedVideos.map((video) => (
-            <div key={video._id}>
-              <VideoListCard
-                video={video}
-                imgWidth="w-[20vw]"
-                imgHeight="h-[11vw]"
-              />
-            </div>
-          ))}
+          <ul className="py-4 px-4">
+            {likedTweets.map((tweet, index) => (
+              <Tweet key={tweet._id || index} tweet={tweet} page={true} />
+            ))}
+          </ul>
         </InfiniteScroll>
       )}
 
-      {likedVideos?.length < 1 && !loading && (
+      {likedTweets?.length < 1 && !loading && (
         <GuestComponent
           icon={
             <span className="w-full h-full flex items-center p-4 pb-5">
               <BiLike className="w-32 h-32" />
             </span>
           }
-          title="Empty Liked Videos"
-          subtitle="You have no previously liked videos"
+          title="Empty Liked tweets"
+          subtitle="You have no previously liked tweets"
           guest={false}
         />
       )}
@@ -84,4 +81,4 @@ function LikedVideos() {
   );
 }
 
-export default LikedVideos;
+export default LikedTweets;
