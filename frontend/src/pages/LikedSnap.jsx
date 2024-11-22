@@ -23,7 +23,8 @@ function LikedSnaps() {
       }
       getUserLikedSnaps(dispatch, page).then((res) => {
         setLoading(false);
-        if (res.data.length !== 10) {
+        const snaps = res?.data || [];
+        if (snaps.length !== 10) {
           setHasMore(false);
         }
       });

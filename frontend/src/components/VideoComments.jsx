@@ -41,13 +41,29 @@ function VideoComments({ video }) {
         `/comments/video/${videoId}?page=${page}&limit=10`
       );
 
-      const commentsArray = response.data.data?.docs;
+      const commentsArray = response.data.data;
 
       if (Array.isArray(commentsArray)) {
         if (commentsArray.length === 10) {
-          setComments((prev) => [...prev, ...commentsArray]);
+          setComments((prev) => {
+            const newComments = commentsArray.filter(
+              (comment) =>
+                !prev.some(
+                  (existingComment) => existingComment._id === comment._id
+                )
+            );
+            return [...prev, ...newComments];
+          });
         } else {
-          setComments((prev) => [...prev, ...commentsArray]);
+          setComments((prev) => {
+            const newComments = commentsArray.filter(
+              (comment) =>
+                !prev.some(
+                  (existingComment) => existingComment._id === comment._id
+                )
+            );
+            return [...prev, ...newComments];
+          });
           setHasMore(false);
         }
       }
@@ -270,7 +286,7 @@ function VideoComments({ video }) {
                             })}
                             className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
                           />
-
+                          {/* check out this button */}
                           <Button
                             type="submit"
                             className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-pink-700"

@@ -23,7 +23,8 @@ function LikedVideos() {
       }
       getUserLikedVideos(dispatch, page).then((res) => {
         setLoading(false);
-        if (res.data.length !== 10) {
+        const videos = res?.data || [];
+        if (videos.length !== 10) {
           setHasMore(false);
         }
       });

@@ -41,13 +41,29 @@ function SnapComments({ snap }) {
         `/comments/snap/${snapId}?page=${page}&limit=10`
       );
 
-      const commentsArray = response.data.data?.docs;
+      const commentsArray = response.data.data;
 
       if (Array.isArray(commentsArray)) {
         if (commentsArray.length === 10) {
-          setComments((prev) => [...prev, ...commentsArray]);
+          setComments((prev) => {
+            const newComments = commentsArray.filter(
+              (comment) =>
+                !prev.some(
+                  (existingComment) => existingComment._id === comment._id
+                )
+            );
+            return [...prev, ...newComments];
+          });
         } else {
-          setComments((prev) => [...prev, ...commentsArray]);
+          setComments((prev) => {
+            const newComments = commentsArray.filter(
+              (comment) =>
+                !prev.some(
+                  (existingComment) => existingComment._id === comment._id
+                )
+            );
+            return [...prev, ...newComments];
+          });
           setHasMore(false);
         }
       }

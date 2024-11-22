@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Comment } from "../models/comment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -9,45 +9,96 @@ import { User } from "../models/user.model.js";
 
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
-  let { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 10 } = req.query;
 
-  if (!isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid video Id");
+  if (!videoId || !isValidObjectId(videoId)) {
+    throw new ApiError(400, "No valid video Id found");
   }
 
-  page = Number(page);
-  limit = Number(limit);
-
-  if (!Number.isFinite(page)) {
-    throw new ApiError(400, "Page is required");
-  }
-
-  if (!Number.isFinite(limit)) {
-    throw new ApiError(400, "Limit is required");
-  }
-
-  const pipeline = [
+  const getComments = await Comment.aggregate([
     {
       $match: {
-        video: videoId,
+        video: new mongoose.Types.ObjectId(videoId),
       },
     },
-  ];
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: parseInt(limit),
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              username: 1,
+              _id: 1,
+              avatar: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "comment",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        isLiked: {
+          $cond: {
+            if: { $in: [req.user?._id, "$likes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        username: 1,
+        avatar: 1,
+        likesCount: 1,
+        isLiked: 1,
+        content: 1,
+        owner: 1,
+        createdAt: 1,
+      },
+    },
+  ]);
 
-  const comments = await Comment.aggregatePaginate(
-    Comment.aggregate(pipeline),
-    { page, limit }
-  );
+  if (!getComments) {
+    throw new ApiError(501, "Error while fetching comments");
+  }
 
   return res
     .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        comments,
-        "Fetched all the comments on the video successfully"
-      )
-    );
+    .json(new ApiResponse(200, getComments, "Comments fetched successfully"));
 });
 
 const addVideoComment = asyncHandler(async (req, res) => {
@@ -84,118 +135,173 @@ const addVideoComment = asyncHandler(async (req, res) => {
 // common functions for both video and snap
 
 const updateComment = asyncHandler(async (req, res) => {
-  const { commentId } = req.params;
   const { content } = req.body;
+  const { commentId } = req.params;
 
-  if (!isValidObjectId(commentId)) {
-    throw new ApiError(400, "Invalid Comment Id");
+  if (!content?.trim()) {
+    throw new ApiError(400, "Comment cannot be empty");
   }
 
-  if (!content) {
-    throw new ApiError(400, "Content required");
-  }
-
-  const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
-  if (!user) {
-    throw new ApiError(401, "User not authenticated");
+  if (!commentId || !isValidObjectId(commentId)) {
+    throw new ApiError(400, "Invalid comment Id");
   }
 
   const comment = await Comment.findById(commentId);
+
   if (!comment) {
-    throw new ApiError(404, "Comment not found");
+    throw new ApiError(500, "Comment not found");
   }
 
-  if (!comment.owner.equals(user._id)) {
+  if (comment.owner.toString() !== req.user?._id.toString()) {
     throw new ApiError(
-      403,
+      401,
       "You do not have permission to update this comment"
     );
   }
 
-  comment.content = content;
-  await comment.save();
+  const updatedComment = await Comment.findByIdAndUpdate(
+    commentId,
+    {
+      $set: { content },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!updatedComment) {
+    throw new ApiError(400, "Error while updating comment");
+  }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, comment, "Comment updated successfully"));
+    .json(new ApiResponse(200, updatedComment, "Comment updated successfully"));
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
 
-  if (!isValidObjectId(commentId)) {
-    throw new ApiError(400, "Invalid Comment Id");
+  if (!commentId || !isValidObjectId(commentId)) {
+    throw new ApiError(400, "Invalid comment Id");
   }
-
-  const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
-
-  if (!user) {
-    throw new ApiError(401, "User not authenticated");
-  }
-
   const comment = await Comment.findById(commentId);
 
   if (!comment) {
-    throw new ApiError(404, "Comment not found");
+    throw new ApiError(500, "Comment not found");
   }
 
-  if (!comment.owner.equals(user._id)) {
+  if (comment.owner.toString() !== req.user?._id.toString()) {
     throw new ApiError(
-      403,
+      401,
       "You do not have permission to delete this comment"
     );
   }
 
-  await comment.remove();
+  const deletedComment = await Comment.findByIdAndDelete(commentId);
+
+  if (!deletedComment) {
+    throw new ApiError(400, "Error while deleting comment");
+  }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, null, "Comment deleted successfully"));
+    .json(new ApiResponse(200, deletedComment, "Comment deleted successfully"));
 });
 
 // snap comments
 
 const getSnapComments = asyncHandler(async (req, res) => {
   const { snapId } = req.params;
-  let { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 10 } = req.query;
 
-  if (!isValidObjectId(snapId)) {
-    throw new ApiError(400, "Invalid snap Id");
+  if (!snapId || !isValidObjectId(snapId)) {
+    throw new ApiError(400, "No valid snap Id found");
   }
 
-  page = Number(page);
-  limit = Number(limit);
-
-  if (!Number.isFinite(page)) {
-    throw new ApiError(400, "Page is required");
-  }
-
-  if (!Number.isFinite(limit)) {
-    throw new ApiError(400, "Limit is required");
-  }
-
-  const pipeline = [
+  const getComments = await Comment.aggregate([
     {
       $match: {
-        snap: snapId,
+        snap: new mongoose.Types.ObjectId(snapId),
       },
     },
-  ];
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: parseInt(limit),
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              username: 1,
+              _id: 1,
+              avatar: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "comment",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        isLiked: {
+          $cond: {
+            if: { $in: [req.user?._id, "$likes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        username: 1,
+        avatar: 1,
+        likesCount: 1,
+        isLiked: 1,
+        content: 1,
+        owner: 1,
+        createdAt: 1,
+      },
+    },
+  ]);
 
-  const comments = await Comment.aggregatePaginate(
-    Comment.aggregate(pipeline),
-    { page, limit }
-  );
+  if (!getComments) {
+    throw new ApiError(501, "Error while fetching comments");
+  }
 
   return res
     .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        comments,
-        "Fetched all the comments on the snap successfully"
-      )
-    );
+    .json(new ApiResponse(200, getComments, "Comments fetched successfully"));
 });
 
 const addSnapComment = asyncHandler(async (req, res) => {

@@ -24,7 +24,8 @@ function LikedTweets() {
       }
       getUserLikedTweets(dispatch, page).then((res) => {
         setLoading(false);
-        if (res.data.length !== 20) {
+        const tweets = res?.data || [];
+        if (tweets.length !== 20) {
           setHasMore(false);
         }
       });
