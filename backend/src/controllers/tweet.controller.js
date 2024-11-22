@@ -4,14 +4,17 @@ import { Tweet } from "../models/tweet.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createTweet = asyncHandler(async (req, res) => {
   const { content } = req.body;
 
+  // validate content
   if (!content) {
     throw new ApiError(400, "Content is required");
   }
 
+  // find the user based on the refresh token
   const user = await User.findOne({
     refreshToken: req.cookies.refreshToken,
   });
@@ -22,9 +25,31 @@ const createTweet = asyncHandler(async (req, res) => {
       .json(new ApiResponse(401, null, "Unauthorized User"));
   }
 
+  // tweet image variable
+  let tweetImageUrl = null;
+
+  // check if a tweet image is provided
+  if (
+    req.files &&
+    Array.isArray(req.files.tweetImage) &&
+    req.files.tweetImage.length > 0
+  ) {
+    const tweetImageLocalPath = req.files.tweetImage[0].path;
+
+    const tweetImage = await uploadOnCloudinary(tweetImageLocalPath);
+
+    if (!tweetImage || !tweetImage.url) {
+      throw new ApiError(400, "Error while uploading the tweet image");
+    }
+
+    tweetImageUrl = tweetImage.url;
+  }
+
+  // create tweet
   const tweet = await Tweet.create({
     content,
     owner: user._id,
+    tweetImage: tweetImageUrl || "",
   });
 
   if (!tweet) {

@@ -174,7 +174,19 @@ function Tweet({ tweet, page = false }) {
             </Button>
           </form>
         ) : (
-          <div className="mt-1 break-words break-all">{tweet?.content}</div>
+          <div>
+            {tweet?.tweetImage && (
+              <div className="h-36 w-36">
+                <img
+                  src={tweet?.tweetImage}
+                  alt="tweetImage"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
+
+            <div className="mt-1 break-words break-all">{tweet?.content}</div>
+          </div>
         )}
 
         <LoginPopup

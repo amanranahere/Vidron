@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 import {
   createTweet,
   getUserTweets,
@@ -12,7 +13,18 @@ const router = Router();
 router.use(verifyJWT);
 
 // routes
-router.route("/").get(getAllTweets).post(createTweet);
+router
+  .route("/")
+  .get(getAllTweets)
+  .post(
+    upload.fields([
+      {
+        name: "tweetImage",
+        maxCount: 1,
+      },
+    ]),
+    createTweet
+  );
 
 router.route("/user/:userId").get(getUserTweets);
 

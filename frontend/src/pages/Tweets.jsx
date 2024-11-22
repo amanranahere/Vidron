@@ -12,16 +12,19 @@ import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import LoginPopup from "../components/Auth/LoginPopup.jsx";
 import { TiMessages } from "react-icons/ti";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Input from "../components/Input.jsx";
 
 function Tweets() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
   const [loading, setLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [tweetsUpdated, setTweetsUpdated] = useState(false);
   const LoginPopupDialog = useRef();
   const location = useLocation();
+  const tweets = useSelector((state) => state.tweets.tweets);
 
   const {
     register,
@@ -33,7 +36,6 @@ function Tweets() {
   const getAllTweets = async () => {
     try {
       const response = await axiosInstance.get(`/tweets?page=${page}&limit=30`);
-
       const tweetsData = response?.data?.tweets;
 
       if (tweetsData) {
@@ -57,8 +59,19 @@ function Tweets() {
     if (!status) {
       LoginPopupDialog.current.open();
     } else {
+      setIsUploading(true);
       try {
-        const response = await axiosInstance.post(`/tweets`, data);
+        const formData = new FormData();
+        formData.append("content", data.content);
+        if (data.tweetImage && data.tweetImage[0]) {
+          formData.append("tweetImage", data.tweetImage[0]);
+        }
+
+        const response = await axiosInstance.post(`/tweets`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         dispatch(addTweets([response.data]));
         reset();
@@ -67,6 +80,8 @@ function Tweets() {
       } catch (error) {
         toast.error("Couldn't add your tweet. Try again!");
         console.log("Error while adding tweet", error);
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -78,7 +93,11 @@ function Tweets() {
     getAllTweets().then(() => setLoading(false));
   }, [tweetsUpdated, status, page]);
 
-  const tweets = useSelector((state) => state.tweets.tweets);
+  useEffect(() => {
+    if (!isUploading) {
+      getAllTweets();
+    }
+  }, [isUploading]);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
@@ -112,6 +131,35 @@ function Tweets() {
             },
           })}
         />
+
+        {/* Tweet image input */}
+        <Input
+          label="Tweet Image"
+          type="file"
+          placeholder="Upload your tweet image"
+          className="px-2 rounded-lg"
+          className2="pt-5"
+          {...register("tweetImage", {
+            required: false,
+            validate: (file) => {
+              if (!file[0]) return true;
+
+              const allowedExtensions = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+              ];
+              const fileType = file[0].type;
+              return allowedExtensions.includes(fileType)
+                ? true
+                : "Invalid file type! Only .jpeg .jpg .png files are accepted";
+            },
+          })}
+        />
+
+        {errors.tweetImage && (
+          <p className="text-red-600 px-2 mt-1">{errors.tweetImage.message}</p>
+        )}
 
         <div className="flex items-center justify-between gap-x-3 px-3">
           <div className="flex-grow">

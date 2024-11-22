@@ -366,6 +366,7 @@ const getLikedTweets = asyncHandler(async (req, res) => {
       {
         $project: {
           content: 1,
+          tweetImage: 1,
           owner: {
             _id: 1,
             avatar: { $arrayElemAt: ["$ownerDetails.avatar", 0] },

@@ -374,6 +374,8 @@ const getSubscribedVideos = asyncHandler(async (req, res) => {
     subscriber: new mongoose.Types.ObjectId(req.user?._id),
   }).select("channel");
 
+  console.log("Subscriptions in video.controller :", subscriptions);
+
   const channelIds = subscriptions.map((sub) => sub.channel);
 
   if (channelIds.length === 0) {

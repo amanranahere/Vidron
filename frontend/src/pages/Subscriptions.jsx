@@ -15,11 +15,12 @@ function Subscriptions() {
   const [hasMore, setHasMore] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
 
-  const getData = async (data) => {
+  const getData = async (page) => {
     try {
       const response = await axiosInstance.get(
         `/videos/subscribed?page=${page}&limit=20`
       );
+      console.log("reponse : ", response);
 
       if (response?.data?.success) {
         setVideos((prevVideos) => [...prevVideos, ...response.data.data]);
