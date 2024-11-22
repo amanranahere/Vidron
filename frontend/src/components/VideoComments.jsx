@@ -134,19 +134,19 @@ function VideoComments({ video }) {
     } else {
       try {
         const response = await axiosInstance.post(
-          `likes/toggle/comment/${commentId}`
+          `/likes/toggle/comment/${commentId}`
         );
 
         if (response.data.success) {
+          const { isLiked, likesCount } = response.data.data;
+
           setComments((prevComments) =>
             prevComments.map((comment) =>
               comment._id === commentId
                 ? {
                     ...comment,
-                    isLiked: !comment.isLiked,
-                    likesCount: comment.isLiked
-                      ? comment.likesCount - 1
-                      : comment.likesCount + 1,
+                    isLiked: isLiked,
+                    likesCount: likesCount,
                   }
                 : comment
             )

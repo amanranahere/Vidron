@@ -43,10 +43,8 @@ function SnapInfo({ snap }) {
           dispatch(
             setSnap({
               ...snap,
-              isLiked: !snap.isLiked,
-              likesCount: snap.isLiked
-                ? snap.likesCount - 1
-                : snap.likesCount + 1,
+              isLiked: response.data.data.isLiked,
+              likesCount: response.data.data.likesCount,
             })
           );
         }

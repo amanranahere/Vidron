@@ -49,10 +49,8 @@ function VideoInfo({ video }) {
           dispatch(
             setVideo({
               ...video,
-              isLiked: !video.isLiked,
-              likesCount: video.isLiked
-                ? video.likesCount - 1
-                : video.likesCount + 1,
+              isLiked: response.data.data.isLiked,
+              likesCount: response.data.data.likesCount,
             })
           );
         }

@@ -21,6 +21,8 @@ function Tweet({ tweet, page = false }) {
   const { status, userData } = useSelector((state) => state.auth);
   const [update, setUpdate] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [likesCount, setLikesCount] = useState(tweet.likesCount);
+  const [isLiked, setIsLiked] = useState(tweet.isLiked);
   const dispatch = useDispatch();
   const LoginLikePopupDialog = useRef();
   const ref = useRef(null);
@@ -71,13 +73,17 @@ function Tweet({ tweet, page = false }) {
         await axiosInstance
           .post(`/likes/toggle/tweet/${tweet._id}`)
           .then(() => {
+            const newLikesCount = tweet.isLiked
+              ? likesCount - 1
+              : likesCount + 1;
+            setLikesCount(newLikesCount);
+
             if (page) {
               dispatch(
                 toggleLike({
                   tweetId: tweet._id,
                   isLiked: !tweet?.isLiked,
-                  likesCount:
-                    Number(tweet?.likesCount || 0) + (tweet.isLiked ? -1 : 1),
+                  likesCount: tweet.likesCount,
                 })
               );
             } else {
@@ -204,7 +210,7 @@ function Tweet({ tweet, page = false }) {
           ) : (
             <BiLike className="w-5 h-5" />
           )}
-          <p className="ml-1">{tweet?.likesCount}</p>
+          <p className="ml-1">{likesCount}</p>
         </button>
       </div>
 

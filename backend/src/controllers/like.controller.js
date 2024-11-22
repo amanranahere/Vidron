@@ -32,36 +32,61 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
       .json(new ApiResponse(401, null, "Unauthorized User"));
   }
 
-  // check if the video is liked or not and toggle the like/unlike based on that
   try {
+    // check if the video is already liked by the user
     const isLiked = await Like.findOne({
       video: videoId,
       likedBy: user._id,
     });
 
     if (!isLiked) {
-      const like = await Like.create({
+      // user is liking the video
+      await Like.create({
         video: videoId,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, like, "Video liked successfully"));
+      // increment likesCount in the Video model
+      video.likesCount += 1;
+      await video.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: true,
+            likesCount: video.likesCount,
+          },
+          "Video liked successfully"
+        )
+      );
     } else {
       await Like.deleteOne({
         video: videoId,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, null, "Video unliked successfully"));
+      if (video.likesCount > 0) {
+        video.likesCount -= 1;
+      }
+      await video.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: false,
+            likesCount: video.likesCount,
+          },
+          "Video unliked successfully"
+        )
+      );
     }
   } catch (error) {
+    console.error("Error toggling like/unlike:", error);
     throw new ApiError(
       500,
-      "An error occured while toggling like/unlike of the video"
+      "An error occurred while toggling like/unlike of the video"
     );
   }
 });
@@ -89,36 +114,61 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
       .json(new ApiResponse(401, null, "Unauthorized User"));
   }
 
-  // check if the comment is liked or not and toggle the like/unlike based on that
   try {
+    // check if the comment is already liked by the user
     const isLiked = await Like.findOne({
       comment: commentId,
       likedBy: user._id,
     });
 
     if (!isLiked) {
-      const like = await Like.create({
+      // user is liking the comment
+      await Like.create({
         comment: commentId,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, like, "Comment liked successfully"));
+      // increment likesCount in the Comment model
+      comment.likesCount += 1;
+      await comment.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: true,
+            likesCount: comment.likesCount,
+          },
+          "Comment liked successfully"
+        )
+      );
     } else {
       await Like.deleteOne({
         comment: commentId,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, null, "Comment unliked successfully"));
+      if (comment.likesCount > 0) {
+        comment.likesCount -= 1;
+      }
+      await comment.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: false,
+            likesCount: comment.likesCount,
+          },
+          "Comment unliked successfully"
+        )
+      );
     }
   } catch (error) {
+    console.error("Error toggling like/unlike:", error);
     throw new ApiError(
       500,
-      "An error occured while toggling like/unlike of the comment"
+      "An error occurred while toggling like/unlike of the comment"
     );
   }
 });
@@ -146,42 +196,61 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
       .json(new ApiResponse(401, null, "Unauthorized User"));
   }
 
-  // check if the tweet is liked or not and toggle the like/unlike based on that
   try {
+    // check if the tweet is already liked by the user
     const isLiked = await Like.findOne({
       tweet: tweetId,
       likedBy: user._id,
     });
 
     if (!isLiked) {
-      const like = await Like.create({
+      // user is liking the tweet
+      await Like.create({
         tweet: tweetId,
         likedBy: user._id,
       });
 
+      // increment likesCount in the tweet model
       tweet.likesCount += 1;
       await tweet.save();
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, like, "Tweet liked successfully"));
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: true,
+            likesCount: tweet.likesCount,
+          },
+          "Tweet liked successfully"
+        )
+      );
     } else {
       await Like.deleteOne({
         tweet: tweetId,
         likedBy: user._id,
       });
 
-      tweet.likesCount = Math.max(0, tweet.likesCount - 1);
+      if (tweet.likesCount > 0) {
+        tweet.likesCount -= 1;
+      }
       await tweet.save();
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, null, "Tweet unliked successfully"));
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: false,
+            likesCount: tweet.likesCount,
+          },
+          "Tweet unliked successfully"
+        )
+      );
     }
   } catch (error) {
+    console.error("Error toggling like/unlike:", error);
     throw new ApiError(
       500,
-      "An error occured while toggling like/unlike of the tweet"
+      "An error occurred while toggling like/unlike of the tweet"
     );
   }
 });
@@ -209,36 +278,61 @@ const toggleSnapLike = asyncHandler(async (req, res) => {
       .json(new ApiResponse(401, null, "Unauthorized User"));
   }
 
-  // check if the snap is liked or not and toggle the like/unlike based on that
   try {
+    // check if the snap is already liked by the user
     const isLiked = await Like.findOne({
       snap: snapId,
       likedBy: user._id,
     });
 
     if (!isLiked) {
-      const like = await Like.create({
+      // user is liking the snap
+      await Like.create({
         snap: snapId,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, like, "Snap liked successfully"));
+      // increment likesCount in the Snap model
+      snap.likesCount += 1;
+      await snap.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: true,
+            likesCount: snap.likesCount,
+          },
+          "Snap liked successfully"
+        )
+      );
     } else {
       await Like.deleteOne({
-        snap: snapId,
+        video: snap,
         likedBy: user._id,
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, null, "Snap unliked successfully"));
+      if (snap.likesCount > 0) {
+        snap.likesCount -= 1;
+      }
+      await snap.save();
+
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          {
+            isLiked: false,
+            likesCount: snap.likesCount,
+          },
+          "Snap unliked successfully"
+        )
+      );
     }
   } catch (error) {
+    console.error("Error toggling like/unlike:", error);
     throw new ApiError(
       500,
-      "An error occured while toggling like/unlike of the snap"
+      "An error occurred while toggling like/unlike of the snap"
     );
   }
 });
