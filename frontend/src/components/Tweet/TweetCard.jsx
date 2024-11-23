@@ -22,7 +22,6 @@ function Tweet({ tweet, page = false }) {
   const [update, setUpdate] = useState(false);
   const [menu, setMenu] = useState(false);
   const [likesCount, setLikesCount] = useState(tweet.likesCount);
-  const [isLiked, setIsLiked] = useState(tweet.isLiked);
   const dispatch = useDispatch();
   const LoginLikePopupDialog = useRef();
   const ref = useRef(null);

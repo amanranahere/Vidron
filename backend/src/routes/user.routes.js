@@ -5,7 +5,8 @@ import {
   changeCurrentPassword,
   getCurrentUser,
   getUserChannelProfile,
-  getWatchHistory,
+  getVideoWatchHistory,
+  getSnapWatchHistory,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -13,6 +14,8 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
+  watchVideo,
+  watchSnap,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -56,6 +59,12 @@ router
 
 router.route("/channel/:username").get(verifyJWT, getUserChannelProfile);
 
-router.route("/history").get(verifyJWT, getWatchHistory);
+router.route("/videos-history").get(verifyJWT, getVideoWatchHistory);
+
+router.route("/snaps-history").get(verifyJWT, getSnapWatchHistory);
+
+router.route("/watch-history/video/:videoId").post(verifyJWT, watchVideo);
+
+router.route("/watch-history/snap/:snapId").post(verifyJWT, watchSnap);
 
 export default router;

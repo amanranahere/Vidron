@@ -9,7 +9,8 @@ const initialState = {
   userLikedVideos: [],
   userLikedTweets: [],
   userLikedSnaps: [],
-  userHistory: [],
+  userVideoHistory: [],
+  userSnapHistory: [],
   userSubscribed: null,
 };
 
@@ -119,12 +120,32 @@ const userSlice = createSlice({
       state.userLikedTweets = [];
     },
 
-    addUserHistory: (state, action) => {
-      state.userHistory = [...state.userHistory, ...action.payload];
+    addUserVideoHistory: (state, action) => {
+      const newHistory = action.payload.filter(
+        (item) =>
+          !state.userVideoHistory.some(
+            (existingItem) => existingItem._id === item._id
+          )
+      );
+      state.userVideoHistory = [...state.userVideoHistory, ...newHistory];
     },
 
-    removeUserHistory: (state) => {
-      state.userHistory = [];
+    removeUserVideoHistory: (state) => {
+      state.userVideoHistory = [];
+    },
+
+    addUserSnapHistory: (state, action) => {
+      const newHistory = action.payload.filter(
+        (item) =>
+          !state.userSnapHistory.some(
+            (existingItem) => existingItem._id === item._id
+          )
+      );
+      state.userSnapHistory = [...state.userSnapHistory, ...newHistory];
+    },
+
+    removeUserSnapHistory: (state) => {
+      state.userSnapHistory = [];
     },
 
     addUserSubscribed: (state, action) => {
@@ -164,8 +185,10 @@ export const {
   removeUserLikedTweets,
   addUserLikedSnaps,
   removeUserLikedSnaps,
-  addUserHistory,
-  removeUserHistory,
+  addUserVideoHistory,
+  removeUserVideoHistory,
+  addUserSnapHistory,
+  removeUserSnapHistory,
   addUserSubscribed,
   toggleUserSubscribe,
 } = userSlice.actions;

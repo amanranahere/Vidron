@@ -28,6 +28,6 @@ router
 
 router.route("/user/:userId").get(getUserTweets);
 
-router.route("/tweet/:tweetId").patch(updateTweet).delete(deleteTweet);
+router.route("/:tweetId").patch(updateTweet).delete(deleteTweet);
 
 export default router;

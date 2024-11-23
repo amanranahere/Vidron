@@ -1,11 +1,32 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
+import { useDispatch } from "react-redux";
+import { addUserSnapHistory } from "../../store/userSlice.js";
+import axiosInstance from "../../utils/axios.helper.js";
 
 function SnapCard({ snap, name = true }) {
   const formattedDuration = snap?.duration;
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const updateWatchHistory = async (snap) => {
+    try {
+      const response = await axiosInstance.post(
+        `/users/watch-history/snap/${snap._id}`
+      );
+      if (response?.data?.data) {
+        dispatch(addUserSnapHistory([snap._id]));
+      }
+    } catch (error) {
+      console.error("Failed to update watch history", error);
+    }
+  };
+
+  const handleSnapClick = () => {
+    updateWatchHistory(video);
+  };
 
   const handleChannelClick = (e) => {
     e.preventDefault();
@@ -13,7 +34,7 @@ function SnapCard({ snap, name = true }) {
   };
 
   return (
-    <Link to={`/snap-watchpage/${snap?._id}`}>
+    <Link to={`/snap-watchpage/${snap?._id}`} onClick={handleSnapClick}>
       <div
         key={snap._id}
         className="rounded-xl mt-2 text-white p-1 hover:bg-zinc-900"

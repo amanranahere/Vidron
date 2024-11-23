@@ -32,10 +32,16 @@ const userSchema = new Schema(
     coverImage: {
       type: String, // cloudinary url
     },
-    watchHistory: [
+    videoWatchHistory: [
       {
         type: Schema.Types.ObjectId,
         ref: "Video",
+      },
+    ],
+    snapWatchHistory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Snap",
       },
     ],
     password: {

@@ -405,7 +405,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     );
 });
 
-const getWatchHistory = asyncHandler(async (req, res) => {
+const getVideoWatchHistory = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
   const user = await User.aggregate([
@@ -417,9 +417,9 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "videos",
-        localField: "watchHistory",
+        localField: "videoWatchHistory",
         foreignField: "_id",
-        as: "watchHistory",
+        as: "videoWatchHistory",
         pipeline: [
           {
             $lookup: {
@@ -466,10 +466,123 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        user[0].watchHistory,
-        "Watch history fetched successfully"
+        user[0].videoWatchHistory,
+        "Video watch history fetched successfully"
       )
     );
+});
+
+const getSnapWatchHistory = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const user = await User.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(req.user._id),
+      },
+    },
+    {
+      $lookup: {
+        from: "snaps",
+        localField: "snapWatchHistory",
+        foreignField: "_id",
+        as: "snapWatchHistory",
+        pipeline: [
+          {
+            $lookup: {
+              from: "users",
+              localField: "owner",
+              foreignField: "_id",
+              as: "owner",
+              pipeline: [
+                {
+                  $project: {
+                    fullname: 1,
+                    user: 1,
+                    avatar: 1,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $addFields: {
+              owner: {
+                $first: "$owner",
+              },
+            },
+          },
+          {
+            $sort: {
+              updatedAt: -1,
+            },
+          },
+          {
+            $skip: (page - 1) * limit,
+          },
+          {
+            $limit: parseInt(limit),
+          },
+        ],
+      },
+    },
+  ]);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        user[0].snapWatchHistory,
+        "Snap watch history fetched successfully"
+      )
+    );
+});
+
+const watchVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!videoId) {
+    throw new ApiError(400, "Video ID is required");
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (!user.videoWatchHistory.includes(videoId)) {
+    user.videoWatchHistory.push(videoId);
+    await user.save();
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Video added to watch history"));
+});
+
+const watchSnap = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+
+  if (!snapId) {
+    throw new ApiError(400, "Snap ID is required");
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (!user.snapWatchHistory.includes(snapId)) {
+    user.snapWatchHistory.push(snapId);
+    await user.save();
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Snap added to watch history"));
 });
 
 export {
@@ -483,5 +596,8 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
-  getWatchHistory,
+  getVideoWatchHistory,
+  getSnapWatchHistory,
+  watchVideo,
+  watchSnap,
 };

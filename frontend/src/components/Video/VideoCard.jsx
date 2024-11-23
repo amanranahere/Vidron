@@ -1,11 +1,32 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
+import { useDispatch } from "react-redux";
+import { addUserVideoHistory } from "../../store/userSlice.js";
+import axiosInstance from "../../utils/axios.helper.js";
 
 function VideoCard({ video, name = true }) {
   const formattedDuration = video?.duration;
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const updateWatchHistory = async (video) => {
+    try {
+      const response = await axiosInstance.post(
+        `/users/watch-history/video/${video._id}`
+      );
+      if (response?.data?.data) {
+        dispatch(addUserVideoHistory([video._id]));
+      }
+    } catch (error) {
+      console.error("Failed to update watch history", error);
+    }
+  };
+
+  const handleVideoClick = () => {
+    updateWatchHistory(video);
+  };
 
   const handleChannelClick = (e) => {
     e.preventDefault();
@@ -13,7 +34,7 @@ function VideoCard({ video, name = true }) {
   };
 
   return (
-    <Link to={`/video-watchpage/${video?._id}`}>
+    <Link to={`/video-watchpage/${video?._id}`} onClick={handleVideoClick}>
       <div
         key={video._id}
         className="rounded-xl mt-2 text-white p-1 hover:bg-zinc-900"

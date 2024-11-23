@@ -181,10 +181,17 @@ function Tweets() {
 
             <Button
               type="submit"
-              className="font-semibold hover:bg-pink-700 rounded-lg"
+              className="font-semibold hover:bg-pink-700 rounded-lg flex items-center justify-center"
               bgColor="bg-pink-600"
+              disabled={isUploading}
             >
-              Add
+              {isUploading ? (
+                <span className="flex items-center">
+                  {icons.smallLoading} Uploading...
+                </span>
+              ) : (
+                "Add"
+              )}
             </Button>
 
             <LoginPopup
