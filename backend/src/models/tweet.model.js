@@ -17,10 +17,6 @@ const tweetSchema = new Schema(
     tweetImage: {
       type: String, // cloudinary url
     },
-    likesCount: {
-      type: Number,
-      default: 0,
-    },
   },
   { timestamps: true }
 );

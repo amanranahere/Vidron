@@ -11,6 +11,7 @@ import {
   togglePublishStatus,
   getUserVideos,
   getSubscribedVideos,
+  updateViewCount,
 } from "../controllers/video.controller.js";
 
 const router = Router();
@@ -45,5 +46,7 @@ router.route("/user/:userId").get(getUserVideos);
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
 
 router.route("/subscribed").get(getSubscribedVideos);
+
+router.route("/views/:videoId").patch(updateViewCount);
 
 export default router;

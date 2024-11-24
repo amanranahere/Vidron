@@ -24,6 +24,7 @@ function VideoCard({ video }) {
       const response = await axiosInstance.patch(
         `/videos/toggle/publish/${video._id}`
       );
+      console.log("publish : ", response);
 
       if (response.data.success) {
         dispatch(
@@ -135,10 +136,6 @@ function VideoCard({ video }) {
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
         {video.views}
-      </td>
-
-      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
-        {video.commentsCount}
       </td>
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">

@@ -24,8 +24,17 @@ function SnapCard({ snap, name = true }) {
     }
   };
 
+  const updateViewCount = async (video) => {
+    try {
+      await axiosInstance.patch(`/snaps/views/${snap._id}`);
+    } catch (error) {
+      console.error("Error incrementing views:", error);
+    }
+  };
+
   const handleSnapClick = () => {
     updateWatchHistory(snap);
+    updateViewCount(snap);
   };
 
   const handleChannelClick = (e) => {

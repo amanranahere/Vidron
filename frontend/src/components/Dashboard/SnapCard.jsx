@@ -138,10 +138,6 @@ function SnapCard({ snap }) {
       </td>
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
-        {snap.commentsCount}
-      </td>
-
-      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
         {snap.likesCount}
       </td>
 

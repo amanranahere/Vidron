@@ -47,7 +47,6 @@ function VideoPanel({ channelVideos }) {
               <th className="border-collapse border-b p-4">Video</th>
               <th className="border-collapse border-b p-4">Date Uploaded</th>
               <th className="border-collapse border-b p-4">Views</th>
-              <th className="border-collapse border-b p-4">Comments</th>
               <th className="border-collapse border-b p-4">Likes</th>
               <th className="border-collapse border-b p-4">Options</th>
             </tr>

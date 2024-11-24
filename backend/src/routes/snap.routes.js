@@ -10,6 +10,7 @@ import {
   updateSnapDetails,
   togglePublishStatus,
   getUserSnaps,
+  updateViewCount,
 } from "../controllers/snaps.controller.js";
 
 const router = Router();
@@ -42,5 +43,7 @@ router
 router.route("/user/:userId").get(getUserSnaps);
 
 router.route("/toggle/publish/:snapId").patch(togglePublishStatus);
+
+router.route("/views/:snapId").patch(updateViewCount);
 
 export default router;

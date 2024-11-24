@@ -44,7 +44,6 @@ const getAllSnaps = asyncHandler(async (req, res) => {
   }
 
   try {
-    console.log({ filter, sortObject, page, limit });
     const snaps = await Snap.find(filter)
       .sort(sortObject)
       .skip((Number(page) - 1) * Number(limit))
@@ -373,6 +372,33 @@ const getUserSnaps = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, snaps, "Snaps fetched successfully"));
 });
 
+const updateViewCount = asyncHandler(async (req, res) => {
+  const { snapId } = req.params;
+
+  if (!isValidObjectId(snapId)) {
+    throw new ApiError(400, "Invalid snap id");
+  }
+
+  try {
+    const snap = await Snap.findByIdAndUpdate(
+      snapId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    if (!snap) {
+      throw new ApiError(
+        404,
+        "Error while fetching snap to increase the views"
+      );
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "Views increased successfully"));
+  } catch (error) {}
+});
+
 export {
   getAllSnaps,
   publishASnap,
@@ -381,4 +407,5 @@ export {
   deleteSnap,
   togglePublishStatus,
   getUserSnaps,
+  updateViewCount,
 };

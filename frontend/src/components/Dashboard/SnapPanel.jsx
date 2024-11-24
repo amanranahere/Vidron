@@ -47,7 +47,6 @@ function SnapPanel({ channelSnaps }) {
               <th className="border-collapse border-b p-4">Snap</th>
               <th className="border-collapse border-b p-4">Date Uploaded</th>
               <th className="border-collapse border-b p-4">Views</th>
-              <th className="border-collapse border-b p-4">Comments</th>
               <th className="border-collapse border-b p-4">Likes</th>
               <th className="border-collapse border-b p-4">Options</th>
             </tr>

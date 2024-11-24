@@ -24,8 +24,17 @@ function VideoCard({ video, name = true }) {
     }
   };
 
+  const updateViewCount = async (video) => {
+    try {
+      await axiosInstance.patch(`/videos/views/${video._id}`);
+    } catch (error) {
+      console.error("Error incrementing views:", error);
+    }
+  };
+
   const handleVideoClick = () => {
     updateWatchHistory(video);
+    updateViewCount(video);
   };
 
   const handleChannelClick = (e) => {

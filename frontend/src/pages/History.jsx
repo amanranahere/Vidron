@@ -62,7 +62,8 @@ function History() {
 
       {/* videos */}
 
-      <div>
+      <div className="w-full h-full">
+        <h1 className="bg-gray text-center text-3xl py-5">Videos</h1>
         {videoHistory?.length > 0 && !loading && (
           <InfiniteScroll
             dataLength={videoHistory.length}

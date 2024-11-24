@@ -457,6 +457,33 @@ const getSubscribedVideos = asyncHandler(async (req, res) => {
     );
 });
 
+const updateViewCount = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid video id");
+  }
+
+  try {
+    const video = await Video.findByIdAndUpdate(
+      videoId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    if (!video) {
+      throw new ApiError(
+        404,
+        "Error while fetching video to increase the views"
+      );
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "Views increased successfully"));
+  } catch (error) {}
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -466,4 +493,5 @@ export {
   togglePublishStatus,
   getUserVideos,
   getSubscribedVideos,
+  updateViewCount,
 };

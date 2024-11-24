@@ -6,7 +6,6 @@ const updateVideoHistory = async (videoId) => {
     const response = await axiosInstance.post(
       `/users/watch-history/video/${videoId}`
     );
-    console.log("response in updatevideohistory : ", response);
     if (response?.data?.data) {
       dispatch(addUserVideoHistory([videoId]));
       return response.data;
