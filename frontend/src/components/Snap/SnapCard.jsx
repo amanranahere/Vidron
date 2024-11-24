@@ -25,7 +25,7 @@ function SnapCard({ snap, name = true }) {
   };
 
   const handleSnapClick = () => {
-    updateWatchHistory(video);
+    updateWatchHistory(snap);
   };
 
   const handleChannelClick = (e) => {

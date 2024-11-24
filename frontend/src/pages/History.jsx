@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import getUserVideoHistory from "../hooks/getUserVideoHistory.js";
 import getUserSnapHistory from "../hooks/getUserSnapHistory.js";
 import VideoListCard from "../components/Video/VideoListCard.jsx";
+import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import GuestHistory from "../components/GuestPages/GuestHistory.jsx";
 import {
@@ -42,10 +43,8 @@ function History() {
   }, [status, page]);
 
   const videoHistory = useSelector((state) => state.user.userVideoHistory);
-  console.log("videoHistory : ", videoHistory);
 
   const snapHistory = useSelector((state) => state.user.userSnapHistory);
-  console.log("snapHistory : ", snapHistory);
 
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
@@ -60,6 +59,9 @@ function History() {
       {loading && (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
+
+      {/* videos */}
+
       <div>
         {videoHistory?.length > 0 && !loading && (
           <InfiniteScroll
@@ -93,13 +95,15 @@ function History() {
               </span>
             }
             title="Empty Video History"
-            subtitle="You have no previously saved videoHistory"
+            subtitle="You have no previously saved video history"
             guest={false}
           />
         )}
       </div>
 
-      <div className="bg-gray-900">
+      {/* snaps */}
+
+      <div className="w-full h-full bg-gray-900">
         <h1 className="bg-gray text-center text-3xl py-5">Snaps</h1>
         {snapHistory?.length > 0 && !loading && (
           <InfiniteScroll
@@ -113,10 +117,10 @@ function History() {
             }
             scrollableTarget="scrollableDiv"
           >
-            {snapHistory.map((video) => (
-              <div key={video._id}>
-                <VideoListCard
-                  video={video}
+            {snapHistory.map((snap) => (
+              <div key={snap._id}>
+                <SnapListCard
+                  snap={snap}
                   imgWidth="w-[20vw]"
                   imgHeight="h-[11vw]"
                 />
@@ -132,8 +136,8 @@ function History() {
                 <GoHistory className="w-32 h-32" />
               </span>
             }
-            title="Empty Video History"
-            subtitle="You have no previously saved snapHistory"
+            title="Empty Snap History"
+            subtitle="You have no previously saved snap history"
             guest={false}
           />
         )}
