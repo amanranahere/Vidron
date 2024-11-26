@@ -368,6 +368,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
       {
         $match: {
           _id: { $in: videoIds },
+          isPublished: true,
         },
       },
       {
@@ -523,6 +524,7 @@ const getLikedSnaps = asyncHandler(async (req, res) => {
       {
         $match: {
           _id: { $in: snapIds },
+          isPublished: true,
         },
       },
       {

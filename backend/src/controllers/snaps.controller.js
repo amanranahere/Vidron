@@ -28,7 +28,7 @@ const findSnapByIdAndOwner = async (id, owner) => {
 const getAllSnaps = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType } = req.query;
 
-  const filter = {};
+  const filter = { isPublished: true };
   const sortObject = {};
 
   if (query) {
@@ -252,7 +252,7 @@ const deleteSnap = asyncHandler(async (req, res) => {
 const togglePublishStatus = asyncHandler(async (req, res) => {
   const { snapId } = req.params;
 
-  const userSnap = await findVideoByIdAndOwner(snapId, req.user._id);
+  const userSnap = await findSnapByIdAndOwner(snapId, req.user._id);
 
   if (!userSnap) {
     throw new ApiError(404, "Snap not found");

@@ -24,7 +24,6 @@ function VideoCard({ video }) {
       const response = await axiosInstance.patch(
         `/videos/toggle/publish/${video._id}`
       );
-      console.log("publish : ", response);
 
       if (response.data.success) {
         dispatch(
