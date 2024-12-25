@@ -57,47 +57,38 @@ function Signup() {
   };
 
   return (
-    <div className="h-screen w-full overflow-y-auto bg-[#121212] text-white">
-      <div className="mx-auto my-10 flex w-full max-w-sm flex-col px-4">
-        <div className="mx-auto inline-block">
-          <Link to="/">
-            <Logo />
-          </Link>
+    <div className="h-screen w-full bg-[#121212] flex items-center justify-center">
+      {/* start */}
 
-          <div className="my-4 w-full text-center text-xl font-semibold">
-            Create an Account
-          </div>
+      <form
+        className="p-5 bg-[#1a1a1a] rounded-[20px] border border-[#333]
+"
+        onSubmit={handleSubmit(signup)}
+      >
+        <p className="signup-title">Register </p>
+        <p className="signup-message">
+          Sign up now to enjoy complete access to all features.{" "}
+        </p>
 
-          <h6 className="mx-auto mb-1">
-            Already have an Account?{" "}
-            <Link
-              to={"/login"}
-              className="font-semibold text-blue-600 hover:text-blue-500"
-            >
-              Sign in now
-            </Link>
-          </h6>
-
-          {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-
-          <form
-            onSubmit={handleSubmit(signup)}
-            className="mx-auto mt-2 flex w-full max-w-sm flex-col px-4"
-          >
+        <div className="h-full w-full flex">
+          <div className="signup-form py-5 pr-[10px]">
             {/* full name input */}
-            <Input
-              label="Full Name"
-              required
-              className="px-2 rounded-lg"
-              placeholder="Enter your full name"
-              {...register("fullname", {
-                required: "Full name required",
-                maxLength: {
-                  value: 25,
-                  message: "Full name can't exceed 25 characters",
-                },
-              })}
-            />
+            <label>
+              <input
+                required
+                className="signup-input"
+                type="text"
+                placeholder=""
+                {...register("fullname", {
+                  required: "Full name required",
+                  maxLength: {
+                    value: 25,
+                    message: "Full name can't exceed 25 characters",
+                  },
+                })}
+              />
+              <span>Full Name</span>
+            </label>
 
             {errors.fullname && (
               <p className="text-red-600 px-2 mt-1">
@@ -106,20 +97,22 @@ function Signup() {
             )}
 
             {/* username input */}
-            <Input
-              label="Username"
-              required
-              placeholder="Choose your username"
-              className="px-2 rounded-lg"
-              className2="pt-5"
-              {...register("username", {
-                required: "Username required",
-                maxLength: {
-                  value: 25,
-                  message: "Username can't exceed 25 characters",
-                },
-              })}
-            />
+            <label>
+              <input
+                className="signup-input"
+                type="text"
+                required
+                placeholder=""
+                {...register("username", {
+                  required: "Username required",
+                  maxLength: {
+                    value: 25,
+                    message: "Username can't exceed 25 characters",
+                  },
+                })}
+              />
+              <span>Username</span>
+            </label>
 
             {errors.username && (
               <p className="text-red-600 px-2 mt-1">
@@ -128,40 +121,40 @@ function Signup() {
             )}
 
             {/* email input */}
-            <Input
-              label="Email Address"
-              required
-              placeholder="Enter your email address"
-              type="email"
-              className="px-2 rounded-lg"
-              className2="pt-5"
-              {...register("email", {
-                required: "Email required",
-                pattern: {
-                  value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                  message: "Email address must be a valid address",
-                },
-              })}
-            />
+            <label>
+              <input
+                className="signup-input"
+                type="email"
+                placeholder=""
+                required
+                {...register("email", {
+                  required: "Email required",
+                  pattern: {
+                    value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                    message: "Email address must be a valid address",
+                  },
+                })}
+              />
+              <span>Email</span>
+            </label>
 
             {errors.email && (
-              <p text-red-600 px-2 mt-1>
-                {errors.email.message}
-              </p>
+              <p className="text-red-600 px-2 mt-1">{errors.email.message}</p>
             )}
 
-            {/* password input */}
-            <Input
-              label="Password"
-              placeholder="Create your password"
-              type={passwordVisible ? "text" : "password"}
-              className="px-2 rounded-lg"
-              className2="pt-5"
-              {...register("password", {
-                required: "Password required",
-              })}
-            />
-
+            {/* Password */}
+            <label>
+              <input
+                className="signup-input"
+                type={passwordVisible ? "text" : "password"}
+                placeholder=""
+                required
+                {...register("password", {
+                  required: "Password required",
+                })}
+              />
+              <span>Password</span>
+            </label>
             <div className="mt-2 flex items-center">
               <input
                 type="checkbox"
@@ -178,75 +171,92 @@ function Signup() {
               </p>
             )}
 
-            {/* avatar input */}
-            <Input
-              label="Avatar"
-              type="file"
-              required
-              placeholder="Upload your avatar"
-              {...register("avatar", {
-                required: "Avatar required",
-                validate: (file) => {
-                  const allowedExtension = [
-                    "image/jpeg",
-                    "image/jpg",
-                    "image/png",
-                  ];
-                  const fileType = file[0]?.type;
-                  return allowedExtension.includes(fileType)
-                    ? true
-                    : "Invalid file type! Only .jpeg .jpg .png files are accepted";
-                },
-              })}
-            />
+            <button className="signup-submit" type="submit" disabled={loading}>
+              {loading ? <span>{icons.loading}</span> : "Sign up"}
+            </button>
+          </div>
 
-            {errors.avatar && (
-              <p className="text-red-600 px-2 mt-1">{errors.avatar.message}</p>
-            )}
+          <div className="signup-form py-5 bg-[#1a1a1a]">
+            {/* avatar input */}
+            <div class="avatar">
+              <span class="avatar-title">Upload your avatar</span>
+              <p class="avatar-paragraph">File should be an image</p>
+              <label for="file-input01" class="avatar-drop-container">
+                <input
+                  id="file-input01"
+                  type="file"
+                  required
+                  placeholder="Upload your avatar"
+                  {...register("avatar", {
+                    required: "Avatar required",
+                    validate: (file) => {
+                      const allowedExtension = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png",
+                      ];
+                      const fileType = file[0]?.type;
+                      return allowedExtension.includes(fileType)
+                        ? true
+                        : "Invalid file type! Only .jpeg .jpg .png files are accepted";
+                    },
+                  })}
+                />
+              </label>
+
+              {errors.avatar && (
+                <p className="text-red-600 px-2 mt-1">
+                  {errors.avatar.message}
+                </p>
+              )}
+            </div>
 
             {/* cover image input */}
-            <Input
-              label="Cover Image"
-              type="file"
-              placeholder="Upload your cover image"
-              className="px-2 rounded-lg"
-              className2="pt-5"
-              {...register("coverImage", {
-                required: false,
-                validate: (file) => {
-                  if (!file[0]) return true;
+            <div class="avatar">
+              <span class="avatar-title">Upload your cover image</span>
+              <p class="avatar-paragraph">File should be an image</p>
+              <label for="file-input02" class="avatar-drop-container">
+                <input
+                  id="file-input02"
+                  type="file"
+                  {...register("coverImage", {
+                    required: false,
+                    validate: (file) => {
+                      if (!file[0]) return true;
+                      const allowedExtensions = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png",
+                      ];
+                      const fileType = file[0].type;
+                      return allowedExtensions.includes(fileType)
+                        ? true
+                        : "Invalid file type! Only .jpeg .jpg .png files are accepted";
+                    },
+                  })}
+                />
+              </label>
 
-                  const allowedExtensions = [
-                    "image/jpeg",
-                    "image/jpg",
-                    "image/png",
-                  ];
-                  const fileType = file[0].type;
-                  return allowedExtensions.includes(fileType)
-                    ? true
-                    : "Invalid file type! Only .jpeg .jpg .png files are accepted";
-                },
-              })}
-            />
-
-            {errors.coverImage && (
-              <p className="text-red-600 px-2 mt-1">
-                {errors.coverImage.message}
-              </p>
-            )}
-
-            {/* submit button */}
-            <Button
-              type="submit"
-              disabled={loading}
-              className="mt-5 disabled:cursor-not-allowed py-2 rounded-lg"
-              bgColor={loading ? "bg-pink-800" : "bg-pink-600"}
-            >
-              {loading ? <span>{icons.loading}</span> : "Sign up"}
-            </Button>
-          </form>
+              {errors.coverImage && (
+                <p className="text-red-600 px-2 mt-1">
+                  {errors.coverImage.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+
+        <p className="signup-signin">
+          Already have an acount ?{" "}
+          <Link
+            to={"/login"}
+            className="font-semibold text-blue-600 hover:text-blue-500"
+          >
+            Login now
+          </Link>
+        </p>
+      </form>
+      {/* end */}
     </div>
   );
 }

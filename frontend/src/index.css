@@ -355,3 +355,231 @@
 }
 
 /* Not found TV - end */
+
+/* Signup component - start */
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 100%;
+  position: relative;
+  color: #fff;
+}
+
+.signup-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: #00bfff;
+}
+
+.signup-title::before {
+  width: 18px;
+  height: 18px;
+}
+
+.signup-title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.signup-title::before,
+.signup-title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: #00bfff;
+}
+
+.signup-message,
+.signup-signin {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signup-signin {
+  text-align: center;
+}
+
+.signup-signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.signup-signin a {
+  color: #00bfff;
+}
+
+/* .flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+} */
+
+.signup-form label {
+  position: relative;
+}
+
+.signup-form label .signup-input {
+  background-color: #333;
+  color: #fff;
+  width: 100%;
+  min-width: 300px;
+  padding: 20px 5px 5px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.signup-form label .signup-input + span {
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.signup-form label .signup-input:placeholder-shown + span {
+  top: 12.5px;
+  font-size: 0.9em;
+}
+
+.signup-form label .signup-input:focus + span,
+.signup-form label .signup-input:valid + span {
+  color: #00bfff;
+  top: 0px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.signup-input {
+  font-size: medium;
+}
+
+.signup-submit {
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: 0.3s ease;
+  background-color: #00bfff;
+}
+
+.signup-submit:hover {
+  background-color: #00bfff96;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Signup component - end */
+
+/* avatar component - start */
+
+.avatar {
+  background-color: #333;
+  padding: 0.8rem 0.5rem 0.5rem 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  max-width: 320px;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.avatar-title {
+  color: #00bfff;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.avatar-paragraph {
+  margin-top: 1px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.avatar-drop-container {
+  background-color: #333;
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: 2px dashed #00bfff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.avatar-drop-container:hover {
+  background: rgba(0, 191, 255, 0.2);
+  border-color: rgba(17, 17, 17, 0.616);
+}
+
+.avatar-drop-container:hover .drop-title {
+  color: #00bfff;
+}
+
+.avatar-drop-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: color 0.2s ease-in-out;
+}
+
+#file-input01,
+#file-input02 {
+  width: 350px;
+  max-width: 100%;
+  color: #fff;
+  padding: 2px;
+  background: #1a1a1a;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+#file-input01::file-selector-button,
+#file-input02::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #00bfff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+#file-input01::file-selector-button:hover,
+#file-input02::file-selector-button:hover {
+  background: #00bfff96;
+}
+
+/* avatar component - end */

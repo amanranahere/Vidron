@@ -460,6 +460,7 @@ const getLikedTweets = asyncHandler(async (req, res) => {
       },
       {
         $project: {
+          likesCount: 1,
           content: 1,
           tweetImage: 1,
           owner: {
