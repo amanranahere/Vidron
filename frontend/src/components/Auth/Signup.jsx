@@ -3,10 +3,9 @@ import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axios.helper";
 import { icons } from "../Icons.jsx";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Logo from "../Logo";
-import Input from "../Input";
-import Button from "../Button";
 
 function Signup() {
   const navigate = useNavigate();
@@ -57,20 +56,20 @@ function Signup() {
   };
 
   return (
-    <div className="h-screen w-full bg-[#121212] flex items-center justify-center">
-      {/* start */}
-
+    <div className="h-full w-full bg-[#121212] flex flex-col md:flex-row items-center justify-center">
       <form
-        className="p-5 bg-[#1a1a1a] rounded-[20px] border border-[#333]
-"
+        className="py-5 px-7 bg-[#1a1a1a] rounded-[20px] border border-[#333]"
         onSubmit={handleSubmit(signup)}
       >
-        <p className="signup-title">Register </p>
+        <p className="signup-title">Register</p>
+
         <p className="signup-message">
           Sign up now to enjoy complete access to all features.{" "}
         </p>
 
-        <div className="h-full w-full flex">
+        {error && <p className="text-red-600 mt-3 text-center">{error}</p>}
+
+        <div className="h-full w-full flex flex-col md:flex-row ">
           <div className="signup-form py-5 pr-[10px]">
             {/* full name input */}
             <label>
@@ -129,9 +128,11 @@ function Signup() {
                 required
                 {...register("email", {
                   required: "Email required",
-                  pattern: {
-                    value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                    message: "Email address must be a valid address",
+                  validate: {
+                    matchPattern: (value) =>
+                      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                        value
+                      ) || "Email address must be a valid address",
                   },
                 })}
               />
@@ -142,10 +143,10 @@ function Signup() {
               <p className="text-red-600 px-2 mt-1">{errors.email.message}</p>
             )}
 
-            {/* Password */}
-            <label>
+            {/* password input */}
+            <label className="relative">
               <input
-                className="signup-input"
+                className="signup-input pr-10"
                 type={passwordVisible ? "text" : "password"}
                 placeholder=""
                 required
@@ -154,16 +155,21 @@ function Signup() {
                 })}
               />
               <span>Password</span>
+
+              <div className="absolute inset-y-0 right-2 flex items-center">
+                {passwordVisible ? (
+                  <FaEye
+                    className="cursor-pointer"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                  />
+                ) : (
+                  <FaEyeSlash
+                    className="cursor-pointer"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                  />
+                )}
+              </div>
             </label>
-            <div className="mt-2 flex items-center">
-              <input
-                type="checkbox"
-                id="togglePassword"
-                className="mr-2"
-                onChange={() => setPasswordVisible(!passwordVisible)}
-              />
-              <label htmlFor="togglePassword">Show Password</label>
-            </div>
 
             {errors.password && (
               <p className="text-red-600 px-2 mt-1">
@@ -171,17 +177,24 @@ function Signup() {
               </p>
             )}
 
-            <button className="signup-submit" type="submit" disabled={loading}>
+            {/* signup button */}
+            <button
+              className="signup-submit select-none"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? <span>{icons.loading}</span> : "Sign up"}
             </button>
           </div>
 
           <div className="signup-form py-5 bg-[#1a1a1a]">
             {/* avatar input */}
-            <div class="avatar">
-              <span class="avatar-title">Upload your avatar</span>
-              <p class="avatar-paragraph">File should be an image</p>
-              <label for="file-input01" class="avatar-drop-container">
+            <div className="avatar">
+              <span className="avatar-title">Upload your avatar</span>
+
+              <p className="avatar-paragraph">File should be an image</p>
+
+              <label htmlFor="file-input01" className="avatar-drop-container">
                 <input
                   id="file-input01"
                   type="file"
@@ -212,10 +225,12 @@ function Signup() {
             </div>
 
             {/* cover image input */}
-            <div class="avatar">
-              <span class="avatar-title">Upload your cover image</span>
-              <p class="avatar-paragraph">File should be an image</p>
-              <label for="file-input02" class="avatar-drop-container">
+            <div className="avatar">
+              <span className="avatar-title">Upload your cover image</span>
+
+              <p className="avatar-paragraph">File should be an image</p>
+
+              <label htmlFor="file-input02" className="avatar-drop-container">
                 <input
                   id="file-input02"
                   type="file"
@@ -256,7 +271,6 @@ function Signup() {
           </Link>
         </p>
       </form>
-      {/* end */}
     </div>
   );
 }

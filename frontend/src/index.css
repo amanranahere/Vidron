@@ -418,12 +418,6 @@
   color: #00bfff;
 }
 
-/* .flex {
-  display: flex;
-  width: 100%;
-  gap: 6px;
-} */
-
 .signup-form label {
   position: relative;
 }
@@ -496,7 +490,7 @@
 
 /* Signup component - end */
 
-/* avatar component - start */
+/* avatar input component - start */
 
 .avatar {
   background-color: #333;
@@ -582,4 +576,4 @@
   background: #00bfff96;
 }
 
-/* avatar component - end */
+/* avatar input component - end */
