@@ -13,6 +13,7 @@ import { BsCollectionPlay } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { GrLogout } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import axiosInstance from "../utils/axios.helper.js";
 import { logout } from "../store/authSlice.js";
 import { toast } from "react-toastify";
@@ -42,6 +43,22 @@ function Sidebar() {
       icon: <AiOutlineMessage className="w-6 h-6" />,
     },
     {
+      name: "Subscriptions",
+      route: "/subscriptions",
+      icon: <BsCollectionPlay className="w-6 h-6" />,
+    },
+    {
+      name: "Dashboard",
+      route: "/admin/dashboard",
+      icon: <FaRegUserCircle className="w-6 h-6" />,
+      requiresAuth: true,
+    },
+    {
+      name: "History",
+      route: "/history",
+      icon: <GoHistory className="w-6 h-6" />,
+    },
+    {
       name: "Liked Videos",
       route: "/liked-videos",
       icon: <BiLike className="w-6 h-6" />,
@@ -57,19 +74,20 @@ function Sidebar() {
       icon: <BiLike className="w-6 h-6" />,
     },
     {
-      name: "History",
-      route: "/history",
-      icon: <GoHistory className="w-6 h-6" />,
+      name: "Settings",
+      route: "/settings",
+      icon: <FiSettings className="w-6 h-6" />,
+      requiresAuth: true,
     },
     {
-      name: "Subscriptions",
-      route: "/subscriptions",
-      icon: <BsCollectionPlay className="w-6 h-6" />,
+      name: "Help",
+      route: "/help",
+      icon: <GoQuestion className="w-6 h-6" />,
     },
     {
-      name: "My Channel",
-      route: `/channel/${userData?.username}`,
-      icon: <GoDeviceCameraVideo className="w-6 h-6" />,
+      name: "Send Feedback",
+      route: "/help", // replace the route with a send-feedback page
+      icon: <GoQuestion className="w-6 h-6" />,
     },
   ];
 
@@ -87,115 +105,121 @@ function Sidebar() {
   };
 
   return (
-    <div
-      className={`bg-black text-white h-full flex flex-col border border-y-0 border-l-0 transition-all duration-100 ease-in-out  ${
-        isWatchPage ? "w-16" : "w-64"
-      }`}
-    >
-      <ul className="flex-grow px-2 py-2">
-        {NavElements.map((item, index) => (
+    <>
+      <div className="w-64 bg-black text-white h-full flex flex-col transition-all duration-100 ease-in-out">
+        {/* home, snaps, tweets, subscriptions */}
+
+        <ul className="px-2 py-2">
+          {NavElements.filter((item) =>
+            ["Home", "Snaps", "Tweets", "Subscriptions"].includes(item.name)
+          ).map((item, index) => (
+            <NavLink
+              className={({ isActive }) =>
+                `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+              }
+              to={item.route}
+              key={index}
+            >
+              <li className="px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg">
+                <span className="mr-2">{item.icon}</span>
+
+                {item.name}
+              </li>
+            </NavLink>
+          ))}
+        </ul>
+
+        <hr className="mx-5 my-2 opacity-25" />
+
+        {/* You - dashboard, history, liked videos, snaps, tweets */}
+
+        <div className="px-2 py-2">
           <NavLink
             className={({ isActive }) =>
-              `${isActive ? "text-pink-700" : "text-gray-200"}`
+              `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
             }
-            to={item.route}
-            key={index}
+            to={`/channel/${userData?.username}`}
           >
-            <li
-              className={`py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                isWatchPage ? "justify-center " : " px-5"
-              }`}
-            >
-              {item.icon && (
-                <span className={`${isWatchPage ? "" : "mr-2"}`}>
-                  {item.icon}
-                </span>
-              )}
-
-              {!isWatchPage && <div>{item.name}</div>}
-            </li>
-          </NavLink>
-        ))}
-
-        {authStatus && (
-          <NavLink
-            className={({ isActive }) =>
-              `${isActive ? "text-pink-700" : "text-gray-200"}`
-            }
-            to="/admin/dashboard"
-          >
-            <li
-              className={`py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                isWatchPage ? "justify-center " : " px-5"
-              }`}
-            >
-              <span className={`${isWatchPage ? "" : "mr-2"}`}>
-                <FaRegUserCircle className="w-6 h-6" />
+            <div className="px-5 py-2 flex items-center gap-3 hover:bg-gray-800 transition-all duration-100 cursor-pointer rounded-lg">
+              <span className="text-xl">You</span>
+              <span className="pt-1 text-2xl opacity-75">
+                <MdKeyboardArrowRight />
               </span>
-
-              {!isWatchPage && "Dashboard"}
-            </li>
+            </div>
           </NavLink>
-        )}
-      </ul>
 
-      <ul className="px-2 py-2">
-        {authStatus && (
-          <li
-            onClick={handleLogout}
-            className={`py-2 ml-1 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-              isWatchPage ? "justify-center " : " px-5"
-            }`}
-          >
-            <span className={`${isWatchPage ? "ml-1" : "mr-2"}`}>
-              <GrLogout className="w-6 h-6" />
-            </span>
+          <ul>
+            {NavElements.filter(
+              (item) =>
+                [
+                  "Dashboard",
+                  "History",
+                  "Liked Videos",
+                  "Liked Snaps",
+                  "Liked Tweets",
+                ].includes(item.name) &&
+                (!item.requiresAuth || authStatus)
+            ).map((item, index) => (
+              <NavLink
+                className={({ isActive }) =>
+                  `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                }
+                to={item.route}
+                key={index}
+              >
+                <li className="px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg">
+                  <span className="mr-2">{item.icon}</span>
 
-            {!isWatchPage && "Logout"}
-          </li>
-        )}
+                  {item.name}
+                </li>
+              </NavLink>
+            ))}
+          </ul>
+        </div>
 
-        {authStatus && (
-          <NavLink
-            className={({ isActive }) =>
-              `${isActive ? "text-pink-700" : "text-gray-200"}`
-            }
-            to="/settings"
-          >
+        <hr className="mx-5 my-2 opacity-25" />
+
+        {/* settings, help, send-feedback */}
+
+        <ul className="px-2 py-2">
+          {NavElements.filter(
+            (item) =>
+              ["Settings", "Help", "Send Feedback"].includes(item.name) &&
+              (!item.requiresAuth || authStatus)
+          ).map((item, index) => (
+            <NavLink
+              className={({ isActive }) =>
+                `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+              }
+              to={item.route}
+              key={index}
+            >
+              <li className="px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg">
+                <span className="mr-2">{item.icon}</span>
+
+                {item.name}
+              </li>
+            </NavLink>
+          ))}
+
+          {/* logout */}
+
+          {authStatus && (
             <li
+              onClick={handleLogout}
               className={`py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                isWatchPage ? "justify-center " : " px-5"
+                isWatchPage ? "justify-center " : "px-5"
               }`}
             >
-              <span className={`${isWatchPage ? "" : "mr-2"}`}>
-                <FiSettings className="w-6 h-6" />
+              <span>
+                <GrLogout className="w-6 h-6 mr-2" />
               </span>
-
-              {!isWatchPage && "Settings"}
+              <div>Logout</div>
             </li>
-          </NavLink>
-        )}
-
-        <NavLink
-          className={({ isActive }) =>
-            `${isActive ? "text-pink-700" : "text-gray-200"}`
-          }
-          to="/help"
-        >
-          <li
-            className={`py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-              isWatchPage ? "justify-center " : " px-5"
-            }`}
-          >
-            <span className={`${isWatchPage ? "" : "mr-2"}`}>
-              <GoQuestion className="w-6 h-6" />
-            </span>
-
-            {!isWatchPage && "Help"}
-          </li>
-        </NavLink>
-      </ul>
-    </div>
+          )}
+        </ul>
+      </div>
+    </>
   );
 }
 
