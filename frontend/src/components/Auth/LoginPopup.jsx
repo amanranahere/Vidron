@@ -101,9 +101,9 @@ function LoginPopup({ route }, ref) {
                 autoFocus
                 type="button"
                 onClick={handleClose}
-                className="absolute right-2 top-3 h-7 w-7 focus:border-dotted hover:bg-gray-700 hover:rounded-[20px] text-[#00bfff]"
+                className="absolute right-2 top-2 h-7 w-7 focus:border-dotted hover:bg-gray-700 hover:rounded-[20px] text-[#00bfff] z-50"
               >
-                <IoClose className="w-7 h-7 transform origin-center" />
+                <IoClose className="w-7 h-7" />
               </button>
 
               <form onSubmit={handleSubmit(handleLogin)} className="">
