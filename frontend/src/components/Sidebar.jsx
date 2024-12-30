@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import {
@@ -28,11 +28,11 @@ import axiosInstance from "../utils/axios.helper.js";
 import { logout } from "../store/authSlice.js";
 import { toast } from "react-toastify";
 
-function Sidebar() {
+function Sidebar({ onClose }) {
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
-  const location = useLocation();
-  const isWatchPage = location.pathname.includes("/video-watchpage");
+  // const location = useLocation();
+  // const isWatchPage = location.pathname.includes("/video-watchpage");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -127,15 +127,15 @@ function Sidebar() {
     }
   };
 
-  if (isWatchPage) {
-    return null;
-  }
+  // if (isWatchPage) {
+  //   return null;
+  // }
 
   return (
     <>
       {/* sidebar - for bigger screens */}
 
-      <div className="h-full hidden lg:block overflow-y-scroll scrollbar-thin scrollbar-webkit">
+      <div className="h-full hidden lg:block overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black">
         <div className="w-64 bg-black text-white h-full flex flex-col transition-all duration-100 ease-in-out">
           {/* home, snaps, tweets, subscriptions */}
 
@@ -149,6 +149,9 @@ function Sidebar() {
                 }
                 to={item.route}
                 key={index}
+                onClick={() => {
+                  onClose();
+                }}
               >
                 {({ isActive }) => (
                   <li
@@ -177,6 +180,9 @@ function Sidebar() {
                 `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
               }
               to={`/channel/${userData?.username}`}
+              onClick={() => {
+                onClose();
+              }}
             >
               {({ isActive }) => (
                 <div
@@ -210,6 +216,9 @@ function Sidebar() {
                   }
                   to={item.route}
                   key={index}
+                  onClick={() => {
+                    onClose();
+                  }}
                 >
                   {({ isActive }) => (
                     <li
@@ -232,17 +241,26 @@ function Sidebar() {
           <hr className="mx-5 my-2 opacity-25" />
 
           {!authStatus && (
-            <div className="flex flex-col px-5 py-2">
-              <span>Sign in to like videos, snaps, and post your tweets!</span>
-              <Link to="/login">
-                <button className="mt-3 cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 px-4 py-2 rounded-full border border-solid border-[#00bfff] text-[#00bfff] flex">
+            <>
+              <div className="flex flex-col px-5 py-2">
+                <span>
+                  Sign in to like videos, snaps, and post your tweets!
+                </span>
+
+                <button
+                  className="max-w-max mt-3 mb-2 cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 px-4 py-2 rounded-full border border-solid border-[#00bfff] text-[#00bfff] flex"
+                  onClick={() => {
+                    onClose();
+                    navigate("/login");
+                  }}
+                >
                   <FaRegUserCircle className="text-2xl opacity-90 mr-2" />
                   Sign in
                 </button>
-              </Link>
+              </div>
 
               <hr className="mx-5 my-2 opacity-25" />
-            </div>
+            </>
           )}
 
           {/* settings, logout */}
@@ -257,7 +275,10 @@ function Sidebar() {
                   to={
                     NavElements.find((item) => item.name === "Settings")?.route
                   }
-                  onClick={() => setIsDialogOpen(false)}
+                  onClick={() => {
+                    onclose();
+                    setIsDialogOpen(false);
+                  }}
                 >
                   {({ isActive }) => (
                     <div
@@ -306,6 +327,9 @@ function Sidebar() {
                 }
                 to={item.route}
                 key={index}
+                onClick={() => {
+                  onClose();
+                }}
               >
                 {({ isActive }) => (
                   <li

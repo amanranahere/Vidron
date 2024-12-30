@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const isWatchPage = location.pathname.includes("/video-watchpage");
 
   useEffect(() => {
     healthCheck().then(() => {
@@ -48,9 +50,7 @@ function App() {
       <Navbar />
 
       <div className="w-full h-full flex overflow-auto">
-        <div>
-          <Sidebar />
-        </div>
+        <div>{!isWatchPage && <Sidebar />}</div>
 
         <main
           className="overflow-y-auto h-full w-full scrollbar-hide"
