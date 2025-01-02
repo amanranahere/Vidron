@@ -4,7 +4,6 @@ import { icons } from "../components/Icons.jsx";
 import Tweet from "../components/Tweet/TweetCard.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import { BiLike } from "react-icons/bi";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserLikedTweets } from "../store/userSlice.js";
 import getUserLikedTweets from "../hooks/getUserLikedTweets.js";

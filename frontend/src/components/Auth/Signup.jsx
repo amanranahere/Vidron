@@ -192,7 +192,9 @@ function Signup() {
             <div className="avatar">
               <span className="avatar-title">Upload your avatar</span>
 
-              <p className="avatar-paragraph">File should be an image</p>
+              <p className="avatar-paragraph">
+                File should be an image (JPEG, JPG, or PNG format).
+              </p>
 
               <label htmlFor="file-input01" className="avatar-drop-container">
                 <input
@@ -228,7 +230,9 @@ function Signup() {
             <div className="avatar">
               <span className="avatar-title">Upload your cover image</span>
 
-              <p className="avatar-paragraph">File should be an image</p>
+              <p className="avatar-paragraph">
+                File should be an image (JPEG, JPG, or PNG format).
+              </p>
 
               <label htmlFor="file-input02" className="avatar-drop-container">
                 <input

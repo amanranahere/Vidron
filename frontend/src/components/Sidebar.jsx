@@ -145,7 +145,7 @@ function Sidebar({ onClose }) {
             ).map((item, index) => (
               <NavLink
                 className={({ isActive }) =>
-                  `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                  `${isActive ? "text-white font-bold" : "text-gray-200"}`
                 }
                 to={item.route}
                 key={index}
@@ -155,8 +155,8 @@ function Sidebar({ onClose }) {
               >
                 {({ isActive }) => (
                   <li
-                    className={`px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                      isActive ? "bg-gray-800" : ""
+                    className={`px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
+                      isActive ? "bg-[#2a2a2a]" : ""
                     } `}
                   >
                     <span className="mr-2">
@@ -177,7 +177,7 @@ function Sidebar({ onClose }) {
           <div className="h-full px-2 py-2">
             <NavLink
               className={({ isActive }) =>
-                `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                `${isActive ? "text-white font-bold" : "text-gray-200"}`
               }
               to={`/channel/${userData?.username}`}
               onClick={() => {
@@ -186,8 +186,8 @@ function Sidebar({ onClose }) {
             >
               {({ isActive }) => (
                 <div
-                  className={`px-5 py-1 flex items-center gap-3 hover:bg-gray-800 transition-all duration-100 cursor-pointer rounded-lg ${
-                    isActive ? "bg-gray-800" : ""
+                  className={`px-5 py-1 flex items-center gap-3 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer rounded-lg ${
+                    isActive ? "bg-[#2a2a2a]" : ""
                   } `}
                 >
                   <span className="text-lg pt-1 font-semibold">You</span>
@@ -212,7 +212,7 @@ function Sidebar({ onClose }) {
               ).map((item, index) => (
                 <NavLink
                   className={({ isActive }) =>
-                    `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                    `${isActive ? "text-white font-bold" : "text-gray-200"}`
                   }
                   to={item.route}
                   key={index}
@@ -222,8 +222,8 @@ function Sidebar({ onClose }) {
                 >
                   {({ isActive }) => (
                     <li
-                      className={`px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                        isActive ? "bg-gray-800" : ""
+                      className={`px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
+                        isActive ? "bg-[#2a2a2a]" : ""
                       } `}
                     >
                       <span className="mr-2">
@@ -243,19 +243,16 @@ function Sidebar({ onClose }) {
           {!authStatus && (
             <>
               <div className="flex flex-col px-5 py-2">
-                <span>
-                  Sign in to like videos, snaps, and post your tweets!
-                </span>
+                <span>Sign up to like, comment, and post tweets! </span>
 
                 <button
-                  className="max-w-max mt-3 mb-2 cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 px-4 py-2 rounded-full border border-solid border-[#00bfff] text-[#00bfff] flex"
+                  className="max-w-max mt-3 mb-2 cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 px-4 py-2 rounded-full border border-solid border-[#6a6a6a] text-[#00bfff] font-bold flex"
                   onClick={() => {
-                    onClose();
-                    navigate("/login");
+                    navigate("/signup");
                   }}
                 >
                   <FaRegUserCircle className="text-2xl opacity-90 mr-2" />
-                  Sign in
+                  Sign up
                 </button>
               </div>
 
@@ -270,7 +267,7 @@ function Sidebar({ onClose }) {
               <ul className="px-2 py-2">
                 <NavLink
                   className={({ isActive }) =>
-                    `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                    `${isActive ? "text-white font-bold" : "text-gray-200"}`
                   }
                   to={
                     NavElements.find((item) => item.name === "Settings")?.route
@@ -282,8 +279,8 @@ function Sidebar({ onClose }) {
                 >
                   {({ isActive }) => (
                     <div
-                      className={`px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                        isActive ? "bg-gray-800" : ""
+                      className={`px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
+                        isActive ? "bg-[#2a2a2a]" : ""
                       } `}
                     >
                       <span className="mr-2">
@@ -300,7 +297,7 @@ function Sidebar({ onClose }) {
 
                 <li
                   onClick={handleLogout}
-                  className="px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg"
+                  className="px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg"
                 >
                   <span>
                     <IoIosLogOut className="w-7 h-6 mr-2" />
@@ -323,7 +320,7 @@ function Sidebar({ onClose }) {
             ).map((item, index) => (
               <NavLink
                 className={({ isActive }) =>
-                  `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+                  `${isActive ? "text-white font-bold" : "text-gray-200"}`
                 }
                 to={item.route}
                 key={index}
@@ -333,8 +330,8 @@ function Sidebar({ onClose }) {
               >
                 {({ isActive }) => (
                   <li
-                    className={`px-5 py-2 hover:bg-gray-800 transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
-                      isActive ? "bg-gray-800" : ""
+                    className={`px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg ${
+                      isActive ? "bg-[#2a2a2a]" : ""
                     } `}
                   >
                     <span className="mr-2">
@@ -366,7 +363,7 @@ function Sidebar({ onClose }) {
         ).map((item, index) => (
           <NavLink
             className={({ isActive }) =>
-              `${isActive ? "text-[#00bfff]" : "text-gray-200"}`
+              `${isActive ? "text-white font-bold" : "text-gray-200"}`
             }
             to={item.route}
             key={index}

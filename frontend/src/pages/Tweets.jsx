@@ -25,6 +25,7 @@ function Tweets() {
   const LoginPopupDialog = useRef();
   const location = useLocation();
   const tweets = useSelector((state) => state.tweets.tweets);
+  const [addTweetBox, setAddTweetBox] = useState(false);
 
   const {
     register,
@@ -82,6 +83,7 @@ function Tweets() {
         console.log("Error while adding tweet", error);
       } finally {
         setIsUploading(false);
+        setAddTweetBox(false);
       }
     }
   };
@@ -110,100 +112,143 @@ function Tweets() {
   }
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit(addTweet)}
-        className="mt-4 border pb-2 rounded-lg mx-4"
+    <div className="flex flex-col justify-center items-center">
+      <button
+        onClick={() => setAddTweetBox(!addTweetBox)}
+        className="group absolute bottom-20 right-4 lg:bottom-6 lg:right-10 p-2  flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-full z-20 hover:transition duration-1000"
       >
-        <textarea
-          className="mb-2 w-full resize-none border-none bg-transparent px-3 pt-2 outline-none"
-          placeholder="Write a tweet"
-          rows={"2"}
-          required
-          {...register("content", {
-            required: true,
-            validate: {
-              tweetContent: (value) =>
-                value.trim().length > 0 || "Content is required",
-              tweetLength: (value) =>
-                (value.trim().length > 9 && value.trim().length < 501) ||
-                "Minimum 10 and maximum 500 characters allowed",
-            },
-          })}
-        />
+        <span className="hidden md:inline-block pl-2 font-bold text-gray-100">
+          CREATE TWEET
+        </span>
 
-        {/* Tweet image input */}
-        <Input
-          label="Tweet Image"
-          type="file"
-          placeholder="Upload your tweet image"
-          className="px-2 rounded-lg"
-          className2="pt-5"
-          {...register("tweetImage", {
-            required: false,
-            validate: (file) => {
-              if (!file[0]) return true;
-
-              const allowedExtensions = [
-                "image/jpeg",
-                "image/jpg",
-                "image/png",
-              ];
-              const fileType = file[0].type;
-              return allowedExtensions.includes(fileType)
-                ? true
-                : "Invalid file type! Only .jpeg .jpg .png files are accepted";
-            },
-          })}
-        />
-
-        {errors.tweetImage && (
-          <p className="text-red-600 px-2 mt-1">{errors.tweetImage.message}</p>
-        )}
-
-        <div className="flex items-center justify-between gap-x-3 px-3">
-          <div className="flex-grow">
-            {errors.content && (
-              <p className="text-red-600 mt-0.5 text-sm">
-                {errors.content.message}
-              </p>
-            )}
-          </div>
-
-          <div className="flex items-center gap-x-3">
-            <Button
-              className="rounded-lg hover:bg-slate-800"
-              bgColor=""
-              onClick={() => reset()}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              type="submit"
-              className="font-semibold hover:bg-pink-700 rounded-lg flex items-center justify-center"
-              bgColor="bg-pink-600"
-              disabled={isUploading}
-            >
-              {isUploading ? (
-                <span className="flex items-center">
-                  {icons.smallLoading} Uploading...
-                </span>
-              ) : (
-                "Add"
-              )}
-            </Button>
-
-            <LoginPopup
-              ref={LoginPopupDialog}
-              message="Login to Tweet..."
-              route={location.pathname}
-            />
-          </div>
+        <div tabIndex="0" class="plusButton">
+          <svg
+            class="plusIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 30 30"
+          >
+            <g mask="url(#mask0_21_345)">
+              <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+            </g>
+          </svg>
         </div>
-      </form>
+      </button>
 
-      <div className="mt-6 border-b border-gray-400"></div>
+      {addTweetBox && (
+        <div className="fixed flex justify-center items-center inset-0 z-50 ">
+          <div
+            className="fixed inset-0 backdrop-blur-sm  bg-opacity-60"
+            onClick={() => setAddTweetBox(false)}
+          ></div>
+
+          <form
+            onSubmit={handleSubmit(addTweet)}
+            className="absolute max-h-max md:min-w-[600px] md:mx-auto py-5 px-4 md:px-7 bg-[#121212] rounded-[20px] border border-[#333] m-4 flex-col justify-center items-center "
+          >
+            <textarea
+              className="h-48 w-full resize-none border-none bg-transparent pt-2 outline-none scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212] mb-4"
+              placeholder="Write a tweet"
+              rows={"2"}
+              required
+              {...register("content", {
+                required: true,
+                validate: {
+                  tweetContent: (value) =>
+                    value.trim().length > 0 || "Content is required",
+                  tweetLength: (value) =>
+                    (value.trim().length > 9 && value.trim().length < 1001) ||
+                    "Minimum 10 and maximum 1000 characters allowed",
+                },
+              })}
+            />
+
+            {/* Tweet image input */}
+
+            <div className="signup-form py-5 flex justify-center items-center">
+              <div className="avatar">
+                <span className="avatar-title">Upload image</span>
+
+                <p className="avatar-paragraph">
+                  File should be an image (JPEG, JPG, or PNG format).
+                </p>
+
+                <label htmlFor="#tweet-img" className="avatar-drop-container">
+                  <input
+                    id="tweet-img"
+                    type="file"
+                    placeholder="Upload image"
+                    {...register("tweetImage", {
+                      required: false,
+                      validate: (file) => {
+                        if (!file[0]) return true;
+
+                        const allowedExtensions = [
+                          "image/jpeg",
+                          "image/jpg",
+                          "image/png",
+                        ];
+                        const fileType = file[0].type;
+                        return allowedExtensions.includes(fileType)
+                          ? true
+                          : "Invalid file type! Only .jpeg .jpg .png files are accepted";
+                      },
+                    })}
+                  />
+                </label>
+
+                {errors.tweetImage && (
+                  <p className="text-red-600 px-2 mt-1">
+                    {errors.tweetImage.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* error-msg, add, cancel buttons */}
+
+            <div className="w-full flex-col items-center justify-center px-3">
+              <div className="flex justify-center items-center">
+                {errors.content && (
+                  <p className="text-red-600 mt-0.5 text-sm mb-6 text-center ">
+                    {errors.content.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="w-full flex justify-center items-start gap-x-5 ">
+                <button
+                  type="submit"
+                  className="w-[150px] border-none outline-none px-6 py-2 border rounded-[10px] bg-[#00bfff] hover:bg-[#00bfff96] active:bg-[#00bfff63] select-none hover:transition duration-1000 ease-out"
+                  bgColor="bg-pink-600"
+                  disabled={isUploading}
+                >
+                  {isUploading ? (
+                    <span className="flex items-center">
+                      {icons.smallLoading} Uploading...
+                    </span>
+                  ) : (
+                    "Post"
+                  )}
+                </button>
+
+                <button
+                  className="w-[150px] border-none outline-none px-4 py-2 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 border rounded-[10px] select-none hover:transition duration-1000 ease-out"
+                  bgColor=""
+                  onClick={() => setAddTweetBox(false)}
+                >
+                  Cancel
+                </button>
+
+                <LoginPopup
+                  ref={LoginPopupDialog}
+                  message="Login to Tweet..."
+                  route={location.pathname}
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
 
       {tweets?.length > 0 ? (
         <InfiniteScroll
@@ -233,7 +278,7 @@ function Tweets() {
           guest={false}
         />
       )}
-    </>
+    </div>
   );
 }
 
