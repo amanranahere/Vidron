@@ -57,7 +57,7 @@ function LikedTweets() {
           }
           scrollableTarget="scrollableDiv"
         >
-          <ul className="py-4 px-4">
+          <ul className="mb-40 my-4 md:p-2">
             {likedTweets.map((tweet, index) => (
               <Tweet key={tweet._id || index} tweet={tweet} page={true} />
             ))}

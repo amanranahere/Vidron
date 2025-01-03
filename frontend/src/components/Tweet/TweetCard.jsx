@@ -4,12 +4,10 @@ import { toast } from "react-toastify";
 import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../../utils/axios.helper.js";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
-import Button from "../Button.jsx";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import getUserTweets from "../../hooks/getUserTweets.js";
 import { removeUserTweets } from "../../store/userSlice.js";
 import { useForm } from "react-hook-form";
-import { BiLike, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   deleteTweet,
@@ -125,123 +123,146 @@ function Tweet({ tweet, page = false }) {
   }, []);
 
   return (
-    <li className="flex relative border-b border-gray-700 py-4 last:border-b-transparent">
-      <div className="h-14 w-14 shrink-0">
-        <Link
-          to={`${
-            userData?._id === tweet?.owner?._id
-              ? ""
-              : "/channel/" + tweet?.owner?.username
-          }`}
-        >
-          <img
-            src={tweet?.owner?.avatar}
-            alt="user"
-            className="h-full w-full rounded-full object-cover"
-          />
-        </Link>
-      </div>
+    <div className="lg:max-w-[800px] w-full ">
+      <li className="flex-col relative bg-[#121212] rounded-[20px] border border-[#333] py-4 px-2 md:px-4 mb-2 mx-4">
+        {/* avatar, fullname, created-at and three-dot button */}
+        <div className="flex items-center">
+          {/* avatar */}
 
-      <div className="px-3 justify-start flex-grow">
-        <div className="flex">
-          <p className="font-semibold">{tweet?.owner?.fullname}</p>
-          <p className="ml-2 text-gray-300">
-            · {getTimeDistanceToNow(tweet?.createdAt)}
-          </p>
-        </div>
-
-        {update ? (
-          <form
-            className="mt-1 flex items-center"
-            onSubmit={handleSubmit(handleTweetUpdate)}
-          >
-            <input
-              {...register("newContent", {
-                required: true,
-              })}
-              className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
-            />
-
-            <Button
-              type="submit"
-              className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-pink-700"
-              bgColor="bg-pink-600"
+          <div className="shrink-0 max-h-max">
+            <Link
+              to={`${
+                userData?._id === tweet?.owner?._id
+                  ? ""
+                  : "/channel/" + tweet?.owner?.username
+              }`}
             >
-              Update
-            </Button>
-
-            <Button
-              onClick={cancelEditing}
-              className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-zinc-800"
-              bgColor=""
-            >
-              Cancel
-            </Button>
-          </form>
-        ) : (
-          <div>
-            {tweet?.tweetImage && (
-              <div className="h-36 w-36">
-                <img
-                  src={tweet?.tweetImage}
-                  alt="tweetImage"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            )}
-
-            <div className="mt-1 break-words break-all">{tweet?.content}</div>
+              <img
+                src={tweet?.owner?.avatar}
+                alt="user"
+                className="rounded-full object-cover w-10 h-10 md:w-14 md:h-14"
+              />
+            </Link>
           </div>
-        )}
 
-        <LoginPopup
-          ref={LoginLikePopupDialog}
-          message="Login to like this Tweet..."
-          route={location.pathname}
-        />
+          {/* fullname and created-at */}
+          <div className="px-3 md:pr-14 justify-start flex-grow">
+            <div className="flex">
+              <p className=" font-semibold mr-2">{tweet?.owner?.fullname}</p>
+              <p>·</p>
+              <p className="ml-2 text-gray-300">
+                {getTimeDistanceToNow(tweet?.createdAt)}
+              </p>
+            </div>
+          </div>
 
-        <button
-          onClick={() => toggleTweetLike()}
-          className={`mt-1 flex items-center text-sm`}
-        >
-          {tweet?.isLiked ? (
-            <BiSolidLike className="w-5 h-5" />
-          ) : (
-            <BiLike className="w-5 h-5" />
-          )}
-          <p className="ml-1">{likesCount}</p>
-        </button>
-      </div>
-
-      {tweet?.owner?._id === userData?._id && (
-        <div ref={ref} className="relative">
-          <button
-            onClick={() => setMenu((prev) => !prev)}
-            className="p-2 hover:bg-slate-800 hover:rounded-full"
-          >
-            <BsThreeDotsVertical />
-          </button>
-
-          {menu && (
-            <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
+          {/* three-dot button */}
+          {tweet?.owner?._id === userData?._id && (
+            <div ref={ref} className="relative">
               <button
-                onClick={() => handleUpdate()}
-                className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
+                onClick={() => setMenu((prev) => !prev)}
+                className="p-2 hover:bg-slate-800 hover:rounded-full"
               >
-                Update
+                <BsThreeDotsVertical />
               </button>
 
-              <button
-                onClick={() => handleDelete()}
-                className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
-              >
-                Delete
-              </button>
+              {menu && (
+                <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
+                  <button
+                    onClick={() => handleUpdate()}
+                    className="block w-full text-left px-4 py-2 hover:bg-[#2a2a2a] hover:rounded-lg"
+                  >
+                    Update
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete()}
+                    className="block w-full text-left px-4 py-2 hover:bg-[#2a2a2a] hover:rounded-lg"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
-      )}
-    </li>
+
+        {/* tweet content and image */}
+
+        <div className="my-3 mx-2">
+          {update ? (
+            <form
+              className="mt-1 flex items-center"
+              onSubmit={handleSubmit(handleTweetUpdate)}
+            >
+              <input
+                {...register("newContent", {
+                  required: true,
+                })}
+                className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
+              />
+
+              <div className="flex-col ">
+                <button
+                  type="submit"
+                  className="w-full mb-2 border-none outline-none px-2 py-1 border rounded-[10px] bg-[#00bfff] hover:bg-[#00bfff96] active:bg-[#00bfff63] select-none hover:transition duration-500 ease-linear-out"
+                >
+                  Update
+                </button>
+
+                <button
+                  onClick={cancelEditing}
+                  className="w-full border-none outline-none px-2 py-1 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 border rounded-[10px] select-none hover:transition duration-500 ease-linear"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div>
+              <div className="mt-2 break-words ">{tweet?.content}</div>
+
+              {tweet?.tweetImage && (
+                <div className="max-h-max lg:max-w-[600px] my-4">
+                  <img
+                    src={tweet?.tweetImage}
+                    alt="tweetImage"
+                    className="h-full w-full object-cover rounded-2xl"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          <LoginPopup
+            ref={LoginLikePopupDialog}
+            message="Login to like this Tweet..."
+            route={location.pathname}
+          />
+        </div>
+
+        {/* like button */}
+
+        <div className="like-container" onClick={() => toggleTweetLike()}>
+          <input type="checkbox" className="on" id={`heart-${tweet._id}`} />
+          <label htmlFor={`heart-${tweet._id}`} className="like-button">
+            <div className="like">
+              <svg
+                className="like-icon"
+                fillRule="nonzero"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"></path>
+              </svg>
+              <span className="like-text">Like</span>
+            </div>
+            <div className="like-count one">{likesCount}</div>
+            <div className="like-count two">{likesCount}</div>
+          </label>
+        </div>
+      </li>
+    </div>
   );
 }
 

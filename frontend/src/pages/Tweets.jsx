@@ -12,7 +12,6 @@ import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import LoginPopup from "../components/Auth/LoginPopup.jsx";
 import { TiMessages } from "react-icons/ti";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Input from "../components/Input.jsx";
 
 function Tweets() {
   const dispatch = useDispatch();
@@ -112,7 +111,7 @@ function Tweets() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col">
       <button
         onClick={() => setAddTweetBox(!addTweetBox)}
         className="group absolute bottom-20 right-4 lg:bottom-6 lg:right-10 p-2  flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-full z-20 hover:transition duration-1000"
@@ -121,9 +120,9 @@ function Tweets() {
           CREATE TWEET
         </span>
 
-        <div tabIndex="0" class="plusButton">
+        <div tabIndex="0" className="plusButton">
           <svg
-            class="plusIcon"
+            className="plusIcon"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 30 30"
           >
@@ -204,7 +203,7 @@ function Tweets() {
               </div>
             </div>
 
-            {/* error-msg, add, cancel buttons */}
+            {/* error-msg, add and cancel buttons */}
 
             <div className="w-full flex-col items-center justify-center px-3">
               <div className="flex justify-center items-center">
@@ -219,7 +218,6 @@ function Tweets() {
                 <button
                   type="submit"
                   className="w-[150px] border-none outline-none px-6 py-2 border rounded-[10px] bg-[#00bfff] hover:bg-[#00bfff96] active:bg-[#00bfff63] select-none hover:transition duration-1000 ease-out"
-                  bgColor="bg-pink-600"
                   disabled={isUploading}
                 >
                   {isUploading ? (
@@ -233,8 +231,10 @@ function Tweets() {
 
                 <button
                   className="w-[150px] border-none outline-none px-4 py-2 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 border rounded-[10px] select-none hover:transition duration-1000 ease-out"
-                  bgColor=""
-                  onClick={() => setAddTweetBox(false)}
+                  onClick={() => {
+                    reset();
+                    setAddTweetBox(false);
+                  }}
                 >
                   Cancel
                 </button>
@@ -250,6 +250,8 @@ function Tweets() {
         </div>
       )}
 
+      {/* all tweets */}
+
       {tweets?.length > 0 ? (
         <InfiniteScroll
           dataLength={tweets.length}
@@ -260,7 +262,7 @@ function Tweets() {
           }
           scrollableTarget="scrollableDiv"
         >
-          <ul className="py-4 px-4">
+          <ul className="mb-40 my-4 md:p-2">
             {tweets.map((tweet, index) => (
               <Tweet key={tweet._id || index} tweet={tweet} page={true} />
             ))}

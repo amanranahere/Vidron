@@ -9,7 +9,13 @@ import {
   BiFilm,
 } from "react-icons/bi";
 import { RiSettings4Line, RiSettings4Fill } from "react-icons/ri";
-import { IoHelpCircleOutline, IoHelpCircle, IoClose } from "react-icons/io5";
+import {
+  IoHelpCircleOutline,
+  IoHelpCircle,
+  IoClose,
+  IoHeartOutline,
+  IoHeartSharp,
+} from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
 import { FaRegUserCircle } from "react-icons/fa";
 import {
@@ -90,8 +96,8 @@ function Sidebar({ onClose }) {
     {
       name: "Liked Tweets",
       route: "/liked-tweets",
-      icon: <AiOutlineLike className="w-6 h-6" />,
-      activeIcon: <AiFillLike className="w-6 h-6" />,
+      icon: <IoHeartOutline className="w-6 h-6" />,
+      activeIcon: <IoHeartSharp className="w-6 h-6" />,
     },
     {
       name: "Settings",
@@ -390,8 +396,8 @@ function Sidebar({ onClose }) {
 
       {/* menu dialog box */}
       {isDialogOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative w-5/6 md:w-2/3 max-w-[600px] h-auto  bg-[#1a1a1a] rounded-3xl border border-[#333] backdrop:backdrop-blur-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black">
+          <div className="relative w-5/6 md:w-2/3 max-w-[600px] h-auto bg-[#1a1a1a] rounded-3xl border border-[#333] backdrop:backdrop-blur-sm">
             <h1 className="text-2xl md:text-3xl text-[#00bfff] py-5 text-center">
               Menu
             </h1>
