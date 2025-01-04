@@ -72,44 +72,55 @@ function Snap() {
       {loading ? (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       ) : (
-        <div className="flex">
-          <div className="w-[70%] p-4">
-            <div>
-              <SnapPlayer key={snap._id} snapFile={snap.snapFile} />
-            </div>
+        <div className="flex justify-center h-[calc(100vh-56px)]">
+          {/* snap */}
+          <div className=" flex justify-center items-center">
+            <SnapPlayer key={snap._id} snapFile={snap.snapFile} />
+          </div>
 
-            <div>
+          <div className="h-[calc(100vh-70px)] flex-col m-[10px] min-w-96 w-2/5 ">
+            <div className="">
               <SnapInfo snap={snap} />
             </div>
 
-            <div>
+            {/* comments */}
+            <div className="mt-[10px]">
               <Comments snap={snap} />
             </div>
           </div>
-
-          <div className="w-[30%]">
-            {snaps
-              ?.filter((snap) => snap?._id !== snapId)
-              .map((snap) => (
-                <SnapListCard
-                  key={snap?._id}
-                  snap={snap}
-                  imgWidth="w-[13vw]"
-                  imgHeight="h-[8vw]"
-                  titleWidth="w-[95%]"
-                  titleSize="text-[0.95rem]"
-                  titleFont=""
-                  showSnapDescription={false}
-                  paddingY="py-1"
-                  marginLeft="ml-2"
-                  marginLeft2="ml-2"
-                  avatarHeight="h-7"
-                  avatarWidth="w-7"
-                  textFont="text-[0.9rem]"
-                />
-              ))}
-          </div>
         </div>
+
+        // <div className="flex">
+        //   <div className="w-[70%] p-4">
+
+        //     {/* <div>
+        //       <Comments snap={snap} />
+        //     </div> */}
+        //   </div>
+
+        //   {/* <div className="w-[30%]">
+        //     {snaps
+        //       ?.filter((snap) => snap?._id !== snapId)
+        //       .map((snap) => (
+        //         <SnapListCard
+        //           key={snap?._id}
+        //           snap={snap}
+        //           imgWidth="w-[13vw]"
+        //           imgHeight="h-[8vw]"
+        //           titleWidth="w-[95%]"
+        //           titleSize="text-[0.95rem]"
+        //           titleFont=""
+        //           showSnapDescription={false}
+        //           paddingY="py-1"
+        //           marginLeft="ml-2"
+        //           marginLeft2="ml-2"
+        //           avatarHeight="h-7"
+        //           avatarWidth="w-7"
+        //           textFont="text-[0.9rem]"
+        //         />
+        //       ))}
+        //   </div> */}
+        // </div>
       )}
     </div>
   );

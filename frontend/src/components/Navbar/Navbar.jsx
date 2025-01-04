@@ -16,8 +16,8 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="flex justify-between items-center bg-black p-2">
-      <div className="flex justify-center items-center gap-4">
+    <nav className="flex justify-between items-center bg-black">
+      <div className="flex justify-center items-center">
         {isWatchPage && (
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -55,9 +55,11 @@ function Navbar() {
           </div>
         )}
 
-        <Link to="/">
-          <Logo />
-        </Link>
+        <div className="ml-2 mt-2">
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
       </div>
 
       <Search />

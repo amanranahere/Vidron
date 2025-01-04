@@ -678,7 +678,7 @@
   display: flex;
   height: 36px;
   width: 100px;
-  border-radius: 10px;
+  border-radius: 50px;
   border: none;
   background-color: #1d1d1d;
   overflow: hidden;
@@ -694,6 +694,12 @@
 
 .like-icon {
   fill: #505050;
+  height: 20px;
+  width: 20px;
+}
+
+.thumbs-up {
+  fill: #1d1d1d;
   height: 20px;
   width: 20px;
 }
@@ -726,6 +732,12 @@
 
 .on:checked + .like-button .like .like-icon {
   fill: #fc4e4e;
+  animation: enlarge 0.2s ease-out 1;
+  transition: all 0.2s ease-out;
+}
+
+.on:checked + .like-button .like .thumbs-up {
+  fill: #d3d3d3;
   animation: enlarge 0.2s ease-out 1;
   transition: all 0.2s ease-out;
 }
