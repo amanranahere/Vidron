@@ -9,13 +9,13 @@ import { setSnap } from "../../store/snapSlice.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
+import Comments from "../SnapsComments.jsx";
 
 function SnapInfo({ snap }) {
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
   const authStatus = useSelector((state) => state.auth.status);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [menu, setMenu] = useState(false);
-  const LoginLikePopupDialog = useRef();
   const LoginSubsPopupDialog = useRef();
   const ref = useRef(null);
   const location = useLocation();
@@ -23,30 +23,6 @@ function SnapInfo({ snap }) {
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
-  };
-
-  const toggleSnapLike = async () => {
-    if (!authStatus) {
-      LoginLikePopupDialog.current.open();
-    } else {
-      try {
-        const response = await axiosInstance.post(
-          `/likes/toggle/snap/${snap._id}`
-        );
-        if (response.data.success) {
-          dispatch(
-            setSnap({
-              ...snap,
-              isLiked: response.data.data.isLiked,
-              likesCount: response.data.data.likesCount,
-            })
-          );
-        }
-      } catch (error) {
-        toast.error("Error while toggling like button");
-        console.log(error);
-      }
-    }
   };
 
   const toggleSubscribe = async () => {
@@ -98,78 +74,16 @@ function SnapInfo({ snap }) {
 
   return (
     <>
-      <div className="bg-[#121212] rounded-[20px] border border-[#333] p-4">
-        {/* title and like button */}
-        <div className="flex justify-between">
-          {/* title */}
-          <div className="w-[80%]">
+      <div className="z-20 relative bg-[#121212] rounded-[20px] border border-[#333] h-full">
+        {/* title */}
+        <div className="flex justify-between py-4 px-4">
+          <div className="w-full">
             <h1 className="text-[1.3rem] font-semibold">{snap?.title}</h1>
-          </div>
-
-          {/* like button */}
-          <div>
-            <LoginPopup
-              ref={LoginLikePopupDialog}
-              message="Login to Like this Snap..."
-              route={location.pathname}
-            />
-
-            <div className="like-container" onClick={() => toggleSnapLike()}>
-              <input
-                type="checkbox"
-                className="on"
-                id={`thumbs-up-${snap._id}`}
-              />
-              <label htmlFor={`thumbs-up-${snap._id}`} className="like-button">
-                <div className="like">
-                  <svg
-                    className="thumbs-up scale-110"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M3 10C3 9.44772 3.44772 9 4 9H7V21H4C3.44772 21 3 20.5523 3 20V10Z"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                      <path
-                        d="M7 11V19L8.9923 20.3282C9.64937 20.7662 10.4214 21 11.2111 21H16.4586C17.9251 21 19.1767 19.9398 19.4178 18.4932L20.6119 11.3288C20.815 10.1097 19.875 9 18.6391 9H14"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                      <path
-                        d="M14 9L14.6872 5.56415C14.8659 4.67057 14.3512 3.78375 13.4867 3.49558V3.49558C12.6336 3.21122 11.7013 3.59741 11.2992 4.4017L8 11H7"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                  <span className="like-text">Like</span>
-                </div>
-                <div className="like-count one">{snap?.likesCount}</div>
-                <div className="like-count two">{snap?.likesCount}</div>
-              </label>
-            </div>
           </div>
         </div>
 
         {/* avatar, channel name and subscriber count */}
-        <div className="flex justify-between mt-1">
+        <div className="flex justify-between mt-1 px-4">
           <div className="flex items-center">
             <div className="flex items-center">
               <Link to={`/channel/${snap?.owner?.username}`}>
@@ -229,7 +143,7 @@ function SnapInfo({ snap }) {
 
         {/* description and views */}
         <div
-          className={`mt-4 mb-2 p-3 bg-[#2a2a2a] rounded-[20px] overflow-hidden flex-col justify-between transition duration-400 ${
+          className={`absolute z-20 mt-4 mb-2 p-3 mx-4 bg-[#2a2a2a] rounded-[20px] overflow-hidden flex-col justify-between transition duration-400 ${
             showFullDescription
               ? "cursor-default"
               : "cursor-pointer hover:bg-[#3a3a3a]"
@@ -254,6 +168,11 @@ function SnapInfo({ snap }) {
               show less
             </button>
           )}
+        </div>
+
+        {/* comments */}
+        <div className="mt-[10px]">
+          <Comments snap={snap} />
         </div>
       </div>
     </>

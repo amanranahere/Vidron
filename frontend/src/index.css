@@ -761,3 +761,156 @@
 }
 
 /* like button - end */
+
+/* hamburger icon  - start */
+
+.hamburger {
+  cursor: pointer;
+  background-color: rgb(26, 26, 26, 0.5);
+  border-radius: 50%;
+  padding: 0.4em;
+}
+
+.hamburger:hover {
+  background-color: #fff;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  height: 2.5em;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger:hover .line {
+  stroke: black;
+}
+
+.line {
+  fill: none;
+  stroke: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
+/* hamburger icon  - end */
+
+/* slide-left - start */
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slide-left {
+  animation: slideInFromRight 0.5s ease-out forwards;
+}
+
+/* slide-left - end */
+
+/* slide-left - start */
+
+@keyframes slideInFromleft {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slide-right {
+  animation: slideInFromleft 0.5s ease-out forwards;
+}
+
+/* slide-left - end */
+
+/* slide-up - start */
+
+@keyframes slideInFrombottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideInFrombottom 0.5s ease-out forwards;
+}
+
+/* slide-up - end */
+
+/* slide-down - start */
+
+@keyframes slideInFromtop {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.slide-down {
+  animation: slideInFrombottom 0.5s ease-out forwards;
+}
+
+/* slide-up - end */
+
+/* fade-in animation - start */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+/* fade-in animation - end */
+
+/* fade-out animation - start */
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
+
+/* fade-out animation - end */

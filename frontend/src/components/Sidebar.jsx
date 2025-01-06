@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import {
@@ -37,8 +37,7 @@ import { toast } from "react-toastify";
 function Sidebar({ onClose }) {
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
-  // const location = useLocation();
-  // const isWatchPage = location.pathname.includes("/video-watchpage");
+  const isSnapWatchPage = location.pathname.includes("/snap-watchpage");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -361,7 +360,11 @@ function Sidebar({ onClose }) {
 
       {/* bottom bar - for smaller screens */}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-black text-white flex justify-around items-center py-2 lg:hidden z-40">
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-black text-white flex justify-around items-center py-2 lg:hidden z-40 ${
+          isSnapWatchPage ? "hidden md:flex" : ""
+        }`}
+      >
         {NavElements.filter(
           (item) =>
             ["Home", "Snaps", "Tweets"].includes(item.name) &&

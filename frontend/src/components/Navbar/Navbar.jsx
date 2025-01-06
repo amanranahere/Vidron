@@ -12,11 +12,17 @@ function Navbar() {
   const userData = useSelector((state) => state.auth.userData);
   const location = useLocation();
   const isWatchPage = location.pathname.includes("/video-watchpage");
+  const isSnapWatchPage = location.pathname.includes("/snap-watchpage");
+
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <nav className="flex justify-between items-center bg-black">
+    <nav
+      className={`${
+        isSnapWatchPage ? "hidden md:flex" : ""
+      } flex justify-between items-center`}
+    >
       <div className="flex justify-center items-center">
         {isWatchPage && (
           <button

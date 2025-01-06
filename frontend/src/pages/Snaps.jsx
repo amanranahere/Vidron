@@ -19,6 +19,11 @@ function Snap() {
   const [snaps, setSnaps] = useState([]);
   const { snap } = useSelector((state) => state.snap);
   const authStatus = useSelector((state) => state.auth.status);
+  const [showSnapInfo, setShowSnapInfo] = useState(false);
+
+  const toggleSnapInfo = () => {
+    setShowSnapInfo((prev) => !prev);
+  };
 
   const fetchSnap = async (data) => {
     setError("");
@@ -72,22 +77,58 @@ function Snap() {
       {loading ? (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       ) : (
-        <div className="flex justify-center h-[calc(100vh-56px)]">
-          {/* snap */}
-          <div className=" flex justify-center items-center">
-            <SnapPlayer key={snap._id} snapFile={snap.snapFile} />
-          </div>
+        <div className="flex justify-center h-[calc(100vh-56px)] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-56px)]">
+          {/* snap video */}
+          <>
+            {/* sm and md screen size */}
+            {window.innerWidth < 1024 && (
+              <div className="flex justify-center items-center">
+                <SnapPlayer
+                  key={snap._id}
+                  snapFile={snap.snapFile}
+                  snap={snap}
+                  onToggle={toggleSnapInfo}
+                  showSnapInfo={showSnapInfo}
+                />
+              </div>
+            )}
 
-          <div className="h-[calc(100vh-70px)] flex-col m-[10px] min-w-96 w-2/5 ">
-            <div className="">
-              <SnapInfo snap={snap} />
-            </div>
+            {/* lg screen size */}
+            {window.innerWidth >= 1024 && (
+              <div
+                className={`flex justify-center items-center ${
+                  showSnapInfo ? "slide-left" : ""
+                }`}
+              >
+                <SnapPlayer
+                  key={snap._id}
+                  snapFile={snap.snapFile}
+                  snap={snap}
+                  onToggle={toggleSnapInfo}
+                  showSnapInfo={showSnapInfo}
+                />
+              </div>
+            )}
+          </>
 
-            {/* comments */}
-            <div className="mt-[10px]">
-              <Comments snap={snap} />
-            </div>
-          </div>
+          {/* snap info */}
+          {showSnapInfo && (
+            <>
+              {/* sm and md screen sizes */}
+              {window.innerWidth < 1024 && (
+                <div className="min-w-96 w-full fixed top-40 md:top-52 px-2 md:px-4 flex-col lg:static lg:w-2/5 slide-up">
+                  <SnapInfo snap={snap} />
+                </div>
+              )}
+
+              {/* lg screen size */}
+              {window.innerWidth >= 1024 && (
+                <div className="min-w-96 w-full fixed top-40 md:top-52 px-4 flex-col lg:static lg:w-2/5 fade-in">
+                  <SnapInfo snap={snap} />
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         // <div className="flex">
