@@ -1,42 +1,46 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../utils/axios.helper.js";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { setSnap } from "../store/snapSlice.js";
 import SnapPlayer from "../components/Snap/SnapPlayer.jsx";
-import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import SnapInfo from "../components/Snap/SnapInfo.jsx";
-import Comments from "../components/SnapsComments.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
-import { IoPlayCircleOutline } from "react-icons/io5";
+import { IoPlayCircleOutline, IoArrowUp, IoArrowDown } from "react-icons/io5";
 import { icons } from "../components/Icons.jsx";
 
-function Snap() {
+function Snap({
+  snapId,
+  handleUpButtonClick,
+  handleDownButtonClick,
+  disableUp,
+  disableDown,
+}) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const { snapId } = useParams();
-  const [snaps, setSnaps] = useState([]);
-  const { snap } = useSelector((state) => state.snap);
-  const authStatus = useSelector((state) => state.auth.status);
+  // const [snaps, setSnaps] = useState([]);
+  // const authStatus = useSelector((state) => state.auth.status);
   const [showSnapInfo, setShowSnapInfo] = useState(false);
+  const [snap, setSnapData] = useState(null);
 
   const toggleSnapInfo = () => {
     setShowSnapInfo((prev) => !prev);
   };
 
-  const fetchSnap = async (data) => {
+  const fetchSnap = async () => {
     setError("");
     try {
       const response = await axiosInstance.get(`/snaps/${snapId}`);
       if (response?.data?.data) {
-        dispatch(setSnap(response.data.data));
+        const snapData = response.data.data;
+        setSnapData(snapData);
+        dispatch(setSnap(snapData));
       }
     } catch (error) {
       setError(
         <GuestComponent
           title="Snap does not exist"
-          subtitle="There is no snap present for given snapId. It may have been moved or deleted."
+          subtitle="There is no snap present for the given snapId. It may have been moved or deleted."
           icon={
             <span className="w-full h-full flex items-center p-4">
               <IoPlayCircleOutline className="w-28 h-28" />
@@ -45,37 +49,26 @@ function Snap() {
           guest={false}
         />
       );
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchSnaps = async () => {
-    try {
-      const response = await axiosInstance.get(`/snaps?sortBy=views&limit=8`);
-
-      if (response?.data?.data?.snaps?.length > 0) {
-        setSnaps(response.data.data.snaps);
-      }
-    } catch (error) {
-      console.log("Error fetching snaps", error);
-    }
-  };
-
   useEffect(() => {
     fetchSnap();
-    fetchSnaps();
-  }, [snapId, authStatus]);
+  }, [snapId]);
 
   if (error) {
     return error;
   }
 
   return (
-    <div>
+    <div className="flex justify-center items-center">
       {loading ? (
-        <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+        <span className="flex justify-center items-center h-[calc(100vh-56px)] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-56px)] md:aspect-[9/16] md:rounded-[20px] md:bg-[#2a2a2a]">
+          {icons.bigLoading}
+        </span>
       ) : (
         <div className="flex justify-center h-[calc(100vh-56px)] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-56px)]">
           {/* snap video */}
@@ -128,6 +121,31 @@ function Snap() {
                 </div>
               )}
             </>
+          )}
+
+          {/* prev and next button */}
+          {!showSnapInfo && (
+            <div className="hidden lg:block">
+              <div className="absolute top-[38%] right-10 z-40 p-2">
+                <button
+                  onClick={handleUpButtonClick}
+                  disabled={disableUp}
+                  className="bg-[#2a2a2a] text-white/90 p-3 rounded-full hover:bg-[#3a3a3a] cursor-pointer active:bg-[#2a2a2a]"
+                >
+                  <IoArrowUp className="w-9 h-9" />
+                </button>
+              </div>
+
+              <div className="absolute bottom-[38%] right-10 z-40 p-2">
+                <button
+                  onClick={handleDownButtonClick}
+                  disabled={disableDown}
+                  className="bg-[#2a2a2a] text-white/90 p-3 rounded-full hover:bg-[#3a3a3a] cursor-pointer active:bg-[#2a2a2a]"
+                >
+                  <IoArrowDown className="w-9 h-9" />
+                </button>
+              </div>
+            </div>
           )}
         </div>
 

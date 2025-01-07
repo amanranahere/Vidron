@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axios.helper.js";
 import { setSnap } from "../../store/snapSlice.js";
 
-const SnapPlayer = ({ snapFile, snap, onToggle, showSnapInfo }) => {
+const SnapPlayer = ({ snapFile, snap, onToggle, showSnapInfo, autoPlay }) => {
   const authStatus = useSelector((state) => state.auth.status);
   const LoginLikePopupDialog = useRef();
   const dispatch = useDispatch();
@@ -96,9 +96,9 @@ const SnapPlayer = ({ snapFile, snap, onToggle, showSnapInfo }) => {
 
       {/* snap video */}
       <video
-        className=" md:rounded-[20px] aspect-[9/16] object-cover"
+        className="md:rounded-[20px] aspect-[9/16] object-cover"
         controls
-        autoPlay
+        autoPlay={autoPlay}
         loop
         muted // remove this after implementing volume control
       >

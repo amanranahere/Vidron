@@ -37,7 +37,7 @@ import { toast } from "react-toastify";
 function Sidebar({ onClose }) {
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
-  const isSnapWatchPage = location.pathname.includes("/snap-watchpage");
+  const isSnapWatchPage = location.pathname.includes("/snap");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axiosInstance from "../utils/axios.helper.js";
 import { useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
-import Input from "./Input.jsx";
-import Button from "./Button.jsx";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -19,7 +17,6 @@ function SnapComments({ snap }) {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { snapId } = useParams();
   const [comments, setComments] = useState([]);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [activeCommentId, setActiveCommentId] = useState(null);
@@ -35,6 +32,8 @@ function SnapComments({ snap }) {
   const LoginLikePopupDialog = useRef();
   const menuRefs = useRef([]);
   const location = useLocation();
+
+  const snapId = snap?._id;
 
   const getSnapComments = async () => {
     try {
@@ -118,6 +117,7 @@ function SnapComments({ snap }) {
   };
 
   useEffect(() => {
+    if (!snapId) return;
     if (page === 1) {
       setComments([]);
     }
