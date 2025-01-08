@@ -198,7 +198,7 @@ function SnapComments({ snap }) {
   ) : (
     <>
       <div
-        className={`bg-[#121212] mt-24 p-4 cursor-pointer py-2 pt-2 select-none transition duration-400 flex justify-center `}
+        className={`bg-[#121212] mt-24 p-4 cursor-pointer py-2 pt-2 select-none transition duration-400 flex justify-center`}
       >
         <div className="w-full text-xl font-semibold flex justify-center items-center">
           {Array.isArray(comments) && comments.length
@@ -213,7 +213,7 @@ function SnapComments({ snap }) {
       </div>
 
       <div className="h-[calc(100vh-380px)] lg:h-[calc(100vh-310px)] bg-[#121212] rounded-bl-[20px] rounded-br-[20px] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212]">
-        <div className="px-2 pt-2 pb-2 border-b-[1px] border-[#333]">
+        <div className="px-2 pt-2 pb-4">
           <form
             onSubmit={handleSubmit(handleCommentSubmit)}
             className="py-2 flex items-center gap-2 "
@@ -230,7 +230,7 @@ function SnapComments({ snap }) {
               <input
                 {...register("content", { required: true })}
                 placeholder="Add a comment"
-                className="w-full px-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-[#6a6a6a]"
+                className="w-full px-2 border-b-[1px] border-[#6a6a6a] py-1 bg-black/0 text-white outline-none duration-200 focus:border-[#ffffff]"
               />
 
               <LoginPopup
@@ -265,7 +265,7 @@ function SnapComments({ snap }) {
               {comments?.map((comment, index) => (
                 <div
                   key={comment._id}
-                  className="hover:bg-zinc-900 rounded-xl py-3 px-2"
+                  className="hover:bg-[#1a1a1a] rounded-xl py-3 px-2"
                 >
                   <div className="flex">
                     <div className="min-w-9 min-h-9">
@@ -280,7 +280,7 @@ function SnapComments({ snap }) {
                       <div className="flex text-gray-300 text-sm">
                         <p>@{comment?.owner?.username}</p>
                         <p className="ml-2">
-                          · {getTimeDistanceToNow(comment?.createdAt)}
+                          {getTimeDistanceToNow(comment?.createdAt)}
                         </p>
                       </div>
 
@@ -313,7 +313,7 @@ function SnapComments({ snap }) {
                           </button>
                         </form>
                       ) : (
-                        <div className="mt-1 break-words break-all">
+                        <div className="mt-1 break-words">
                           {comment?.content}
                         </div>
                       )}
@@ -326,7 +326,7 @@ function SnapComments({ snap }) {
 
                       <button
                         onClick={() => toggleCommentLike(comment._id)}
-                        className={`mt-1 flex items-center text-sm`}
+                        className={`mt-2 flex items-center text-sm`}
                       >
                         {comment.isLiked ? (
                           <BiSolidLike className="w-4 h-4" />
@@ -345,7 +345,7 @@ function SnapComments({ snap }) {
                       >
                         <button
                           onClick={() => toggleMenu(comment._id)}
-                          className="p-2 hover:bg-slate-800 hover:rounded-full"
+                          className="p-2 hover:bg-[#3a3a3a] hover:rounded-full"
                         >
                           <BsThreeDotsVertical />
                         </button>

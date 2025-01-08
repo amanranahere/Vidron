@@ -199,9 +199,9 @@ function VideoComments({ video }) {
 
   return (
     <>
-      <div className="border rounded-xl mt-4 ml-1">
+      <div className="mt-4 ml-2">
         <div className="px-4 mt-2 rounded-xl">
-          <p className="mt-1 text-lg">
+          <p className="mt-1 text-xl font-bold">
             {Array.isArray(comments) && comments.length
               ? `${comments.length} Comments`
               : "No Comments"}
@@ -209,34 +209,37 @@ function VideoComments({ video }) {
 
           <form
             onSubmit={handleSubmit(handleCommentSubmit)}
-            className="mt-3 mb-4 flex items-center"
+            className="py-2 my-4 flex items-center gap-2 "
           >
-            <div className="">
+            <div className="min-w-9 min-h-9">
               <img
                 src={userData?.avatar || video?.owner?.avatar}
                 alt="user"
-                className="w-9 h-9 rounded-full mr-5 object-cover"
+                className="w-9 h-9 rounded-full object-cover"
               />
             </div>
 
-            <Input
-              {...register("content", { required: true })}
-              placeholder="Add a comment"
-              className="mr-3 px-4 rounded-lg"
-            />
+            <div className="flex items-center w-full">
+              <input
+                {...register("content", { required: true })}
+                placeholder="Add a comment"
+                className="w-full px-2 border-b-[1px]
+                border-[#6a6a6a] py-1 bg-black/0 text-white outline-none duration-200 focus:border-[#ffffff]"
+              />
 
-            <LoginPopup
-              ref={LoginPopupDialog}
-              route={location.pathname}
-              message="Login to Comment..."
-            />
+              <LoginPopup
+                ref={LoginPopupDialog}
+                route={location.pathname}
+                message="Login to Comment..."
+              />
 
-            <Button
-              type="submit"
-              className="ml-4 font-semibold border rounded-lg border-gray-300 flex items-center hover:bg-zinc-800"
-            >
-              Comment
-            </Button>
+              <button
+                type="submit"
+                className="hover: p-3 cursor-pointer active:scale-90 "
+              >
+                Comment
+              </button>
+            </div>
           </form>
         </div>
 
@@ -256,20 +259,22 @@ function VideoComments({ video }) {
               {comments?.map((comment, index) => (
                 <div
                   key={comment._id}
-                  className="hover:bg-zinc-900 rounded-xl py-3 px-4"
+                  className="hover:bg-[#1a1a1a] rounded-xl py-3 px-4"
                 >
                   <div className="flex">
-                    <img
-                      src={`${comment?.owner?.avatar}`}
-                      alt=""
-                      className="w-9 h-9 rounded-full object-cover"
-                    />
+                    <div className="min-w-9 min-h-9">
+                      <img
+                        src={`${comment?.owner?.avatar}`}
+                        alt=""
+                        className="w-9 h-9 rounded-full object-cover"
+                      />
+                    </div>
 
                     <div className="px-3 justify-start flex-grow">
                       <div className="flex text-gray-300 text-sm">
                         <p>@{comment?.owner?.username}</p>
                         <p className="ml-2">
-                          · {getTimeDistanceToNow(comment?.createdAt)}
+                          {getTimeDistanceToNow(comment?.createdAt)}
                         </p>
                       </div>
 
@@ -286,25 +291,23 @@ function VideoComments({ video }) {
                             })}
                             className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
                           />
-                          {/* check out this button */}
-                          <Button
+
+                          <button
                             type="submit"
-                            className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-pink-700"
-                            bgColor="bg-pink-600"
+                            className="ml-4 py-2 px-3 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
                           >
                             Update
-                          </Button>
+                          </button>
 
-                          <Button
+                          <button
                             onClick={cancelEditing}
-                            className="ml-4 font-semibold text-sm border rounded-lg border-gray-300 flex items-center hover:bg-zinc-800"
-                            bgColor=""
+                            className="ml-2 py-2 px-4 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
                           >
                             Cancel
-                          </Button>
+                          </button>
                         </form>
                       ) : (
-                        <div className="mt-1 break-words break-all">
+                        <div className="mt-1 break-words">
                           {comment?.content}
                         </div>
                       )}
@@ -317,7 +320,7 @@ function VideoComments({ video }) {
 
                       <button
                         onClick={() => toggleCommentLike(comment._id)}
-                        className={`mt-1 flex items-center text-sm`}
+                        className={`mt-2 flex items-center text-sm`}
                       >
                         {comment.isLiked ? (
                           <BiSolidLike className="w-4 h-4" />
@@ -328,6 +331,7 @@ function VideoComments({ video }) {
                         <p className="ml-1">{comment?.likesCount}</p>
                       </button>
                     </div>
+
                     {comment?.owner?._id === userData?._id && (
                       <div
                         ref={(el) => (menuRefs.current[index] = el)}
@@ -335,7 +339,7 @@ function VideoComments({ video }) {
                       >
                         <button
                           onClick={() => toggleMenu(comment._id)}
-                          className="p-2 hover:bg-slate-800 hover:rounded-full"
+                          className="p-2 hover:bg-[#3a3a3a] hover:rounded-full"
                         >
                           <BsThreeDotsVertical />
                         </button>
@@ -344,14 +348,14 @@ function VideoComments({ video }) {
                           <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
                             <button
                               onClick={() => handleUpdate(comment)}
-                              className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
+                              className="block w-full px-4 py-2 hover:bg-[#3a3a3a] hover:rounded-lg text-center"
                             >
                               Update
                             </button>
 
                             <button
                               onClick={() => handleDelete(comment._id)}
-                              className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
+                              className="block w-full px-4 py-2 hover:bg-[#f55] hover:rounded-lg text-center"
                             >
                               Delete
                             </button>

@@ -2,6 +2,185 @@
 @tailwind components;
 @tailwind utilities;
 
+/* loader - start */
+
+.loader {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.loader div {
+  width: 8%;
+  height: 24%;
+  background: rgb(128, 128, 128);
+  position: absolute;
+  /* left: 50%;
+  top: 30%; */
+  opacity: 0;
+  border-radius: 50px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  animation: fade458 1.2s linear infinite;
+}
+
+@keyframes fade458 {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.loader .bar1 {
+  transform: rotate(0deg) translate(0, -130%);
+  animation-delay: -1.2s;
+}
+
+.loader .bar2 {
+  transform: rotate(30deg) translate(0, -130%);
+  animation-delay: -1.1s;
+}
+
+.loader .bar3 {
+  transform: rotate(60deg) translate(0, -130%);
+  animation-delay: -1s;
+}
+
+.loader .bar4 {
+  transform: rotate(90deg) translate(0, -130%);
+  animation-delay: -0.9s;
+}
+
+.loader .bar5 {
+  transform: rotate(120deg) translate(0, -130%);
+  animation-delay: -0.8s;
+}
+
+.loader .bar6 {
+  transform: rotate(150deg) translate(0, -130%);
+  animation-delay: -0.7s;
+}
+
+.loader .bar7 {
+  transform: rotate(180deg) translate(0, -130%);
+  animation-delay: -0.6s;
+}
+
+.loader .bar8 {
+  transform: rotate(210deg) translate(0, -130%);
+  animation-delay: -0.5s;
+}
+
+.loader .bar9 {
+  transform: rotate(240deg) translate(0, -130%);
+  animation-delay: -0.4s;
+}
+
+.loader .bar10 {
+  transform: rotate(270deg) translate(0, -130%);
+  animation-delay: -0.3s;
+}
+
+.loader .bar11 {
+  transform: rotate(300deg) translate(0, -130%);
+  animation-delay: -0.2s;
+}
+
+.loader .bar12 {
+  transform: rotate(330deg) translate(0, -130%);
+  animation-delay: -0.1s;
+}
+
+/* loader - end */
+
+/* words loader - start */
+
+.w-loader {
+  color: rgb(124, 124, 124);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 40px;
+  padding: 10px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 8px;
+}
+
+.words {
+  overflow: hidden;
+  position: relative;
+}
+.words::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--bg-color) 10%,
+    transparent 30%,
+    transparent 70%,
+    var(--bg-color) 90%
+  );
+  z-index: 20;
+}
+
+.word {
+  display: block;
+  height: 100%;
+  padding-left: 6px;
+  color: #00ffff; /* or use blue (#00bfff) */
+  animation: spin_4991 4s infinite;
+}
+
+@keyframes spin_4991 {
+  10% {
+    -webkit-transform: translateY(-102%);
+    transform: translateY(-102%);
+  }
+
+  25% {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+
+  35% {
+    -webkit-transform: translateY(-202%);
+    transform: translateY(-202%);
+  }
+
+  50% {
+    -webkit-transform: translateY(-200%);
+    transform: translateY(-200%);
+  }
+
+  60% {
+    -webkit-transform: translateY(-302%);
+    transform: translateY(-302%);
+  }
+
+  75% {
+    -webkit-transform: translateY(-300%);
+    transform: translateY(-300%);
+  }
+
+  85% {
+    -webkit-transform: translateY(-402%);
+    transform: translateY(-402%);
+  }
+
+  100% {
+    -webkit-transform: translateY(-400%);
+    transform: translateY(-400%);
+  }
+}
+
+/* words loader - end */
+
 /* Not found TV - start */
 
 .main_wrapper {
@@ -679,7 +858,7 @@
   height: 36px;
   width: 100px;
   border-radius: 50px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.349);
   background-color: #1d1d1d;
   overflow: hidden;
 }
@@ -720,7 +899,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #717070;
+  color: #fcfcfc;
   font-size: 13px;
   border-left: 1px solid #4e4e4e;
   transition: all 0.5s ease-out;
@@ -914,3 +1093,71 @@
 }
 
 /* fade-out animation - end */
+
+/* save button - start */
+
+.bookmarkBtn {
+  width: 100px;
+  height: 36px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.349);
+  background-color: rgb(12, 12, 12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+}
+
+.IconContainer {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(
+    to bottom,
+    rgb(255, 255, 255),
+    rgb(230, 230, 230)
+  );
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+  transition-duration: 0.3s;
+}
+
+.saveIcon {
+  border-radius: 1px;
+}
+
+.saveText {
+  height: 100%;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 1;
+  transition-duration: 0.3s;
+  font-size: 1.04em;
+}
+
+.bookmarkBtn:hover .IconContainer {
+  width: 90px;
+  transition-duration: 0.3s;
+}
+
+.bookmarkBtn:hover .saveText {
+  transform: translate(10px);
+  width: 0;
+  font-size: 0;
+  transition-duration: 0.3s;
+}
+
+.bookmarkBtn:active {
+  transform: scale(0.95);
+  transition-duration: 0.3s;
+}
+
+/* save button - end */

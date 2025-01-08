@@ -180,35 +180,37 @@ function VideoInfo({ video }) {
   const playlists = useSelector((state) => state.playlists.playlists);
 
   return (
-    <div className="border rounded-xl px-4 py-2 ml-1 mt-2 bg-opacity-5">
-      <div className="flex justify-between">
-        <div className="w-[80%]">
-          <h1 className="text-[1.3rem] font-semibold">{video?.title}</h1>
-          <p className="text-[0.9rem] text-gray-300">{`${video?.views} views • ${timeDistance}`}</p>
+    <div className="px-4 py-2 ml-1 mt-2 bg-opacity-5">
+      {/* title */}
+      <div className="flex justify-between lg:w-[80%]">
+        <h1 className="text-[1.3rem] font-bold">{video?.title}</h1>
+      </div>
+
+      {/* avatar, like button, save button and subscribe button */}
+      <div className="flex justify-between mt-2">
+        {/* avatar */}
+        <div className="flex items-center">
+          <div className="flex items-center">
+            <Link to={`/channel/${video?.owner?.username}`}>
+              <img
+                className={`w-11 h-11 mr-3 rounded-full object-cover`}
+                src={`${video?.owner?.avatar}`}
+                alt={video?.owner?.fullname}
+              />
+            </Link>
+
+            <div>
+              <p className="font-semibold ">{video?.owner?.fullname}</p>
+
+              <p className="text-gray-300  text-[0.8rem]">
+                {formatSubscriber(video?.owner?.subscriberCount)}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="py-1 flex h-11">
-          <>
-            <LoginPopup
-              ref={LoginLikePopupDialog}
-              message="Login to Like this Video..."
-              route={location.pathname}
-            />
-
-            <button
-              onClick={toggleVideoLike}
-              className={`px-3 border rounded-lg border-gray-400 flex items-center hover:bg-gray-900`}
-            >
-              <p className="mr-1">{video?.likesCount}</p>
-
-              {video.isLiked ? (
-                <BiSolidLike className="w-5 h-5" />
-              ) : (
-                <BiLike className="w-5 h-5" />
-              )}
-            </button>
-          </>
-
+        <div className="flex justify-center items-center">
+          {/* save button */}
           <>
             <PlaylistForm ref={dialog} route={location} />
 
@@ -219,7 +221,7 @@ function VideoInfo({ video }) {
             />
 
             <div ref={ref} className="relative">
-              <Button
+              <button
                 onClick={() => {
                   if (authStatus) {
                     setMenu((prev) => !prev);
@@ -227,11 +229,15 @@ function VideoInfo({ video }) {
                     LoginSavePopupDialog.current.open();
                   }
                 }}
-                className="border rounded-lg border-gray-400 ml-2 flex items-center hover:bg-gray-900"
+                class="bookmarkBtn"
               >
-                <FaSave className="mr-1" />
-                Save
-              </Button>
+                <span class="IconContainer">
+                  <svg viewBox="0 0 384 512" height="0.9em" class="saveIcon">
+                    <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path>
+                  </svg>
+                </span>
+                <p class="saveText">Save</p>
+              </button>
 
               {menu && (
                 <div className="absolute right-0 top-full z-10 w-64 overflow-hidden rounded-lg bg-zinc-900 p-4 hover:block peer-focus:block">
@@ -276,82 +282,136 @@ function VideoInfo({ video }) {
               )}
             </div>
           </>
-        </div>
-      </div>
 
-      <div className="flex justify-between mt-2">
-        <div className="flex items-center">
-          <div className="flex items-center">
-            <Link to={`/channel/${video?.owner?.username}`}>
-              <img
-                className={`w-11 h-11 mr-3 rounded-full object-cover`}
-                src={`${video?.owner?.avatar}`}
-                alt={video?.owner?.fullname}
+          {/* like button */}
+          <>
+            <LoginPopup
+              ref={LoginLikePopupDialog}
+              message="Login to Like this Video..."
+              route={location.pathname}
+            />
+
+            <div className="like-container" onClick={() => toggleVideoLike()}>
+              <input
+                type="checkbox"
+                className="on"
+                id={`thumbs-up-${video._id}`}
               />
-            </Link>
-
-            <div>
-              <p className="text-gray-100 text-[0.9rem]">
-                {video?.owner?.fullname}
-              </p>
-
-              <p className="text-gray-300  text-[0.8rem]">
-                {formatSubscriber(video?.owner?.subscriberCount)}
-              </p>
+              <label htmlFor={`thumbs-up-${video._id}`} className="like-button">
+                <div className="like">
+                  <svg
+                    className="thumbs-up scale-110"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      {" "}
+                      <path
+                        d="M3 10C3 9.44772 3.44772 9 4 9H7V21H4C3.44772 21 3 20.5523 3 20V10Z"
+                        stroke="#ffffff"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>{" "}
+                      <path
+                        d="M7 11V19L8.9923 20.3282C9.64937 20.7662 10.4214 21 11.2111 21H16.4586C17.9251 21 19.1767 19.9398 19.4178 18.4932L20.6119 11.3288C20.815 10.1097 19.875 9 18.6391 9H14"
+                        stroke="#ffffff"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>{" "}
+                      <path
+                        d="M14 9L14.6872 5.56415C14.8659 4.67057 14.3512 3.78375 13.4867 3.49558V3.49558C12.6336 3.21122 11.7013 3.59741 11.2992 4.4017L8 11H7"
+                        stroke="#ffffff"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>{" "}
+                    </g>
+                  </svg>
+                  <span className="like-text">Like</span>
+                </div>
+                <div className="like-count one">{video?.likesCount}</div>
+                <div className="like-count two">{video?.likesCount}</div>
+              </label>
             </div>
-          </div>
-        </div>
-        <>
-          <LoginPopup
-            ref={LoginSubsPopupDialog}
-            message="Login to Subscribe..."
-            route={location.pathname}
-          />
+          </>
 
-          <Button
-            onClick={toggleSubscribe}
-            className={`flex h-10 items-center px-2 rounded-full ${
-              video.owner.isSubscribed
-                ? "hover:bg-pink-700"
-                : "hover:bg-gray-300"
-            }`}
-            textColor="text-black"
-            bgColor={video?.owner?.isSubscribed ? "bg-pink-600" : "bg-gray-100"}
-          >
-            {video?.owner?.isSubscribed ? (
-              <>
-                <p className="mr-2 font-semibold">Subscribed</p>
-                <FaCheckCircle />
-              </>
-            ) : (
-              <>
-                <p className="mr-2 font-semibold">Subscribe</p>
-                <FaBell />
-              </>
-            )}
-          </Button>
-        </>
+          {/* subscribe button */}
+          <>
+            <LoginPopup
+              ref={LoginSubsPopupDialog}
+              message="Login to Subscribe..."
+              route={location.pathname}
+            />
+
+            <Button
+              onClick={toggleSubscribe}
+              className={`flex h-10 items-center px-2 rounded-full ${
+                video.owner.isSubscribed
+                  ? "hover:bg-pink-700"
+                  : "hover:bg-gray-300"
+              }`}
+              textColor="text-black"
+              bgColor={
+                video?.owner?.isSubscribed ? "bg-pink-600" : "bg-gray-100"
+              }
+            >
+              {video?.owner?.isSubscribed ? (
+                <>
+                  <p className="mr-2 font-semibold">Subscribed</p>
+                  <FaCheckCircle />
+                </>
+              ) : (
+                <>
+                  <p className="mr-2 font-semibold">Subscribe</p>
+                  <FaBell />
+                </>
+              )}
+            </Button>
+          </>
+        </div>
       </div>
 
-      <div className="mt-4 border border-b-0 border-l-0 border-r-0 py-2 px-1 overflow-hidden flex justify-between">
-        <p className={`${showFullDescription ? "" : "line-clamp-1"}`}>
+      {/* description, views and upload time */}
+      <div
+        className={` my-4 p-3 bg-[#2a2a2a] rounded-[20px] overflow-hidden flex-col justify-between transition duration-400 ${
+          showFullDescription
+            ? "cursor-default"
+            : "cursor-pointer hover:bg-[#3a3a3a]"
+        }`}
+        onClick={() => {
+          if (!showFullDescription) toggleDescription();
+        }}
+      >
+        <p className="text-[0.9rem] mb-2 font-semibold">
+          {`${video?.views} views`}
+          &nbsp;
+          {` ${timeDistance}`}
+        </p>
+
+        <p className={`${showFullDescription ? "" : "line-clamp-2"}`}>
           {video.description ? video.description : "No description"}
         </p>
 
-        <button
-          onClick={toggleDescription}
-          className="text-white ml-auto flex items-end"
-        >
-          {showFullDescription ? (
-            <>
-              <FaChevronUp className="ml-1" />
-            </>
-          ) : (
-            <>
-              <FaChevronDown className="ml-1" />
-            </>
-          )}
-        </button>
+        {showFullDescription && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleDescription();
+            }}
+            className="text-gray-500 text-sm ml-auto flex items-end hover:underline"
+          >
+            show less
+          </button>
+        )}
       </div>
     </div>
   );

@@ -109,14 +109,14 @@ function Snap({
             <>
               {/* sm and md screen sizes */}
               {window.innerWidth < 1024 && (
-                <div className="min-w-96 w-full fixed top-40 md:top-52 px-2 md:px-4 flex-col lg:static lg:w-2/5 slide-up">
+                <div className="min-w-96 w-full fixed top-40 md:top-52 px-2 md:px-4 flex-col lg:static lg:w-[45%] slide-up">
                   <SnapInfo snap={snap} />
                 </div>
               )}
 
               {/* lg screen size */}
               {window.innerWidth >= 1024 && (
-                <div className="min-w-96 w-full fixed top-40 md:top-52 px-4 flex-col lg:static lg:w-2/5 fade-in">
+                <div className="min-w-96 w-full fixed top-40 md:top-52 px-4 flex-col lg:static lg:w-[45%] fade-in">
                   <SnapInfo snap={snap} />
                 </div>
               )}

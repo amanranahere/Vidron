@@ -31,15 +31,7 @@ function App() {
     return (
       <div className="h-screen w-full  overflow-y-auto bg-[#121212] text-white">
         <div className="flex flex-col items-center justify-center mt-64">
-          <span>{icons.loading}</span>
-
-          <h1 className="text-3xl text-center mt-8 font-semibold">
-            Please wait...
-          </h1>
-
-          <h1 className="text-xl text-center mt-4">
-            Refresh the page if it takes too long
-          </h1>
+          <span>{icons.words}</span>
         </div>
       </div>
     );
