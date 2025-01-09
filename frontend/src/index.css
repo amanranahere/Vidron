@@ -1101,7 +1101,7 @@
   height: 36px;
   border-radius: 40px;
   border: 1px solid rgba(255, 255, 255, 0.349);
-  background-color: rgb(12, 12, 12);
+  background-color: #1d1d1d;
   display: flex;
   align-items: center;
   justify-content: center;

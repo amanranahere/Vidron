@@ -71,9 +71,9 @@ function Video() {
       {loading ? (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       ) : (
-        <div className="flex">
-          <div className="w-[70%] p-4">
-            <div>
+        <div className="flex max-w-full lg:pl-16">
+          <div className="lg:w-[70%]">
+            <div className="sticky top-0 z-30">
               <VideoPlayer key={video._id} videoFile={video.videoFile} />
             </div>
 
@@ -84,30 +84,29 @@ function Video() {
             <div>
               <Comments video={video} />
             </div>
+
+            {/* sm and md screen sizes */}
+            {window.innerWidth < 1024 && (
+              <div className="md:ml-2">
+                {videos
+                  ?.filter((video) => video?._id !== videoId)
+                  .map((video) => (
+                    <VideoListCard key={video?._id} video={video} />
+                  ))}
+              </div>
+            )}
           </div>
 
-          <div className="w-[30%]">
-            {videos
-              ?.filter((video) => video?._id !== videoId)
-              .map((video) => (
-                <VideoListCard
-                  key={video?._id}
-                  video={video}
-                  imgWidth="w-[13vw]"
-                  imgHeight="h-[8vw]"
-                  titleWidth="w-[95%]"
-                  titleSize="text-[0.95rem]"
-                  titleFont=""
-                  showVideoDescription={false}
-                  paddingY="py-1"
-                  marginLeft="ml-2"
-                  marginLeft2="ml-2"
-                  avatarHeight="h-7"
-                  avatarWidth="w-7"
-                  textFont="text-[0.9rem]"
-                />
-              ))}
-          </div>
+          {/* lg screen size */}
+          {window.innerWidth >= 1024 && (
+            <div className="w-[30%] mx-3">
+              {videos
+                ?.filter((video) => video?._id !== videoId)
+                .map((video) => (
+                  <VideoListCard key={video?._id} video={video} />
+                ))}
+            </div>
+          )}
         </div>
       )}
     </div>

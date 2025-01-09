@@ -13,7 +13,6 @@ function Navbar() {
   const location = useLocation();
   const isWatchPage = location.pathname.includes("/video-watchpage");
   const isSnapWatchPage = location.pathname.includes("/snap");
-
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -61,7 +60,7 @@ function Navbar() {
           </div>
         )}
 
-        <div className="ml-2 mt-2">
+        <div className="ml-2 my-2">
           <Link to="/">
             <Logo />
           </Link>

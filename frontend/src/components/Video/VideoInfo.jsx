@@ -180,15 +180,15 @@ function VideoInfo({ video }) {
   const playlists = useSelector((state) => state.playlists.playlists);
 
   return (
-    <div className="px-4 py-2 ml-1 mt-2 bg-opacity-5">
+    <div className="px-2 py-2 md:mx-1 mt-2 bg-opacity-5">
       {/* title */}
       <div className="flex justify-between lg:w-[80%]">
         <h1 className="text-[1.3rem] font-bold">{video?.title}</h1>
       </div>
 
       {/* avatar, like button, save button and subscribe button */}
-      <div className="flex justify-between mt-2">
-        {/* avatar */}
+      <div className="w-full flex flex-col my-3 md:flex-row md:items-center justify-between">
+        {/* avatar and subscribe button */}
         <div className="flex items-center">
           <div className="flex items-center">
             <Link to={`/channel/${video?.owner?.username}`}>
@@ -207,145 +207,9 @@ function VideoInfo({ video }) {
               </p>
             </div>
           </div>
-        </div>
-
-        <div className="flex justify-center items-center">
-          {/* save button */}
-          <>
-            <PlaylistForm ref={dialog} route={location} />
-
-            <LoginPopup
-              ref={LoginSavePopupDialog}
-              message="Login to add this video in playlist..."
-              route={location.pathname}
-            />
-
-            <div ref={ref} className="relative">
-              <button
-                onClick={() => {
-                  if (authStatus) {
-                    setMenu((prev) => !prev);
-                  } else {
-                    LoginSavePopupDialog.current.open();
-                  }
-                }}
-                class="bookmarkBtn"
-              >
-                <span class="IconContainer">
-                  <svg viewBox="0 0 384 512" height="0.9em" class="saveIcon">
-                    <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path>
-                  </svg>
-                </span>
-                <p class="saveText">Save</p>
-              </button>
-
-              {menu && (
-                <div className="absolute right-0 top-full z-10 w-64 overflow-hidden rounded-lg bg-zinc-900 p-4 hover:block peer-focus:block">
-                  <h3 className="mb-4 text-center text-lg font-semibold">
-                    Save to playlist
-                  </h3>
-
-                  <ul className="mb-4">
-                    {playlists?.length > 0 ? (
-                      playlists?.map((item) => (
-                        <li key={item._id} className="mb-2 last:mb-0 text-sm">
-                          <label
-                            htmlFor={"collection" + item._id}
-                            className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                          >
-                            <input
-                              type="checkbox"
-                              id={"collection" + item._id}
-                              defaultChecked={item.isVideoPresent}
-                              onChange={(e) =>
-                                handlePlaylistVideo(item._id, e.target.checked)
-                              }
-                            />
-                            {item.name}
-                          </label>
-                        </li>
-                      ))
-                    ) : (
-                      <div className="text-center">No playlist created.</div>
-                    )}
-                  </ul>
-
-                  <div className="flex items-center justify-center">
-                    <button
-                      onClick={popupPlaylistForm}
-                      className="items-center gap-x-2 bg-pink-500 hover:bg-pink-500/90 border border-transparent rounded-lg hover:border-white px-2 py-1 font-semibold text-black"
-                    >
-                      Create new Playlist
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-
-          {/* like button */}
-          <>
-            <LoginPopup
-              ref={LoginLikePopupDialog}
-              message="Login to Like this Video..."
-              route={location.pathname}
-            />
-
-            <div className="like-container" onClick={() => toggleVideoLike()}>
-              <input
-                type="checkbox"
-                className="on"
-                id={`thumbs-up-${video._id}`}
-              />
-              <label htmlFor={`thumbs-up-${video._id}`} className="like-button">
-                <div className="like">
-                  <svg
-                    className="thumbs-up scale-110"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M3 10C3 9.44772 3.44772 9 4 9H7V21H4C3.44772 21 3 20.5523 3 20V10Z"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                      <path
-                        d="M7 11V19L8.9923 20.3282C9.64937 20.7662 10.4214 21 11.2111 21H16.4586C17.9251 21 19.1767 19.9398 19.4178 18.4932L20.6119 11.3288C20.815 10.1097 19.875 9 18.6391 9H14"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                      <path
-                        d="M14 9L14.6872 5.56415C14.8659 4.67057 14.3512 3.78375 13.4867 3.49558V3.49558C12.6336 3.21122 11.7013 3.59741 11.2992 4.4017L8 11H7"
-                        stroke="#ffffff"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                  <span className="like-text">Like</span>
-                </div>
-                <div className="like-count one">{video?.likesCount}</div>
-                <div className="like-count two">{video?.likesCount}</div>
-              </label>
-            </div>
-          </>
 
           {/* subscribe button */}
-          <>
+          <div className="justify-center items-center max-w-max ml-auto md:ml-4">
             <LoginPopup
               ref={LoginSubsPopupDialog}
               message="Login to Subscribe..."
@@ -376,13 +240,162 @@ function VideoInfo({ video }) {
                 </>
               )}
             </Button>
-          </>
+          </div>
+        </div>
+
+        {/* save and like button */}
+        <div className="flex justify-start items-center mt-2 md:mt-0">
+          <div className="flex justify-start items-center">
+            {/* save button */}
+            <>
+              <PlaylistForm ref={dialog} route={location} />
+
+              <LoginPopup
+                ref={LoginSavePopupDialog}
+                message="Login to add this video in playlist..."
+                route={location.pathname}
+              />
+
+              <div ref={ref} className="relative">
+                <button
+                  onClick={() => {
+                    if (authStatus) {
+                      setMenu((prev) => !prev);
+                    } else {
+                      LoginSavePopupDialog.current.open();
+                    }
+                  }}
+                  className="bookmarkBtn"
+                >
+                  <span className="IconContainer">
+                    <svg
+                      viewBox="0 0 384 512"
+                      height="0.9em"
+                      className="saveIcon"
+                    >
+                      <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path>
+                    </svg>
+                  </span>
+                  <p className="saveText">Save</p>
+                </button>
+
+                {menu && (
+                  <div className="absolute right-0 top-full z-10 w-64 overflow-hidden rounded-lg bg-zinc-900 p-4 hover:block peer-focus:block">
+                    <h3 className="mb-4 text-center text-lg font-semibold">
+                      Save to playlist
+                    </h3>
+
+                    <ul className="mb-4">
+                      {playlists?.length > 0 ? (
+                        playlists?.map((item) => (
+                          <li key={item._id} className="mb-2 last:mb-0 text-sm">
+                            <label
+                              htmlFor={"collection" + item._id}
+                              className="group/label inline-flex cursor-pointer items-center gap-x-3"
+                            >
+                              <input
+                                type="checkbox"
+                                id={"collection" + item._id}
+                                defaultChecked={item.isVideoPresent}
+                                onChange={(e) =>
+                                  handlePlaylistVideo(
+                                    item._id,
+                                    e.target.checked
+                                  )
+                                }
+                              />
+                              {item.name}
+                            </label>
+                          </li>
+                        ))
+                      ) : (
+                        <div className="text-center">No playlist created.</div>
+                      )}
+                    </ul>
+
+                    <div className="flex items-center justify-center">
+                      <button
+                        onClick={popupPlaylistForm}
+                        className="items-center gap-x-2 bg-pink-500 hover:bg-pink-500/90 border border-transparent rounded-lg hover:border-white px-2 py-1 font-semibold text-black"
+                      >
+                        Create new Playlist
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+
+            {/* like button */}
+            <>
+              <LoginPopup
+                ref={LoginLikePopupDialog}
+                message="Login to Like this Video..."
+                route={location.pathname}
+              />
+
+              <div className="like-container" onClick={() => toggleVideoLike()}>
+                <input
+                  type="checkbox"
+                  className="on"
+                  id={`thumbs-up-${video._id}`}
+                />
+                <label
+                  htmlFor={`thumbs-up-${video._id}`}
+                  className="like-button"
+                >
+                  <div className="like">
+                    <svg
+                      className="thumbs-up scale-110"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        {" "}
+                        <path
+                          d="M3 10C3 9.44772 3.44772 9 4 9H7V21H4C3.44772 21 3 20.5523 3 20V10Z"
+                          stroke="#ffffff"
+                          strokeWidth="1"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>{" "}
+                        <path
+                          d="M7 11V19L8.9923 20.3282C9.64937 20.7662 10.4214 21 11.2111 21H16.4586C17.9251 21 19.1767 19.9398 19.4178 18.4932L20.6119 11.3288C20.815 10.1097 19.875 9 18.6391 9H14"
+                          stroke="#ffffff"
+                          strokeWidth="1"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>{" "}
+                        <path
+                          d="M14 9L14.6872 5.56415C14.8659 4.67057 14.3512 3.78375 13.4867 3.49558V3.49558C12.6336 3.21122 11.7013 3.59741 11.2992 4.4017L8 11H7"
+                          stroke="#ffffff"
+                          strokeWidth="1"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>{" "}
+                      </g>
+                    </svg>
+                    <span className="like-text">Like</span>
+                  </div>
+                  <div className="like-count one">{video?.likesCount}</div>
+                  <div className="like-count two">{video?.likesCount}</div>
+                </label>
+              </div>
+            </>
+          </div>
         </div>
       </div>
 
       {/* description, views and upload time */}
       <div
-        className={` my-4 p-3 bg-[#2a2a2a] rounded-[20px] overflow-hidden flex-col justify-between transition duration-400 ${
+        className={`my-2 md:my-2 lg:my-4 p-3 bg-[#2a2a2a] rounded-[20px] overflow-hidden flex-col justify-between transition duration-400 ${
           showFullDescription
             ? "cursor-default"
             : "cursor-pointer hover:bg-[#3a3a3a]"

@@ -7,6 +7,8 @@ import Button from "./Button.jsx";
 import { useForm } from "react-hook-form";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
+import { IoMdSend } from "react-icons/io";
 import LoginPopup from "./Auth/LoginPopup.jsx";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -23,6 +25,7 @@ function VideoComments({ video }) {
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [activeCommentId, setActiveCommentId] = useState(null);
   const [update, setUpdate] = useState(null);
+  const [openComments, setOpenComments] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const {
     register: register2,
@@ -199,177 +202,223 @@ function VideoComments({ video }) {
 
   return (
     <>
-      <div className="mt-4 ml-2">
-        <div className="px-4 mt-2 rounded-xl">
-          <p className="mt-1 text-xl font-bold">
-            {Array.isArray(comments) && comments.length
-              ? `${comments.length} Comments`
-              : "No Comments"}
-          </p>
+      {/* comments box for sm and md screen sizes */}
+      <div
+        className={`lg:hidden mb-4 mx-2 md:mb-4 md:mx-3 p-3 bg-[#2a2a2a] rounded-[20px] flex-col justify-between transition duration-400 cursor-pointer`}
+        onClick={() => setOpenComments(true)}
+      >
+        <p className="mt-1 text-xl font-bold">
+          {Array.isArray(comments) && comments.length
+            ? `${comments.length} Comments`
+            : "No Comments"}
+        </p>
 
-          <form
-            onSubmit={handleSubmit(handleCommentSubmit)}
-            className="py-2 my-4 flex items-center gap-2 "
-          >
-            <div className="min-w-9 min-h-9">
-              <img
-                src={userData?.avatar || video?.owner?.avatar}
-                alt="user"
-                className="w-9 h-9 rounded-full object-cover"
-              />
+        <div className="mt-3">
+          {comments.length > 0 ? (
+            <div className="flex gap-4">
+              <div className="min-w-9 min-h-9 flex items-center justify-center">
+                <img
+                  src={`${comments[0]?.owner?.avatar}`}
+                  alt=""
+                  className="w-9 h-9 rounded-full object-cover"
+                />
+              </div>
+
+              <p className="line-clamp-2">{comments[0]?.content}</p>
             </div>
-
-            <div className="flex items-center w-full">
-              <input
-                {...register("content", { required: true })}
-                placeholder="Add a comment"
-                className="w-full px-2 border-b-[1px]
-                border-[#6a6a6a] py-1 bg-black/0 text-white outline-none duration-200 focus:border-[#ffffff]"
-              />
-
-              <LoginPopup
-                ref={LoginPopupDialog}
-                route={location.pathname}
-                message="Login to Comment..."
-              />
-
-              <button
-                type="submit"
-                className="hover: p-3 cursor-pointer active:scale-90 "
-              >
-                Comment
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="w-full">
-          {Array.isArray(comments) && comments?.length > 0 && (
-            <InfiniteScroll
-              dataLength={comments.length}
-              next={fetchMoreData}
-              hasMore={hasMore}
-              loader={
-                <div className="flex justify-center h-7 mt-1">
-                  {icons.loading}
-                </div>
-              }
-              scrollableTarget="scrollableDiv"
-            >
-              {comments?.map((comment, index) => (
-                <div
-                  key={comment._id}
-                  className="hover:bg-[#1a1a1a] rounded-xl py-3 px-4"
-                >
-                  <div className="flex">
-                    <div className="min-w-9 min-h-9">
-                      <img
-                        src={`${comment?.owner?.avatar}`}
-                        alt=""
-                        className="w-9 h-9 rounded-full object-cover"
-                      />
-                    </div>
-
-                    <div className="px-3 justify-start flex-grow">
-                      <div className="flex text-gray-300 text-sm">
-                        <p>@{comment?.owner?.username}</p>
-                        <p className="ml-2">
-                          {getTimeDistanceToNow(comment?.createdAt)}
-                        </p>
-                      </div>
-
-                      {update === comment._id ? (
-                        <form
-                          onSubmit={handleSubmit2((data) =>
-                            handleCommentUpdate(data, comment._id)
-                          )}
-                          className="mt-1 flex items-center"
-                        >
-                          <input
-                            {...register2("newContent", {
-                              required: true,
-                            })}
-                            className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
-                          />
-
-                          <button
-                            type="submit"
-                            className="ml-4 py-2 px-3 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
-                          >
-                            Update
-                          </button>
-
-                          <button
-                            onClick={cancelEditing}
-                            className="ml-2 py-2 px-4 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
-                          >
-                            Cancel
-                          </button>
-                        </form>
-                      ) : (
-                        <div className="mt-1 break-words">
-                          {comment?.content}
-                        </div>
-                      )}
-
-                      <LoginPopup
-                        ref={LoginLikePopupDialog}
-                        route={location.pathname}
-                        message="Login to Like Comment..."
-                      />
-
-                      <button
-                        onClick={() => toggleCommentLike(comment._id)}
-                        className={`mt-2 flex items-center text-sm`}
-                      >
-                        {comment.isLiked ? (
-                          <BiSolidLike className="w-4 h-4" />
-                        ) : (
-                          <BiLike className="w-4 h-4" />
-                        )}
-
-                        <p className="ml-1">{comment?.likesCount}</p>
-                      </button>
-                    </div>
-
-                    {comment?.owner?._id === userData?._id && (
-                      <div
-                        ref={(el) => (menuRefs.current[index] = el)}
-                        className="relative"
-                      >
-                        <button
-                          onClick={() => toggleMenu(comment._id)}
-                          className="p-2 hover:bg-[#3a3a3a] hover:rounded-full"
-                        >
-                          <BsThreeDotsVertical />
-                        </button>
-
-                        {activeCommentId === comment._id && (
-                          <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
-                            <button
-                              onClick={() => handleUpdate(comment)}
-                              className="block w-full px-4 py-2 hover:bg-[#3a3a3a] hover:rounded-lg text-center"
-                            >
-                              Update
-                            </button>
-
-                            <button
-                              onClick={() => handleDelete(comment._id)}
-                              className="block w-full px-4 py-2 hover:bg-[#f55] hover:rounded-lg text-center"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </InfiniteScroll>
+          ) : (
+            <p className="text-gray-400">No comments yet</p>
           )}
         </div>
       </div>
+
+      {window.innerWidth >= 1024 || openComments ? (
+        <>
+          {/* comments */}
+          <div className="fixed w-full h-full rounded-[20px] lg:static top-0 bg-[#1a1a1a] z-30 lg:mt-4 lg:ml-2 overflow-y-auto">
+            <button
+              autoFocus
+              type="button"
+              onClick={() => setOpenComments(false)}
+              className="lg:hidden absolute right-2 top-2 h-7 w-7 focus:border-dotted z-50"
+            >
+              <IoClose className="w-7 h-7" />
+            </button>
+
+            <div className="px-4 mt-2 rounded-xl">
+              <p className="mt-1 text-xl font-bold">
+                {Array.isArray(comments) && comments.length
+                  ? `${comments.length} Comments`
+                  : "No Comments"}
+              </p>
+
+              <form
+                onSubmit={handleSubmit(handleCommentSubmit)}
+                className="py-2 my-4 flex items-center gap-2 "
+              >
+                <div className="min-w-9 min-h-9">
+                  <img
+                    src={userData?.avatar || video?.owner?.avatar}
+                    alt="user"
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                </div>
+
+                <div className="flex items-center w-full">
+                  <input
+                    {...register("content", { required: true })}
+                    placeholder="Add a comment"
+                    className="w-full px-2 border-b-[1px]
+                border-[#6a6a6a] py-1 bg-black/0 text-white outline-none duration-200 focus:border-[#ffffff]"
+                  />
+
+                  <LoginPopup
+                    ref={LoginPopupDialog}
+                    route={location.pathname}
+                    message="Login to Comment..."
+                  />
+
+                  <button
+                    type="submit"
+                    className="hover: p-3 cursor-pointer active:scale-90 "
+                  >
+                    {window.innerWidth >= 1024 ? "Comment" : <IoMdSend />}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="w-full">
+              {Array.isArray(comments) && comments?.length > 0 && (
+                <InfiniteScroll
+                  dataLength={comments.length}
+                  next={fetchMoreData}
+                  hasMore={hasMore}
+                  loader={
+                    <div className="flex justify-center h-7 mt-1">
+                      {icons.loading}
+                    </div>
+                  }
+                  scrollableTarget="scrollableDiv"
+                >
+                  {comments?.map((comment, index) => (
+                    <div
+                      key={comment._id}
+                      className="hover:bg-[#1a1a1a] rounded-xl py-3 px-4"
+                    >
+                      <div className="flex">
+                        <div className="min-w-9 min-h-9">
+                          <img
+                            src={`${comment?.owner?.avatar}`}
+                            alt=""
+                            className="w-9 h-9 rounded-full object-cover"
+                          />
+                        </div>
+
+                        <div className="px-3 justify-start flex-grow">
+                          <div className="flex text-gray-300 text-sm">
+                            <p>@{comment?.owner?.username}</p>
+                            <p className="ml-2">
+                              {getTimeDistanceToNow(comment?.createdAt)}
+                            </p>
+                          </div>
+
+                          {update === comment._id ? (
+                            <form
+                              onSubmit={handleSubmit2((data) =>
+                                handleCommentUpdate(data, comment._id)
+                              )}
+                              className="mt-1 flex items-center"
+                            >
+                              <input
+                                {...register2("newContent", {
+                                  required: true,
+                                })}
+                                className="mr-2 border-b-[1px] py-1 bg-black/0 text-white outline-none duration-200 focus:border-blue-800 w-full"
+                              />
+
+                              <button
+                                type="submit"
+                                className="ml-4 py-2 px-3 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
+                              >
+                                Update
+                              </button>
+
+                              <button
+                                onClick={cancelEditing}
+                                className="ml-2 py-2 px-4 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
+                              >
+                                Cancel
+                              </button>
+                            </form>
+                          ) : (
+                            <div className="mt-1 break-words">
+                              {comment?.content}
+                            </div>
+                          )}
+
+                          <LoginPopup
+                            ref={LoginLikePopupDialog}
+                            route={location.pathname}
+                            message="Login to Like Comment..."
+                          />
+
+                          <button
+                            onClick={() => toggleCommentLike(comment._id)}
+                            className={`mt-2 flex items-center text-sm`}
+                          >
+                            {comment.isLiked ? (
+                              <BiSolidLike className="w-4 h-4" />
+                            ) : (
+                              <BiLike className="w-4 h-4" />
+                            )}
+
+                            <p className="ml-1">{comment?.likesCount}</p>
+                          </button>
+                        </div>
+
+                        {comment?.owner?._id === userData?._id && (
+                          <div
+                            ref={(el) => (menuRefs.current[index] = el)}
+                            className="relative"
+                          >
+                            <button
+                              onClick={() => toggleMenu(comment._id)}
+                              className="p-2 hover:bg-[#3a3a3a] hover:rounded-full"
+                            >
+                              <BsThreeDotsVertical />
+                            </button>
+
+                            {activeCommentId === comment._id && (
+                              <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
+                                <button
+                                  onClick={() => handleUpdate(comment)}
+                                  className="block w-full px-4 py-2 hover:bg-[#3a3a3a] hover:rounded-lg text-center"
+                                >
+                                  Update
+                                </button>
+
+                                <button
+                                  onClick={() => handleDelete(comment._id)}
+                                  className="block w-full px-4 py-2 hover:bg-[#f55] hover:rounded-lg text-center"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </InfiniteScroll>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        " "
+      )}
     </>
   );
 }

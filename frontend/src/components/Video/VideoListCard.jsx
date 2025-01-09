@@ -5,23 +5,7 @@ import { addUserVideoHistory } from "../../store/userSlice.js";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../utils/axios.helper.js";
 
-function VideoListCard({
-  imgWidth = "w-[25vw]",
-  imgHeight = "h-[14vw]",
-  mainDivWidth = "w-full",
-  titleWidth = "w-[65%]",
-  titleFont = "font-semibold",
-  titleSize = "text-[1.2rem]",
-  showVideoDescription = true,
-  descriptionWidth = "w-[40vw]",
-  paddingY = "py-2",
-  marginLeft = "ml-10",
-  marginLeft2 = "ml-4",
-  avatarWidth = "w-9",
-  avatarHeight = "h-9",
-  textFont = "",
-  video,
-}) {
+function VideoListCard({ video }) {
   const formattedDuration = video?.duration;
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
   const navigate = useNavigate();
@@ -59,53 +43,53 @@ function VideoListCard({
   };
 
   return (
-    <div className={`${mainDivWidth}`}>
+    <div className="w-full">
       <Link to={`/video-watchpage/${video?._id}`} onClick={handleVideoClick}>
-        <div className={`${paddingY} hover:bg-zinc-900 rounded-lg`}>
-          <div className={`text-white ${marginLeft} flex`}>
-            <div className="relative flex-shrink-0">
+        <div className="pb-3 hover:bg-zinc-900 md:rounded-lg">
+          <div className="text-white flex flex-col md:flex-row">
+            <div className="relative lg:flex-shrink-0">
               <img
-                className={`${imgWidth} ${imgHeight} object-cover rounded-xl`}
+                className="w-full max-w-full h-auto md:w-[40vw] md:h-[25vw] lg:w-[13vw] lg:h-[8vw] object-cover md:rounded-xl"
                 src={video?.thumbnail}
                 alt={video?.title}
               />
 
-              <p className={`absolute bottom-1 right-3 ${textFont}`}>
-                {formattedDuration}
-              </p>
+              <p className="absolute bottom-1 right-3">{formattedDuration}</p>
             </div>
 
-            <div className={`${marginLeft2}`}>
-              <h1
-                title={video?.title}
-                className={`${titleFont} ${titleWidth} ${titleSize} line-clamp-1`}
+            <div className="flex my-4 md:my-0">
+              <div
+                onClick={handleChannelClick}
+                className="md:hidden min-w-9 min-h-9 ml-3 mt-1"
               >
-                {video?.title}
-              </h1>
-
-              <p className="mb-2 text-gray-400 text-[0.85rem]">{`${video?.views} views • ${timeDistance}`}</p>
-
-              <div onClick={handleChannelClick}>
-                <div className="flex items-center mb-2 text-[0.95rem]">
-                  <img
-                    className={`${avatarWidth} ${avatarHeight} mr-3 rounded-full object-cover`}
-                    src={`${video?.owner?.avatar}`}
-                    alt={video?.owner?.fullname}
-                  />
-
-                  <p className="text-gray-300">{video?.owner?.fullname}</p>
-                </div>
+                <img
+                  className={`w-9 h-9 rounded-full object-cover`}
+                  src={`${video?.owner?.avatar}`}
+                  alt={video?.owner?.fullName}
+                />
               </div>
 
-              {showVideoDescription && (
-                <span>
-                  <p
-                    className={`${descriptionWidth} text-gray-300 text-[0.90rem] line-clamp-2`}
+              <div className="mx-3 lg:mx-2">
+                <h1
+                  title={video?.title}
+                  className="md:text-lg lg:text-base line-clamp-2 md:line-clamp-3 lg:line-clamp-2"
+                >
+                  {`${video?.title}`}
+                </h1>
+
+                <div className="w-full flex flex-row md:flex-col">
+                  <div
+                    onClick={handleChannelClick}
+                    className="flex items-center md:text-[1rem] lg:text-[0.85rem]"
                   >
-                    {video?.description}
-                  </p>
-                </span>
-              )}
+                    <p className="text-gray-400">{video?.owner?.fullname}</p>
+                  </div>
+
+                  <div className="flex">
+                    <p className="ml-2 md:ml-0 text-gray-400 md:text-[1rem] lg:text-[0.85rem] line-clamp-1">{`${video?.views} views • ${timeDistance}`}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
