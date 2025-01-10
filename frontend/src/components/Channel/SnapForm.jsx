@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { createPortal } from "react-dom";
 import SnapUploadSuccess from "./SnapUploadSuccess.jsx";
 import UploadingSnap from "./UploadingSnap.jsx";
-import { addSnapStats } from "../../store/dashboardSlice.js";
+import { addSnapStats } from "../../store/metricsSlice.js";
 import { useDispatch } from "react-redux";
 import getChannelSnaps from "../../hooks/getChannelSnaps.js";
 

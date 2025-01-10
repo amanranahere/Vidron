@@ -3,33 +3,33 @@ import { useDispatch, useSelector } from "react-redux";
 import formatDate from "../../utils/formatDate.js";
 import ConfirmPopup from "../ConfirmPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
-import { updateSnapPublishedStatus } from "../../store/dashboardSlice.js";
-import { deleteSnap } from "../../store/dashboardSlice.js";
+import { updateVideoPublishedStatus } from "../../store/metricsSlice.js";
+import { deleteVideo } from "../../store/metricsSlice.js";
 import getChannelStats from "../../hooks/getChannelStats.js";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MdDelete, MdEdit } from "react-icons/md";
-import SnapForm from "./SnapForm.jsx";
+import VideoForm from "./VideoForm.jsx";
 
-function SnapCard({ snap }) {
+function VideoCard({ video }) {
   const dispatch = useDispatch();
   const confirmDialog = useRef();
   const editDialog = useRef();
   const user = useSelector((state) => state.auth.userData);
 
-  const [publishStatus, setPublishStatus] = useState(snap?.isPublished);
+  const [publishStatus, setPublishStatus] = useState(video?.isPublished);
 
   const handleTogglePublish = async () => {
     try {
       const response = await axiosInstance.patch(
-        `/snaps/toggle/publish/${snap._id}`
+        `/videos/toggle/publish/${video._id}`
       );
 
       if (response.data.success) {
         dispatch(
-          updateSnapPublishedStatus({
-            snapId: snap._id,
-            isPublished: !snap.isPublished,
+          updateVideoPublishedStatus({
+            videoId: video._id,
+            isPublished: !video.isPublished,
           })
         );
         toast.success(response.data.message);
@@ -41,35 +41,35 @@ function SnapCard({ snap }) {
     }
   };
 
-  const handleDeleteSnap = async (isConfirm) => {
+  const handleDeleteVideo = async (isConfirm) => {
     if (isConfirm) {
       try {
-        const response = await axiosInstance.delete(`/snaps/${snap._id}`);
+        const response = await axiosInstance.delete(`/videos/${video._id}`);
         if (response.data.success) {
           toast.success(response.data.message);
-          dispatch(deleteSnap({ snap: snap._id }));
+          dispatch(deleteVideo({ video: video._id }));
           getChannelStats(dispatch, user._id);
         }
       } catch (error) {
-        toast.error("Error while deleting snap");
+        toast.error("Error while deleting video");
         console.log(error);
       }
     }
   };
 
   return (
-    <tr key={snap._id} className="group border">
+    <tr key={video._id} className="group border">
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-center">
           <label
-            htmlFor={"sp" + snap._id}
+            htmlFor={"vid" + video._id}
             className="relative inline-block w-12 cursor-pointer overflow-hidden"
           >
             <input
               type="checkbox"
               onClick={handleTogglePublish}
-              id={"sp" + snap._id}
-              defaultChecked={snap.isPublished}
+              id={"vid" + video._id}
+              defaultChecked={video.isPublished}
               className="peer sr-only"
             />
 
@@ -95,75 +95,75 @@ function SnapCard({ snap }) {
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-start items-center gap-4">
           {publishStatus ? (
-            <Link to={`/snap-watchpage/${snap._id}`}>
+            <Link to={`/video-watchpage/${video._id}`}>
               <img
                 className="h-10 w-10 rounded-full object-cover"
-                src={snap.snapThumbnail}
-                alt={snap.title}
+                src={video.thumbnail}
+                alt={video.title}
               />
             </Link>
           ) : (
             <img
               className="h-10 w-10 rounded-full object-cover"
-              src={snap.snapThumbnail}
-              alt={snap.title}
+              src={video.thumbnail}
+              alt={video.title}
             />
           )}
 
           <h3 className="font-semibold">
             {publishStatus ? (
               <Link
-                to={`/snap-watchpage/${snap._id}`}
+                to={`/video-watchpage/${video._id}`}
                 className="hover:text-gray-300"
               >
-                {snap.title?.length > 35
-                  ? snap.title.substr(0, 35) + "..."
-                  : snap.title}
+                {video.title?.length > 35
+                  ? video.title.substr(0, 35) + "..."
+                  : video.title}
               </Link>
-            ) : snap.title?.length > 35 ? (
-              snap.title.substr(0, 35) + "..."
+            ) : video.title?.length > 35 ? (
+              video.title.substr(0, 35) + "..."
             ) : (
-              snap.title
+              video.title
             )}
           </h3>
         </div>
       </td>
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
-        {formatDate(snap.createdAt)}
+        {formatDate(video.createdAt)}
       </td>
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
-        {snap.views}
+        {video.views}
       </td>
 
       <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
-        {snap.likesCount}
+        {video.likesCount}
       </td>
 
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <ConfirmPopup
           ref={confirmDialog}
-          title="Delete Snap"
-          subtitle={`${snap.title} - Total views: ${snap.views}`}
+          title="Delete Video"
+          subtitle={`${video.title} - Total views: ${video.views}`}
           confirm="Delete"
           cancel="Cancel"
           critical
-          message="Are you sure you want to delete this snap? Once deleted, you will not be able to recover it."
-          actionFunction={handleDeleteSnap}
+          message="Are you sure you want to delete this video? Once deleted, you will not be able to recover it."
+          actionFunction={handleDeleteVideo}
         />
 
-        <SnapForm ref={editDialog} snap={snap} />
+        <VideoForm ref={editDialog} video={video} />
 
         <div className="flex justify-center gap-4">
           <button
             onClick={() => confirmDialog.current.open()}
-            title="Delete snap"
+            title="Delete video"
           >
             <MdDelete className="h-5 w-5 hover:text-red-500" />
           </button>
 
-          <button onClick={() => editDialog.current?.open()} title="Edit snap">
+          <button onClick={() => editDialog.current?.open()} title="Edit video">
             <MdEdit className="h-5 w-5 hover:text-red-500" />
           </button>
         </div>
@@ -172,4 +172,4 @@ function SnapCard({ snap }) {
   );
 }
 
-export default SnapCard;
+export default VideoCard;

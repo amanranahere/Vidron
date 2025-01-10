@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import axiosInstance from "../utils/axios.helper.js";
+import axiosInstance from "../../utils/axios.helper.js";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import LoginPopup from "./Auth/LoginPopup.jsx";
+import LoginPopup from "../Auth/LoginPopup.jsx";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import getTimeDistanceToNow from "../utils/getTimeDistance.js";
-import { icons } from "./Icons.jsx";
+import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
+import { icons } from "../Icons.jsx";
 import { IoMdSend } from "react-icons/io";
 
 function SnapComments({ snap }) {

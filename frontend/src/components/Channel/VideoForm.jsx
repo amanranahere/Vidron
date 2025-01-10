@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { createPortal } from "react-dom";
 import UploadSuccess from "./UploadSuccess.jsx";
 import UploadingVideo from "./UploadingVideo.jsx";
-import { addVideoStats } from "../../store/dashboardSlice.js";
+import { addVideoStats } from "../../store/metricsSlice.js";
 import { useDispatch } from "react-redux";
 import getChannelVideos from "../../hooks/getChannelVideos.js";
 

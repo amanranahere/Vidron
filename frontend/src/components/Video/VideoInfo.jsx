@@ -1,13 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { BiLike, BiSolidLike } from "react-icons/bi";
-import {
-  FaSave,
-  FaBell,
-  FaChevronUp,
-  FaChevronDown,
-  FaCheckCircle,
-} from "react-icons/fa";
+import { FaBell, FaCheckCircle } from "react-icons/fa";
 import Button from "../Button.jsx";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import formatSubscriber from "../../utils/formatSubscribers.js";

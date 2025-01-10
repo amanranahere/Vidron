@@ -1,10 +1,10 @@
 import axiosInstance from "../utils/axios.helper.js";
 import { toast } from "react-toastify";
-import { setSnaps } from "../store/dashboardSlice.js";
+import { setSnaps } from "../store/metricsSlice.js";
 
 const getChannelSnaps = async (dispatch) => {
   try {
-    const response = await axiosInstance.get("/dashboard/snaps");
+    const response = await axiosInstance.get("/metrics/snaps");
 
     if (response?.data?.success) {
       dispatch(setSnaps(response.data.data));

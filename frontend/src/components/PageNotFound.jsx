@@ -49,20 +49,15 @@ function PageNotFound() {
               <div className="base2"></div>
               <div className="base3"></div>
             </div>
+
+            {/* Home redirection */}
+            <div className="w-full mt-8 flex justify-center items-center">
+              <button className="text-white text-lg rounded-full px-12 py-1 border-2 hover:bg-white hover:text-black active:scale-95 border-white bg-transparent">
+                <Link to={"/"}>Home</Link>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Home redirection */}
-      <div className="h-screen w-full flex flex-col items-center justify-center overflow-y-auto bg-black/95">
-        <h1 className="text-xl mt-5 p-2">
-          <Button
-            className="rounded-md hover:cursor-pointer hover:bg-pink-500"
-            bgColor="bg-pink-600"
-          >
-            <Link to={"/"}>Home</Link>
-          </Button>
-        </h1>
       </div>
     </>
   );

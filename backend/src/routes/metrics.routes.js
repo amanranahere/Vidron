@@ -4,7 +4,7 @@ import {
   getChannelStats,
   getChannelVideos,
   getChannelSnaps,
-} from "../controllers/dashboard.controller.js";
+} from "../controllers/metrics.controller.js";
 
 const router = Router();
 router.use(verifyJWT);

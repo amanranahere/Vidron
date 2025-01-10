@@ -68,8 +68,8 @@ function Sidebar({ onClose }) {
       activeIcon: <MdSubscriptions className="w-6 h-6" />,
     },
     {
-      name: "Dashboard",
-      route: "/admin/dashboard",
+      name: "Metrics",
+      route: "/admin/metrics",
       icon: <MdOutlineDashboard className="w-6 h-6" />,
       activeIcon: <MdDashboard className="w-6 h-6" />,
       requiresAuth: true,
@@ -177,7 +177,7 @@ function Sidebar({ onClose }) {
 
           <hr className="mx-5 my-2 opacity-25" />
 
-          {/* You - dashboard, history, liked videos, snaps, tweets */}
+          {/* You - metrics, history, liked videos, snaps, tweets */}
 
           <div className="h-full px-2 py-2">
             <NavLink
@@ -207,7 +207,7 @@ function Sidebar({ onClose }) {
               {NavElements.filter(
                 (item) =>
                   [
-                    "Dashboard",
+                    "Metrics",
                     "History",
                     "Liked Videos",
                     "Liked Snaps",
@@ -414,14 +414,14 @@ function Sidebar({ onClose }) {
               <IoClose className="w-7 h-7" />
             </button>
 
-            {/* subscriptions, dashboard, history, liked videos, liked snaps, liked tweets */}
+            {/* subscriptions, metrics, history, liked videos, liked snaps, liked tweets */}
 
             <ul className="text-xl text-[#ffffffb3]">
               {NavElements.filter(
                 (item) =>
                   [
                     "Subscriptions",
-                    "Dashboard",
+                    "Metrics",
                     "History",
                     "Liked Videos",
                     "Liked Snaps",

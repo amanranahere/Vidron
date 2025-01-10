@@ -2,6 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* masking of avatar-img in metrics - start */
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar-img {
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  transition: mask-image 0.3s ease;
+}
+
+.root-hover:hover .avatar-img,
+.root-hover:active .avatar-img {
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.username {
+  transition: transform 0.3s ease;
+}
+
+.root-hover:hover .username,
+.root-hover:active .username {
+  transform: translateX(-50px);
+  transition: transform 0.3s ease;
+}
+
+/* masking of avatar-img in metrics - end */
+
 /* loader - start */
 
 .loader {

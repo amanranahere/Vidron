@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import axiosInstance from "../utils/axios.helper.js";
+import axiosInstance from "../../utils/axios.helper.js";
 import { useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
-import Input from "./Input.jsx";
-import Button from "./Button.jsx";
 import { useForm } from "react-hook-form";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { IoMdSend } from "react-icons/io";
-import LoginPopup from "./Auth/LoginPopup.jsx";
+import LoginPopup from "../Auth/LoginPopup.jsx";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
-import getTimeDistanceToNow from "../utils/getTimeDistance.js";
-import { icons } from "./Icons.jsx";
+import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
+import { icons } from "../Icons.jsx";
 
 function VideoComments({ video }) {
   const { status, userData } = useSelector((state) => state.auth);

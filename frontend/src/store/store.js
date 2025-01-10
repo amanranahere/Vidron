@@ -6,7 +6,7 @@ import tweetsSlice from "./tweetsSlice.js";
 import snapSlice from "./snapSlice.js";
 import playlistSlice from "./playlistSlice.js";
 import playlistsSlice from "./playlistsSlice.js";
-import dashboardSlice from "./dashboardSlice.js";
+import metricsSlice from "./metricsSlice.js";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +17,7 @@ const store = configureStore({
     snap: snapSlice,
     playlist: playlistSlice,
     playlists: playlistsSlice,
-    dashboard: dashboardSlice,
+    metrics: metricsSlice,
   },
 });
 

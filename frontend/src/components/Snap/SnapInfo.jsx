@@ -9,7 +9,7 @@ import { setSnap } from "../../store/snapSlice.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
-import Comments from "../SnapsComments.jsx";
+import Comments from "./SnapComments.jsx";
 
 function SnapInfo({ snap }) {
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);

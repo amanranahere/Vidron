@@ -1,5 +1,5 @@
 import Channel from "./Channel.jsx";
-import Dashboard from "./Dashboard.jsx";
+import Metrics from "./Metrics.jsx";
 import Help from "./Help.jsx";
 import History from "./History.jsx";
 import Home from "./Home.jsx";
@@ -18,7 +18,7 @@ import SnapsHome from "./SnapsHome.jsx";
 
 export {
   Channel,
-  Dashboard,
+  Metrics,
   Help,
   History,
   Home,

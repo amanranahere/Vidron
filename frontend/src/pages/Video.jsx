@@ -6,7 +6,7 @@ import { setVideo } from "../store/videoSlice.js";
 import VideoPlayer from "../components/Video/VideoPlayer.jsx";
 import VideoListCard from "../components/Video/VideoListCard.jsx";
 import VideoInfo from "../components/Video/VideoInfo.jsx";
-import Comments from "../components/VideoComments.jsx";
+import Comments from "../components/Video/VideoComments.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { icons } from "../components/Icons.jsx";

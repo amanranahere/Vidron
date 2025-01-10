@@ -19,7 +19,7 @@ function AboutChannel() {
 
   const getAboutChannel = async () => {
     try {
-      const response = await axiosInstance.get(`/dashboard/stats`);
+      const response = await axiosInstance.get(`/metrics/stats`);
       if (response?.data?.success) {
         setAboutChannel(response.data.data);
       }

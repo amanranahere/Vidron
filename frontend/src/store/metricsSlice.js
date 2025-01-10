@@ -9,8 +9,8 @@ const initialState = {
   },
 };
 
-const dashboardSlice = createSlice({
-  name: "dashboard",
+const metricsSlice = createSlice({
+  name: "metrics",
   initialState,
   reducers: {
     // reducers for videos
@@ -100,6 +100,6 @@ export const {
   deleteSnap,
   setSnapStats,
   addSnapStats,
-} = dashboardSlice.actions;
+} = metricsSlice.actions;
 
-export default dashboardSlice.reducer;
+export default metricsSlice.reducer;

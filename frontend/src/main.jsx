@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import {
   Channel,
-  Dashboard,
+  Metrics,
   Help,
   History,
   Home,
@@ -133,8 +133,8 @@ const router = createBrowserRouter([
         element: <Subscriptions />,
       },
       {
-        path: "/admin/dashboard",
-        element: <Dashboard />,
+        path: "/admin/metrics",
+        element: <Metrics />,
       },
     ],
   },
