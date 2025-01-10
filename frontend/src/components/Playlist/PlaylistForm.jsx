@@ -118,7 +118,7 @@ function PlaylistForm({ playlist, route }, ref) {
               <div className="fixed inset-0 top-[calc(66px)] z-10 flex flex-col px-4 pb-[86px] pt-4 sm:top-[calc(82px)] sm:px-14 sm:py-8">
                 <form
                   onSubmit={handleSubmit(handleUpdatePlaylist)}
-                  className="mx-auto w-full max-w-lg overflow-auto rounded-lg border border-gray-700 text-white bg-zinc-950 p-4"
+                  className="mx-auto w-full max-w-lg overflow-auto rounded-[20px] text-white bg-[#1a1a1a] p-4"
                 >
                   <div className="mb-4 flex items-start justify-between">
                     <h2 className="text-xl font-semibold">
@@ -129,7 +129,7 @@ function PlaylistForm({ playlist, route }, ref) {
                       autoFocus
                       type="button"
                       onClick={handleClose}
-                      className="h-7 w-7 hover:border-dotted hover:border"
+                      className="h-7 w-7 hover:bg-[#4a4a4a] rounded-full"
                     >
                       <IoClose className="w-7 h-7" />
                     </button>
@@ -155,7 +155,7 @@ function PlaylistForm({ playlist, route }, ref) {
                       <textarea
                         rows={4}
                         id="desc"
-                        className="px-2 rounded-lg w-full py-1 bg-zinc-800 text-white outline-none duration-200 border focus:border-blue-800 border-gray-200"
+                        className="px-2 rounded-lg w-full py-1 bg-[#2a2a2a] text-white outline-none duration-200 focus:bg-[#3a3a3a] "
                         placeholder="Enter some description of the Playlist"
                         {...register("description", {
                           required: false,
@@ -165,24 +165,23 @@ function PlaylistForm({ playlist, route }, ref) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <Button
+                    <button
                       onClick={handleClose}
-                      className="mt-6 py-2 rounded-lg"
+                      className="w-full border-none outline-none py-2 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 border rounded-[10px] select-none hover:transition duration-1000 ease-out"
                       bgColor="bg-gray-300"
                       textColor="text-black"
                     >
                       Cancel
-                    </Button>
+                    </button>
 
-                    <Button
+                    <button
                       type="submit"
                       disabled={loading}
-                      className="mt-6 disabled:cursor-not-allowed py-2 rounded-lg"
-                      bgColor={loading ? "bg-pink-800" : "bg-pink-600"}
+                      className="w-full border-none outline-none border rounded-[10px] bg-[#00bfff] hover:bg-[#00bfff96] active:bg-[#00bfff63] select-none hover:transition duration-1000 ease-out"
                     >
                       {loading && <span>{icons.loading}</span>}
                       {!loading && playlist ? "Update" : "Create"}
-                    </Button>
+                    </button>
                   </div>
                 </form>
               </div>

@@ -45,7 +45,7 @@ function VideoListCard({ video }) {
   return (
     <div className="w-full">
       <Link to={`/video-watchpage/${video?._id}`} onClick={handleVideoClick}>
-        <div className="pb-3 hover:bg-zinc-900 md:rounded-lg">
+        <div className="mb-3 ml-1 hover:bg-zinc-900 md:rounded-lg">
           <div className="text-white flex flex-col md:flex-row">
             <div className="relative lg:flex-shrink-0">
               <img

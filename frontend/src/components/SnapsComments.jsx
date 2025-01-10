@@ -212,7 +212,10 @@ function SnapComments({ snap }) {
         </div>
       </div>
 
-      <div className="h-[calc(100vh-380px)] lg:h-[calc(100vh-310px)] bg-[#121212] rounded-bl-[20px] rounded-br-[20px] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212]">
+      <div
+        id="dialogScrollableDiv"
+        className="h-[calc(100vh-380px)] lg:h-[calc(100vh-310px)] bg-[#121212] rounded-bl-[20px] rounded-br-[20px] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212]"
+      >
         <div className="px-2 pt-2 pb-4">
           <form
             onSubmit={handleSubmit(handleCommentSubmit)}
@@ -260,7 +263,7 @@ function SnapComments({ snap }) {
                   {icons.loading}
                 </div>
               }
-              scrollableTarget="scrollableDiv"
+              scrollableTarget="dialogScrollableDiv"
             >
               {comments?.map((comment, index) => (
                 <div

@@ -71,9 +71,9 @@ function Video() {
       {loading ? (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       ) : (
-        <div className="flex max-w-full lg:pl-16">
-          <div className="lg:w-[70%]">
-            <div className="sticky top-0 z-30">
+        <div className="flex w-full lg:pl-24 lg:pt-4 radial-bg">
+          <div className="lg:w-[60vw]">
+            <div className="sticky top-0 lg:static z-30">
               <VideoPlayer key={video._id} videoFile={video.videoFile} />
             </div>
 

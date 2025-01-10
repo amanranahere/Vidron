@@ -1009,7 +1009,7 @@
 
 /* slide-left - end */
 
-/* slide-left - start */
+/* slide-right - start */
 
 @keyframes slideInFromleft {
   0% {
@@ -1021,10 +1021,10 @@
 }
 
 .slide-right {
-  animation: slideInFromleft 0.5s ease-out forwards;
+  animation: slideInFromleft 0.1s linear forwards;
 }
 
-/* slide-left - end */
+/* slide-right - end */
 
 /* slide-up - start */
 

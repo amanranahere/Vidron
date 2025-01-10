@@ -180,14 +180,14 @@ function VideoInfo({ video }) {
   const playlists = useSelector((state) => state.playlists.playlists);
 
   return (
-    <div className="px-2 py-2 md:mx-1 mt-2 bg-opacity-5">
+    <div className="px-2 lg:px-0 pb-2 md:mx-1 lg:mx-0 mt-2 bg-opacity-5">
       {/* title */}
       <div className="flex justify-between lg:w-[80%]">
         <h1 className="text-[1.3rem] font-bold">{video?.title}</h1>
       </div>
 
       {/* avatar, like button, save button and subscribe button */}
-      <div className="w-full flex flex-col my-3 md:flex-row md:items-center justify-between">
+      <div className="w-full flex flex-col mt-2 md:flex-row md:items-center justify-between">
         {/* avatar and subscribe button */}
         <div className="flex items-center">
           <div className="flex items-center">
@@ -280,7 +280,7 @@ function VideoInfo({ video }) {
                 </button>
 
                 {menu && (
-                  <div className="absolute right-0 top-full z-10 w-64 overflow-hidden rounded-lg bg-zinc-900 p-4 hover:block peer-focus:block">
+                  <div className="absolute left-0 md:left-auto md:right-0 top-full z-10 w-64 overflow-hidden rounded-[20px] bg-[#1a1a1a] p-4 hover:block peer-focus:block flex-col">
                     <h3 className="mb-4 text-center text-lg font-semibold">
                       Save to playlist
                     </h3>
@@ -294,6 +294,7 @@ function VideoInfo({ video }) {
                               className="group/label inline-flex cursor-pointer items-center gap-x-3"
                             >
                               <input
+                                className="appearance-none h-3 w-3 rounded-full border-2 border-white checked:bg-white checked:border-white focus:outline-none"
                                 type="checkbox"
                                 id={"collection" + item._id}
                                 defaultChecked={item.isVideoPresent}
@@ -313,13 +314,22 @@ function VideoInfo({ video }) {
                       )}
                     </ul>
 
-                    <div className="flex items-center justify-center">
-                      <button
+                    <div className="flex justify-end">
+                      <div
+                        tabIndex="0"
+                        className="max-w-7 max-h-7 plusButton"
                         onClick={popupPlaylistForm}
-                        className="items-center gap-x-2 bg-pink-500 hover:bg-pink-500/90 border border-transparent rounded-lg hover:border-white px-2 py-1 font-semibold text-black"
                       >
-                        Create new Playlist
-                      </button>
+                        <svg
+                          className="plusIcon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                        >
+                          <g mask="url(#mask0_21_345)">
+                            <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+                          </g>
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 )}

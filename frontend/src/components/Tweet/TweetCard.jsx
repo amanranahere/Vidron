@@ -177,7 +177,7 @@ function Tweet({ tweet, page = false }) {
 
                   <button
                     onClick={() => handleDelete()}
-                    className="block w-full text-left px-4 py-2 hover:bg-[#2a2a2a] hover:rounded-lg"
+                    className="block w-full text-left rounded-lg px-4 py-2 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 hover:rounded-lg"
                   >
                     Delete
                   </button>

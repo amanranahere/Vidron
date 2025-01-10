@@ -40,7 +40,7 @@ function Navbar() {
             ></div>
 
             <div
-              className={`absolute top-0 left-0 h-full w-72 bg-black flex-col overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black`}
+              className={`absolute top-0 left-0 h-full w-72 bg-black flex-col overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black slide-right`}
             >
               <div className="flex py-1 px-2">
                 <button

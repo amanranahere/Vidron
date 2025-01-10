@@ -26,6 +26,7 @@ function VideoComments({ video }) {
   const [activeCommentId, setActiveCommentId] = useState(null);
   const [update, setUpdate] = useState(null);
   const [openComments, setOpenComments] = useState(false);
+  const commentsContainerRef = useRef(null);
   const { register, handleSubmit, reset } = useForm();
   const {
     register: register2,
@@ -204,10 +205,10 @@ function VideoComments({ video }) {
     <>
       {/* comments box for sm and md screen sizes */}
       <div
-        className={`lg:hidden mb-4 mx-2 md:mb-4 md:mx-3 p-3 bg-[#2a2a2a] rounded-[20px] flex-col justify-between transition duration-400 cursor-pointer`}
+        className={`lg:hidden mb-4 mx-2 py-4 md:mb-4 md:mx-3 p-3 bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-[20px] flex-col justify-between transition duration-400 cursor-pointer`}
         onClick={() => setOpenComments(true)}
       >
-        <p className="mt-1 text-xl font-bold">
+        <p className="text-base md:text-xl font-bold">
           {Array.isArray(comments) && comments.length
             ? `${comments.length} Comments`
             : "No Comments"}
@@ -232,20 +233,23 @@ function VideoComments({ video }) {
         </div>
       </div>
 
+      {/* comments */}
       {window.innerWidth >= 1024 || openComments ? (
         <>
-          {/* comments */}
-          <div className="fixed w-full h-full rounded-[20px] lg:static top-0 bg-[#1a1a1a] z-30 lg:mt-4 lg:ml-2 overflow-y-auto">
+          <div
+            id="dialogScrollableDiv"
+            className="fixed w-full h-full rounded-[20px] lg:static top-[40vh] bg-[#151515] lg:bg-transparent z-30  overflow-y-auto pb-[40vh] lg:pb-10 pt-2 lg:pt-0 slide-up"
+          >
             <button
               autoFocus
               type="button"
               onClick={() => setOpenComments(false)}
-              className="lg:hidden absolute right-2 top-2 h-7 w-7 focus:border-dotted z-50"
+              className="lg:hidden absolute right-4 top-4 h-7 w-7 focus:border-dotted z-50"
             >
               <IoClose className="w-7 h-7" />
             </button>
 
-            <div className="px-4 mt-2 rounded-xl">
+            <div className="px-4 mt-2 ">
               <p className="mt-1 text-xl font-bold">
                 {Array.isArray(comments) && comments.length
                   ? `${comments.length} Comments`
@@ -299,7 +303,9 @@ function VideoComments({ video }) {
                       {icons.loading}
                     </div>
                   }
-                  scrollableTarget="scrollableDiv"
+                  scrollableTarget={
+                    openComments ? "dialogScrollableDiv" : "scrollableDiv"
+                  }
                 >
                   {comments?.map((comment, index) => (
                     <div
@@ -339,16 +345,20 @@ function VideoComments({ video }) {
 
                               <button
                                 type="submit"
-                                className="ml-4 py-2 px-3 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
+                                className="ml-1 lg:ml-4 p-1 lg:py-2 lg:px-3 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
                               >
-                                Update
+                                {window.innerWidth >= 1024
+                                  ? "Update"
+                                  : "\u2714"}
                               </button>
 
                               <button
                                 onClick={cancelEditing}
-                                className="ml-2 py-2 px-4 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
+                                className="ml-2 p-1 lg:py-2 lg:px-4 font-semibold text-sm bg-[#2a2a2a] rounded-lg flex items-center hover:bg-[#3a3a3a] active:bg-[#2a2a2a]"
                               >
-                                Cancel
+                                {window.innerWidth >= 1024
+                                  ? "Cancel"
+                                  : "\u274C"}
                               </button>
                             </form>
                           ) : (
@@ -390,7 +400,7 @@ function VideoComments({ video }) {
                             </button>
 
                             {activeCommentId === comment._id && (
-                              <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
+                              <div className="absolute top-0 right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
                                 <button
                                   onClick={() => handleUpdate(comment)}
                                   className="block w-full px-4 py-2 hover:bg-[#3a3a3a] hover:rounded-lg text-center"
