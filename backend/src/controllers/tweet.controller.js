@@ -202,6 +202,10 @@ const getAllTweets = asyncHandler(async (req, res) => {
     sortObject[sortBy] = sortType === "desc" ? -1 : 1;
   }
 
+  if (!sortBy) {
+    sortObject["createdAt"] = -1;
+  }
+
   try {
     const tweets = await Tweet.find(filter)
       .populate("owner", "username fullname avatar like")

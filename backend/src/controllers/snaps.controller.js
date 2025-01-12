@@ -359,6 +359,7 @@ const getUserSnaps = asyncHandler(async (req, res) => {
         title: 1,
         duration: 1,
         views: 1,
+        likesCount: 1,
       },
     },
   ]);

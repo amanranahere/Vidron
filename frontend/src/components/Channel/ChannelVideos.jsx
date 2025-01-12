@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import getUserVideos from "../../hooks/getUserVideos.js";
 import ChannelEmptyVideo from "./ChannelEmptyVideo.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserVideo } from "../../store/userSlice.js";
 import VideoCard from "../Video/VideoCard.jsx";
+import VideoPanel from "./VideoPanel.jsx";
+import getChannelVideos from "../../hooks/getChannelVideos.js";
+import getUserProfile from "../../hooks/getUserProfile.js";
 
 function ChannelVideos() {
   const [loading, setLoading] = useState(true);
@@ -13,13 +17,16 @@ function ChannelVideos() {
   const [hasMore, setHasMore] = useState(true);
   const [sortType, setSortType] = useState("desc");
   const dispatch = useDispatch();
+  const { username } = useParams();
   const userId = useSelector((state) => state.user.user._id);
+  const { status, userData } = useSelector((state) => state.auth);
+  const [profile, setProfile] = useState(null);
+  const [isVideoPanel, setIsVideoPanel] = useState(false);
 
   useEffect(() => {
     if (page === 1) {
       dispatch(removeUserVideo());
     }
-
     getUserVideos(dispatch, userId, sortType, page).then((res) => {
       setLoading(false);
       if (res.data.length !== 10) {
@@ -27,6 +34,27 @@ function ChannelVideos() {
       }
     });
   }, [userId, sortType, page]);
+
+  useEffect(() => {
+    getUserProfile(dispatch, username).then((res) => {
+      if (res?.data) {
+        setProfile(res?.data);
+      } else {
+        setError(
+          <GuestComponent
+            title="Channel does not exist"
+            subtitle="There is no channel for given username. Check the username again."
+            icon={
+              <span className="w-full h-full flex items-center p-4">
+                <FiVideoOff className="w-28 h-28" />
+              </span>
+            }
+            guest={false}
+          />
+        );
+      }
+    });
+  }, [status, username]);
 
   const videos = useSelector((state) => state.user.userVideo);
 
@@ -56,8 +84,8 @@ function ChannelVideos() {
         <div className="flex mx-2">
           <button
             type="button"
-            className={`px-3 py-1.5 mr-3 text-sm rounded-lg font-semibold ${
-              sortType === "desc" ? "bg-pink-500 " : "bg-slate-700"
+            className={`mr-3 font-semibold ${
+              sortType === "desc" ? "text-white " : "text-[#6a6a6a]"
             }`}
             onClick={() => {
               setSortType("desc");
@@ -70,8 +98,8 @@ function ChannelVideos() {
 
           <button
             type="button"
-            className={`px-3 py-1.5 text-sm rounded-lg font-semibold ${
-              sortType === "asc" ? "bg-pink-500 " : "bg-slate-700 "
+            className={`font-semibold ${
+              sortType === "asc" ? "text-white " : "text-[#6a6a6a]"
             }`}
             onClick={() => {
               setSortType("asc");
@@ -90,10 +118,29 @@ function ChannelVideos() {
           }`}
         >
           {videos?.map((video) => (
-            <VideoCard key={video?._id} video={video} name={false} />
+            <VideoCard
+              key={video?._id}
+              video={video}
+              name={false}
+              displayAvatar={false}
+            />
           ))}
         </div>
       </InfiniteScroll>
+
+      {/* video control table */}
+      {status === true && userData?.username === profile?.username && (
+        <button
+          onClick={() => setIsVideoPanel(true)}
+          className="fixed bottom-20 right-4 lg:bottom-6 lg:right-4 p-4 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000 font-bold text-gray-100"
+        >
+          VIDEO CONTROLS
+        </button>
+      )}
+
+      {isVideoPanel && (
+        <VideoPanel channelVideos={videos} setIsVideoPanel={setIsVideoPanel} />
+      )}
     </div>
   );
 }

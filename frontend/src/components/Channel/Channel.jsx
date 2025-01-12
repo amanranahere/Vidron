@@ -11,11 +11,14 @@ import { icons } from "../Icons.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
 import { MdOutlineEdit } from "react-icons/md";
 import { FiVideoOff } from "react-icons/fi";
+import { IoAdd } from "react-icons/io5";
 import Button from "../Button.jsx";
 import { FaBell, FaCheckCircle } from "react-icons/fa";
 import axiosInstance from "../../utils/axios.helper.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import GuestComponent from "../GuestPages/GuestComponent.jsx";
+import VideoForm from "./VideoForm.jsx";
+import SnapForm from "./SnapForm.jsx";
 
 function Channel() {
   const dispatch = useDispatch();
@@ -25,6 +28,8 @@ function Channel() {
   const [error, setError] = useState("");
   const { status, userData } = useSelector((state) => state.auth);
   const LoginPopupDialog = useRef();
+  const videoUploadRef = useRef();
+  const snapUploadRef = useRef();
   const location = useLocation();
 
   const viewify_coverImage = "/viewify_coverImage.jpg";
@@ -77,6 +82,7 @@ function Channel() {
 
   return profile ? (
     <section className="relative w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+      {/* cover image */}
       <div className="relative min-h-[150px] w-full pt-[20%]">
         <div className="absolute inset-0 overflow-hidden">
           <img
@@ -88,7 +94,7 @@ function Channel() {
       </div>
 
       <div className="px-4 pb-4">
-        <div className="flex flex-wrap gap-4 pb-4 pt-6">
+        <div className="flex flex-wrap gap-4 pb-4 pt-2">
           <span className="relative -mt-12 inline-block h-32 w-32 shrink-0 overflow-hidden rounded-full border-2">
             <img
               src={profile?.avatar}
@@ -98,7 +104,7 @@ function Channel() {
           </span>
 
           <div className="mr-auto inline-block">
-            <h1 className="font-bold text-xl">{profile?.fullname}</h1>
+            <h1 className="font-bold text-2xl">{profile?.fullname}</h1>
             <p className="text-sm text-gray-400">@{profile?.username}</p>
             <p className="text-sm text-gray-400">
               {profile?.subscribersCount} Subscribers ·{" "}
@@ -109,14 +115,55 @@ function Channel() {
           <div className="inline-block">
             {status === true ? (
               userData?.username === profile?.username ? (
-                <Button
-                  onClick={() => navigate("/settings")}
-                  className="mr-1 flex items-center font-semibold transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] rounded-md hover:bg-pink-600"
-                  bgColor="bg-pink-700"
-                >
-                  <MdOutlineEdit />
-                  <p className="ml-2 font-semibold"> Edit</p>
-                </Button>
+                <div className="flex gap-2">
+                  <div className="">
+                    <VideoForm ref={videoUploadRef} />
+
+                    <button
+                      onClick={() => videoUploadRef.current?.open()}
+                      className="group p-2 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000"
+                    >
+                      <span className="pl-2 font-bold text-gray-100">
+                        UPLOAD VIDEO
+                      </span>
+                      <div tabIndex="0" className="plusButton">
+                        <svg
+                          className="plusIcon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                        >
+                          <g mask="url(#mask0_21_345)">
+                            <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+                          </g>
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+
+                  <div className="block">
+                    <SnapForm ref={snapUploadRef} />
+
+                    <button
+                      onClick={() => snapUploadRef.current?.open()}
+                      className="group p-2 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000"
+                    >
+                      <span className=" pl-2 font-bold text-gray-100">
+                        UPLOAD SNAP&nbsp;
+                      </span>
+                      <div tabIndex="0" className="plusButton">
+                        <svg
+                          className="plusIcon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 30 30"
+                        >
+                          <g mask="url(#mask0_21_345)">
+                            <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+                          </g>
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <Button
                   onClick={toggleSubscribe}
@@ -167,88 +214,95 @@ function Channel() {
           </div>
         </div>
 
-        <ul className="no-scrollbar sticky top-0 bg-zinc-950 z-[2] flex flex-row gap-x-2 overflow-auto border-b-2 border-gray-400 py-2">
-          <li className="w-full">
-            <NavLink
-              to=""
-              end
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">Videos</button>
-            </NavLink>
-          </li>
+        <div className="relative flex justify-between">
+          <div className="min-w-[85%] pr-12">
+            <Outlet />
+          </div>
 
-          <li className="w-full">
-            <NavLink
-              to={"snaps"}
-              end
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">Snaps</button>
-            </NavLink>
-          </li>
+          <div className="w-full sticky top-0">
+            <ul className="w-full sticky top-0 z-30 text-3xl font-semibold">
+              <li className="w-full text-end">
+                <NavLink
+                  to=""
+                  end
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white"
+                      : "w-full text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">Videos</button>
+                </NavLink>
+              </li>
 
-          <li className="w-full">
-            <NavLink
-              to={"playlist"}
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">Playlist</button>
-            </NavLink>
-          </li>
+              <li className="w-full text-end">
+                <NavLink
+                  to={"snaps"}
+                  end
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white "
+                      : "w-full  text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">Snaps</button>
+                </NavLink>
+              </li>
 
-          <li className="w-full">
-            <NavLink
-              to={"tweets"}
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">Tweets</button>
-            </NavLink>
-          </li>
+              <li className="w-full text-end">
+                <NavLink
+                  to={"playlist"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white "
+                      : "w-full text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">Playlist</button>
+                </NavLink>
+              </li>
 
-          <li className="w-full">
-            <NavLink
-              to={"subscribed"}
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">Subscribed</button>
-            </NavLink>
-          </li>
+              <li className="w-full text-end">
+                <NavLink
+                  to={"tweets"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white "
+                      : "w-full text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">Tweets</button>
+                </NavLink>
+              </li>
 
-          <li className="w-full">
-            <NavLink
-              to={"about"}
-              className={({ isActive }) =>
-                isActive
-                  ? "w-full border-b-2 border-[#e14bc8] text-[#e14bc8] bg-white px-2 py-1"
-                  : "w-full border-b-2 border-transparent text-gray-400 px-2 py-1"
-              }
-            >
-              <button className="w-full">About</button>
-            </NavLink>
-          </li>
-        </ul>
-        <Outlet />
+              <li className="w-full text-end">
+                <NavLink
+                  to={"subscribed"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white "
+                      : "w-full text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">Subscribed</button>
+                </NavLink>
+              </li>
+
+              <li className="w-full text-end">
+                <NavLink
+                  to={"about"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "w-full text-white "
+                      : "w-full text-[#6a6a6a] hover:text-[#9a9a9a]"
+                  }
+                >
+                  <button className="">About</button>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   ) : (

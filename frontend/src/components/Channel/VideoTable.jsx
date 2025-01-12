@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { MdDelete, MdEdit } from "react-icons/md";
 import VideoForm from "./VideoForm.jsx";
 
-function VideoCard({ video }) {
+function VideoTable({ video }) {
   const dispatch = useDispatch();
   const confirmDialog = useRef();
   const editDialog = useRef();
@@ -57,8 +57,10 @@ function VideoCard({ video }) {
     }
   };
 
+  console.log("vid : ", video.likesCount);
+
   return (
-    <tr key={video._id} className="group border">
+    <tr key={video._id} className="group">
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-center">
           <label
@@ -73,7 +75,7 @@ function VideoCard({ video }) {
               className="peer sr-only"
             />
 
-            <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-pink-600 peer-checked:after:left-7"></span>
+            <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#7a7a7a] peer-checked:after:left-7"></span>
           </label>
         </div>
       </td>
@@ -81,10 +83,8 @@ function VideoCard({ video }) {
       <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
         <div className="flex justify-center">
           <span
-            className={`inline-block rounded-2xl border px-1.5 py-0.5 ${
-              publishStatus
-                ? "border-green-600 text-green-600"
-                : "border-orange-600 text-orange-600"
+            className={`inline-block  px-1.5 py-0.5 ${
+              publishStatus ? "text-green-400" : "text-red-400"
             }`}
           >
             {publishStatus ? "Published" : "Unpublished"}
@@ -97,14 +97,14 @@ function VideoCard({ video }) {
           {publishStatus ? (
             <Link to={`/video-watchpage/${video._id}`}>
               <img
-                className="h-10 w-10 rounded-full object-cover"
+                className="h-8 aspect-video rounded-sm object-cover"
                 src={video.thumbnail}
                 alt={video.title}
               />
             </Link>
           ) : (
             <img
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-8 aspect-video rounded-sm object-cover"
               src={video.thumbnail}
               alt={video.title}
             />
@@ -156,15 +156,15 @@ function VideoCard({ video }) {
         <VideoForm ref={editDialog} video={video} />
 
         <div className="flex justify-center gap-4">
-          <button
-            onClick={() => confirmDialog.current.open()}
-            title="Delete video"
-          >
-            <MdDelete className="h-5 w-5 hover:text-red-500" />
+          <button onClick={() => editDialog.current?.open()} title="Edit video">
+            <MdEdit className="h-5 w-5 hover:text-green-400" />
           </button>
 
-          <button onClick={() => editDialog.current?.open()} title="Edit video">
-            <MdEdit className="h-5 w-5 hover:text-red-500" />
+          <button
+            onClick={() => confirmDialog.current.open()}
+            title="Delete Video"
+          >
+            <MdDelete className="h-5 w-5 hover:text-red-400" />
           </button>
         </div>
       </td>
@@ -172,4 +172,4 @@ function VideoCard({ video }) {
   );
 }
 
-export default VideoCard;
+export default VideoTable;

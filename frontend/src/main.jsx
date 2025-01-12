@@ -24,6 +24,7 @@ import {
   Video,
   SnapsHome,
 } from "./pages/index.js";
+import AllSnaps from "./components/Snap/SnapContainer.jsx";
 import ChannelVideos from "./components/Channel/ChannelVideos.jsx";
 import ChannelSnaps from "./components/Channel/ChannelSnaps.jsx";
 import ChannelTweets from "./components/Channel/ChannelTweets.jsx";
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/snaps",
-        element: <SnapsHome />,
+        element: <AllSnaps />,
       },
       {
         path: "/login",

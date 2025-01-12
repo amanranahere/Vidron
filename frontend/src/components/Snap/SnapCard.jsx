@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addUserSnapHistory } from "../../store/userSlice.js";
 import axiosInstance from "../../utils/axios.helper.js";
 
-function SnapCard({ snap, name = true }) {
+function SnapCard({ snap, width = "60%" }) {
   const formattedDuration = snap?.duration;
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
   const navigate = useNavigate();
@@ -46,29 +46,18 @@ function SnapCard({ snap, name = true }) {
     <Link to={`/snap-watchpage/${snap?._id}`} onClick={handleSnapClick}>
       <div
         key={snap._id}
-        className="rounded-xl mt-2 text-white p-1 hover:bg-zinc-900"
+        className="rounded-xl mt-2 text-white pb-1 hover:bg-[#2a2a2a]"
+        style={{ width }}
       >
-        <div className="relative w-full pt-[60%]">
-          <div className="absolute inset-0">
-            <img
-              className="w-full h-full object-cover mb-2 rounded-xl border border-gray-800"
-              src={snap?.snapThumbnail}
-              alt={snap?.title}
-            />
-          </div>
-
-          <p className="absolute bottom-1 right-3 ">{formattedDuration}</p>
+        <div className="relative ">
+          <img
+            className="w-full h-full aspect-[9/16] object-cover mb-2 rounded-xl border border-gray-800"
+            src={snap?.snapThumbnail}
+            alt={snap?.title}
+          />
         </div>
 
         <div className="flex mt-1">
-          <div onClick={handleChannelClick} className="mt-1 flex-shrink-0">
-            <img
-              className="w-9 h-9 bg-gray-100 rounded-full object-cover"
-              src={snap?.owner?.avatar}
-              alt={snap?.owner?.fullname}
-            />
-          </div>
-
           <div className="ml-4">
             <h2
               className="text-lg font-semibold line-clamp-2"
@@ -76,8 +65,6 @@ function SnapCard({ snap, name = true }) {
             >
               {snap?.title}
             </h2>
-
-            {name && <h2 className="text-gray-200">{snap?.owner?.fullname}</h2>}
 
             <p className="text-gray-300 text-[0.95rem]">{`${snap?.views} views • ${timeDistance}`}</p>
           </div>

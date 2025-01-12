@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import VideoCard from "./VideoCard.jsx";
+import VideoTable from "./VideoTable.jsx";
+import { IoClose } from "react-icons/io5";
 
-function VideoPanel({ channelVideos }) {
+function VideoPanel({ channelVideos, setIsVideoPanel }) {
   const [filter, setFilter] = useState(channelVideos || []);
   const [input, setInput] = useState("");
 
@@ -25,49 +26,62 @@ function VideoPanel({ channelVideos }) {
   let videos = filter || channelVideos;
 
   return (
-    <>
-      <div className="relative w-full mb-2 rounded-full bg-zinc-800 border py-1 pl-8 pr-3 overflow-hidden">
-        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400">
-          <GoSearch />
-        </span>
+    <div className="fixed z-50 inset-0 backdrop-blur-md flex flex-col items-center justify-center overflow-auto">
+      <button
+        type="button"
+        onClick={() => setIsVideoPanel(false)}
+        className="absolute right-10 top-10 h-7 w-7 focus:border-dotted z-50"
+      >
+        <IoClose className="w-9 h-9" />
+      </button>
 
-        <input
-          onChange={(e) => handleUserInput(e.target.value.trim())}
-          className="w-full bg-transparent outline-none"
-          placeholder="Search"
-        />
-      </div>
+      <div className=" max-w-max max-h-[90%] slide-up ">
+        {/* search bar */}
+        <div className="relative w-full py-4 px-14 rounded-t-[20px] bg-[#3a3a3a]  overflow-hidden">
+          <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
+            <GoSearch />
+          </span>
 
-      <div className="w-full overflow-auto">
-        <table className="w-full min-w-[1000px] border-collapse border text-white">
-          <thead>
-            <tr>
-              <th className="border-collapse border-b p-4">Toggle</th>
-              <th className="border-collapse border-b p-4">Status</th>
-              <th className="border-collapse border-b p-4">Video</th>
-              <th className="border-collapse border-b p-4">Date Uploaded</th>
-              <th className="border-collapse border-b p-4">Views</th>
-              <th className="border-collapse border-b p-4">Likes</th>
-              <th className="border-collapse border-b p-4">Options</th>
-            </tr>
-          </thead>
+          <input
+            autoFocus
+            onChange={(e) => handleUserInput(e.target.value.trim())}
+            className="w-full bg-transparent outline-none"
+            placeholder="Search by entering video title"
+          />
+        </div>
 
-          <tbody>
-            {videos?.map((video) => (
-              <VideoCard key={video._id} video={video} />
-            ))}
-
-            {videos?.length === 0 && (
+        {/* table */}
+        <div className="w-full  bg-[#1a1a1a] rounded-b-[20px] ">
+          <table className="min-w-min rounded-b-[20px] text-white">
+            <thead>
               <tr>
-                <td colSpan="8" className="text-center p-4">
-                  No videos found.
-                </td>
+                <th className="border-collapse border-b p-4">Toggle</th>
+                <th className="border-collapse border-b p-4">Status</th>
+                <th className="border-collapse border-b p-4">Video</th>
+                <th className="border-collapse border-b p-4">Date Uploaded</th>
+                <th className="border-collapse border-b p-4">Views</th>
+                <th className="border-collapse border-b p-4">Likes</th>
+                <th className="border-collapse border-b p-4">Options</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {videos?.map((video) => (
+                <VideoTable key={video._id} video={video} />
+              ))}
+
+              {videos?.length === 0 && (
+                <tr>
+                  <td colSpan="8" className="text-center p-10">
+                    No videos found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

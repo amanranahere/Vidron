@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import { useDispatch } from "react-redux";
 import { addUserVideoHistory } from "../../store/userSlice.js";
 import axiosInstance from "../../utils/axios.helper.js";
 
-function VideoCard({ video, name = true }) {
+function VideoCard({ video, name = true, displayAvatar = true }) {
   const formattedDuration = video?.duration;
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
   const navigate = useNavigate();
@@ -61,13 +61,15 @@ function VideoCard({ video, name = true }) {
         </div>
 
         <div className="flex mt-1">
-          <div onClick={handleChannelClick} className="mt-1 flex-shrink-0">
-            <img
-              className="w-9 h-9 bg-gray-100 rounded-full object-cover"
-              src={video?.owner?.avatar}
-              alt={video?.owner?.fullname}
-            />
-          </div>
+          {displayAvatar && (
+            <div onClick={handleChannelClick} className="mt-1 flex-shrink-0">
+              <img
+                className="w-9 h-9 bg-gray-100 rounded-full object-cover"
+                src={video?.owner?.avatar}
+                alt={video?.owner?.fullname}
+              />
+            </div>
+          )}
 
           <div className="ml-4">
             <h2

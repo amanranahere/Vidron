@@ -155,7 +155,7 @@ function PlaylistForm({ playlist, route }, ref) {
                       <textarea
                         rows={4}
                         id="desc"
-                        className="px-2 rounded-lg w-full py-1 bg-[#2a2a2a] text-white outline-none duration-200 focus:bg-[#3a3a3a] "
+                        className="px-2 rounded-lg w-full py-1 bg-[#2a2a2a] text-white outline-none duration-200 focus:bg-[#3a3a3a] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black"
                         placeholder="Enter some description of the Playlist"
                         {...register("description", {
                           required: false,

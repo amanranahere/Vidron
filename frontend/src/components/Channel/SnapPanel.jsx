@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import SnapCard from "./SnapCard.jsx";
+import SnapTable from "./SnapCard.jsx";
 
 function SnapPanel({ channelSnaps }) {
   const [filter, setFilter] = useState(channelSnaps || []);
@@ -54,7 +54,7 @@ function SnapPanel({ channelSnaps }) {
 
           <tbody>
             {snaps?.map((snap) => (
-              <SnapCard key={snap._id} snap={snap} />
+              <SnapTable key={snap._id} snap={snap} />
             ))}
 
             {snaps?.length === 0 && (

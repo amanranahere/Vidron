@@ -56,8 +56,8 @@ function ChannelSnaps() {
         <div className="flex mx-2">
           <button
             type="button"
-            className={`px-3 py-1.5 mr-3 text-sm rounded-lg font-semibold ${
-              sortType === "desc" ? "bg-pink-500 " : "bg-slate-700"
+            className={`mr-3 font-semibold ${
+              sortType === "desc" ? "text-white " : "text-[#6a6a6a]"
             }`}
             onClick={() => {
               setSortType("desc");
@@ -70,8 +70,8 @@ function ChannelSnaps() {
 
           <button
             type="button"
-            className={`px-3 py-1.5 text-sm rounded-lg font-semibold ${
-              sortType === "asc" ? "bg-pink-500 " : "bg-slate-700 "
+            className={`font-semibold ${
+              sortType === "asc" ? "text-white " : "text-[#6a6a6a]"
             }`}
             onClick={() => {
               setSortType("asc");
@@ -84,13 +84,10 @@ function ChannelSnaps() {
         </div>
 
         <div
-          className={`grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-2 ${
-            snaps?.length < 4 &&
-            "sm:grid-cols-[repeat(auto-fit,_minmax(300px,0.34fr))] 2xl:grid-cols-[repeat(auto-fit,_minmax(300px,0.24fr))]"
-          }`}
+          className={`grid grid-cols-[repeat(auto-fit,_minmax(300px,_max-content))] justify-center gap-1`}
         >
           {snaps?.map((snap) => (
-            <SnapCard key={snap?._id} snap={snap} name={false} />
+            <SnapCard key={snap?._id} snap={snap} />
           ))}
         </div>
       </InfiniteScroll>

@@ -1084,7 +1084,7 @@
 }
 
 .slide-up {
-  animation: slideInFrombottom 0.5s ease-out forwards;
+  animation: slideInFrombottom 0.2s ease-out forwards;
 }
 
 /* slide-up - end */

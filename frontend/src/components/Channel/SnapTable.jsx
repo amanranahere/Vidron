@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { MdDelete, MdEdit } from "react-icons/md";
 import SnapForm from "./SnapForm.jsx";
 
-function SnapCard({ snap }) {
+function SnapTable({ snap }) {
   const dispatch = useDispatch();
   const confirmDialog = useRef();
   const editDialog = useRef();
@@ -172,4 +172,4 @@ function SnapCard({ snap }) {
   );
 }
 
-export default SnapCard;
+export default SnapTable;

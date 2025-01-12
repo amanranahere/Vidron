@@ -7,9 +7,9 @@ import axiosInstance from "../../utils/axios.helper.js";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoGlobeOutline, IoEyeOutline } from "react-icons/io5";
 import { BsPlayBtn } from "react-icons/bs";
-import { BiLike } from "react-icons/bi";
-import { AiOutlineMessage } from "react-icons/ai";
 import { GoInfo } from "react-icons/go";
+import { BiFilm, BiMessageSquareDots } from "react-icons/bi";
+import { AiOutlineLike } from "react-icons/ai";
 
 function AboutChannel() {
   const { username } = useParams();
@@ -41,17 +41,12 @@ function AboutChannel() {
   }
 
   return (
-    <div className="text-white px-6 py-4">
-      <div className="flex items-center mb-4">
-        <h2 className="text-3xl font-semibold">@{username}</h2>
-      </div>
-
+    <div className="text-white px-6 pt-4">
       <div className="mb-4">
         <p className="ml-1">{user.description}</p>
       </div>
 
       <div className="mb-6">
-        <h3 className="text-2xl font-semibold mb-3">Channel Details</h3>
         <p className="ml-1 mb-[6px] flex items-center gap-2">
           <MdOutlineEmail className="w-6 h-6" />
           <a
@@ -83,6 +78,16 @@ function AboutChannel() {
         </p>
 
         <p className="ml-1 mb-[6px] flex items-center gap-2">
+          <BiFilm className="w-6 h-6" />
+          <span>
+            <span className="font-semibold">
+              {aboutChannel.snaps > 0 ? aboutChannel.snaps : 0}
+            </span>{" "}
+            Snaps
+          </span>
+        </p>
+
+        <p className="ml-1 mb-[6px] flex items-center gap-2">
           <IoEyeOutline className="w-6 h-6" />
           <span>
             <span className="font-semibold">
@@ -93,7 +98,7 @@ function AboutChannel() {
         </p>
 
         <p className="ml-1 mb-[6px] flex items-center gap-2">
-          <BiLike className="w-6 h-6" />
+          <AiOutlineLike className="w-6 h-6" />
           <span>
             <span className="font-semibold">
               {aboutChannel.likes > 0 ? aboutChannel.likes : 0}
@@ -103,22 +108,12 @@ function AboutChannel() {
         </p>
 
         <p className="ml-1 mb-[6px] flex items-center gap-2">
-          <AiOutlineMessage className="w-6 h-6" />
+          <BiMessageSquareDots className="w-6 h-6" />
           <span>
             <span className="font-semibold">
               {aboutChannel.tweets > 0 ? aboutChannel.tweets : 0}
             </span>{" "}
             Tweets
-          </span>
-        </p>
-
-        <p className="ml-1 mb-[6px] flex items-center gap-2">
-          <BsPlayBtn className="w-6 h-6" />
-          <span>
-            <span className="font-semibold">
-              {aboutChannel.snaps > 0 ? aboutChannel.snaps : 0}
-            </span>{" "}
-            Snaps
           </span>
         </p>
 

@@ -89,7 +89,7 @@ function Snap({
             {/* lg screen size */}
             {window.innerWidth >= 1024 && (
               <div
-                className={`flex justify-center items-center ${
+                className={`z-10 flex justify-center items-center ${
                   showSnapInfo ? "slide-left" : ""
                 }`}
               >
