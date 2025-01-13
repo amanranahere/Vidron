@@ -55,57 +55,47 @@ function ConfirmPopup(
     actionFunction(true);
   };
 
-  const handleOutsideClick = (e) => {
-    if (dialog.current && !dialog.current.contains(e.target)) {
-      handleClose();
-    }
-  };
+  // const handleOutsideClick = (e) => {
+  //   console.log("Outside click detected:", e.target);
+  //   if (dialog.current && !dialog.current.contains(e.target)) {
+  //     handleClose();
+  //   }
+  // };
 
-  useEffect(() => {
-    if (showPopup) {
-      document.addEventListener("click", handleOutsideClick);
-    } else {
-      document.removeEventListener("click", handleOutsideClick);
-    }
-  }, [showPopup]);
+  // useEffect(() => {
+  //   if (showPopup) {
+  //     document.addEventListener("click", handleOutsideClick);
+  //   } else {
+  //     document.removeEventListener("click", handleOutsideClick);
+  //   }
+  // }, [showPopup]);
 
   return (
-    <div className="absolute">
+    <div className="absolute flex justify-center items-center">
       {showPopup &&
         createPortal(
           <dialog
             ref={dialog}
             onClose={handleClose}
-            className="h-full backdrop:backdrop-blur-sm items-center"
+            className="backdrop:backdrop-blur-sm rounded-[20px]"
           >
-            <div className="relative flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-              <div className="fixed inset-0 top-[calc(66px)] z-10 flex flex-col bg-black/50 px-4 pb-[86px] pt-4 sm:top-[calc(82px)] sm:px-14 sm:py-8">
+            <div className="relative max-h-max">
+              <div className=" ">
                 <form
                   onSubmit={handleConfirm}
-                  className="mx-auto w-full max-w-lg overflow-auto rounded-lg border border-gray-700 text-white bg-zinc-950 p-4"
+                  className="overflow-auto rounded-[20px] text-white bg-[#1a1a1a] p-4"
                 >
-                  <div className="flex items-start justify-end">
-                    <button
-                      autoFocus
-                      type="button"
-                      onClick={handleClose}
-                      className="h-7 w-7 hover:border-dotted hover:border"
-                    >
-                      <IoClose className="w-7 h-7" />
-                    </button>
-                  </div>
-
                   <div className="flex flex-col items-center text-center justify-center">
-                    <h6 className="text-3xl font-semibold mb-3 select-none">
+                    <h6 className="text-3xl font-semibold mb-6 select-none">
                       {title}
                     </h6>
 
                     {subtitle && (
-                      <span className=" text-xl text-gray-300">{subtitle}</span>
+                      <span className=" text-xl text-gray-100">{subtitle}</span>
                     )}
 
                     {message && (
-                      <span className="text-gray-300 mt-1">{message}</span>
+                      <span className="text-gray-300 mt-4">{message}</span>
                     )}
                   </div>
 
@@ -128,27 +118,27 @@ function ConfirmPopup(
                     </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <Button
+                  <div className="grid grid-cols-2 gap-4 mt-10">
+                    <button
                       onClick={handleClose}
-                      className="border hover:bg-slate-700"
+                      className="bg-[#3a3a3a] hover:bg-[#4a4a4a] active:bg-[#3a3a3a] rounded-[10px] hover:transition duration-800"
                     >
                       {cancel}
-                    </Button>
+                    </button>
 
-                    <Button
+                    <button
                       type="submit"
                       disabled={checkbox && !isChecked}
                       textColor=""
                       bgColor=""
                       className={`${
                         critical
-                          ? "bg-zinc-900 text-red-500"
+                          ? "bg-red-400 text-white"
                           : "bg-pink-600 text-white"
-                      } border enabled:hover:text-black enabled:hover:bg-red-500/80 font-semibold disabled:cursor-not-allowed`}
+                      } border-none outline-none px-4 py-2 hover:bg-red-400/80 active:bg-red-400/60 hover:text-white rounded-[10px] select-none hover:transition duration-800 disabled:cursor-not-allowed`}
                     >
                       {confirm}
-                    </Button>
+                    </button>
                   </div>
                 </form>
               </div>

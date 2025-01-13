@@ -58,8 +58,8 @@ function SnapTable({ snap }) {
   };
 
   return (
-    <tr key={snap._id} className="group border">
-      <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+    <tr key={snap._id} className="group">
+      <td className="border-collapse border-b border-gray-600 md:px-4 py-3 group-last:border-none">
         <div className="flex justify-center">
           <label
             htmlFor={"sp" + snap._id}
@@ -73,18 +73,16 @@ function SnapTable({ snap }) {
               className="peer sr-only"
             />
 
-            <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-pink-600 peer-checked:after:left-7"></span>
+            <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200  peer-checked:bg-[#7a7a7a] peer-checked:after:left-7"></span>
           </label>
         </div>
       </td>
 
-      <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+      <td className="border-collapse border-b border-gray-600 md:px-4 py-3 group-last:border-none">
         <div className="flex justify-center">
           <span
-            className={`inline-block rounded-2xl border px-1.5 py-0.5 ${
-              publishStatus
-                ? "border-green-600 text-green-600"
-                : "border-orange-600 text-orange-600"
+            className={`inline-block px-1.5 py-0.5 ${
+              publishStatus ? "text-green-400" : "text-red-400"
             }`}
           >
             {publishStatus ? "Published" : "Unpublished"}
@@ -92,19 +90,19 @@ function SnapTable({ snap }) {
         </div>
       </td>
 
-      <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+      <td className="border-collapse border-b border-gray-600 md:px-4 py-3 group-last:border-none">
         <div className="flex justify-start items-center gap-4">
           {publishStatus ? (
             <Link to={`/snap-watchpage/${snap._id}`}>
               <img
-                className="h-10 w-10 rounded-full object-cover"
+                className="h-8 w-6 rounded-sm object-cover hidden md:block"
                 src={snap.snapThumbnail}
                 alt={snap.title}
               />
             </Link>
           ) : (
             <img
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-8 w-6 rounded-sm object-cover hidden md:block"
               src={snap.snapThumbnail}
               alt={snap.title}
             />
@@ -114,7 +112,7 @@ function SnapTable({ snap }) {
             {publishStatus ? (
               <Link
                 to={`/snap-watchpage/${snap._id}`}
-                className="hover:text-gray-300"
+                className="hover:text-gray-300 line-clamp-2"
               >
                 {snap.title?.length > 35
                   ? snap.title.substr(0, 35) + "..."
@@ -129,15 +127,15 @@ function SnapTable({ snap }) {
         </div>
       </td>
 
-      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
+      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none hidden md:table-cell">
         {formatDate(snap.createdAt)}
       </td>
 
-      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
+      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none hidden md:table-cell">
         {snap.views}
       </td>
 
-      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none">
+      <td className="border-collapse text-center border-b border-gray-600 px-4 py-3 group-last:border-none hidden md:table-cell">
         {snap.likesCount}
       </td>
 
@@ -145,7 +143,12 @@ function SnapTable({ snap }) {
         <ConfirmPopup
           ref={confirmDialog}
           title="Delete Snap"
-          subtitle={`${snap.title} - Total views: ${snap.views}`}
+          subtitle={
+            <div className="text-gray-100">
+              <span className="text-white">Title:</span>{" "}
+              <span className="italic text-cyan-400">{snap.title}</span>
+            </div>
+          }
           confirm="Delete"
           cancel="Cancel"
           critical
@@ -156,15 +159,15 @@ function SnapTable({ snap }) {
         <SnapForm ref={editDialog} snap={snap} />
 
         <div className="flex justify-center gap-4">
-          <button
-            onClick={() => confirmDialog.current.open()}
-            title="Delete snap"
-          >
-            <MdDelete className="h-5 w-5 hover:text-red-500" />
+          <button onClick={() => editDialog.current?.open()} title="Edit Snap">
+            <MdEdit className="h-6 w-6 hover:text-green-400" />
           </button>
 
-          <button onClick={() => editDialog.current?.open()} title="Edit snap">
-            <MdEdit className="h-5 w-5 hover:text-red-500" />
+          <button
+            onClick={() => confirmDialog.current.open()}
+            title="Delete Snap"
+          >
+            <MdDelete className="h-6 w-6 hover:text-red-400" />
           </button>
         </div>
       </td>

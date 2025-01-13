@@ -13,13 +13,14 @@ function Navbar() {
   const location = useLocation();
   const isWatchPage = location.pathname.includes("/video-watchpage");
   const isSnapWatchPage = location.pathname.includes("/snap");
+  const isChannelPage = location.pathname.includes("/channel");
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
     <nav
-      className={`${
-        isSnapWatchPage ? "hidden md:flex" : ""
+      className={`${isSnapWatchPage ? "hidden lg:flex" : ""} ${
+        isChannelPage ? "hidden lg:flex" : ""
       } flex justify-between items-center`}
     >
       <div className="flex justify-center items-center">
@@ -72,27 +73,22 @@ function Navbar() {
       {!authStatus && (
         <div>
           <button
-            className="max-w-max cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 px-4 py-2 rounded-full border border-solid border-[#6a6a6a] text-gray-200 font-bold flex"
+            className="max-w-max cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 md:mr-2 lg:px-4 lg:py-2 rounded-full border border-solid border-[#6a6a6a] text-gray-200 font-bold flex"
             onClick={() => {
               navigate("/login");
             }}
           >
-            <FaRegUserCircle className="text-2xl opacity-90 mr-2" />
-            Sign in
+            <FaRegUserCircle className="text-2xl opacity-90 w-10 h-10 lg:w-auto lg:h-auto " />
+            <span className="hidden lg:block ml-2">Sign in</span>
           </button>
         </div>
       )}
 
       {authStatus && userData && (
-        <div className="relative group w-48 flex justify-end">
-          <Link
-            to={`/channel/${userData.username}`}
-            className=" flex items-center space-x-2"
-          >
-            <span className="hidden group-hover:inline-block text-sm font-medium duration">
-              {userData.username}
-            </span>
+        <div className="">
+          <Link to={`/channel/${userData.username}`}>
             <img
+              title={userData.username}
               src={userData.avatar}
               alt={userData.username}
               className="object-cover h-10 w-10 rounded-full hover:opacity-70"

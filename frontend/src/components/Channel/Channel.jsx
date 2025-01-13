@@ -9,9 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../Icons.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
-import { MdOutlineEdit } from "react-icons/md";
 import { FiVideoOff } from "react-icons/fi";
-import { IoAdd } from "react-icons/io5";
 import Button from "../Button.jsx";
 import { FaBell, FaCheckCircle } from "react-icons/fa";
 import axiosInstance from "../../utils/axios.helper.js";
@@ -81,7 +79,7 @@ function Channel() {
   }
 
   return profile ? (
-    <section className="relative w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+    <section className="relative w-full pb-[70px] sm:ml-[70px] md:ml-0 sm:pb-0 lg:ml-0">
       {/* cover image */}
       <div className="relative min-h-[150px] w-full pt-[20%]">
         <div className="absolute inset-0 overflow-hidden">
@@ -93,7 +91,7 @@ function Channel() {
         </div>
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-2 md:px-4 pb-14 lg:pb-4">
         <div className="flex flex-wrap gap-4 pb-4 pt-2">
           <span className="relative -mt-12 inline-block h-32 w-32 shrink-0 overflow-hidden rounded-full border-2">
             <img
@@ -147,7 +145,7 @@ function Channel() {
                       onClick={() => snapUploadRef.current?.open()}
                       className="group p-2 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000"
                     >
-                      <span className=" pl-2 font-bold text-gray-100">
+                      <span className="pl-2 font-bold text-gray-100">
                         UPLOAD SNAP&nbsp;
                       </span>
                       <div tabIndex="0" className="plusButton">
@@ -214,14 +212,14 @@ function Channel() {
           </div>
         </div>
 
-        <div className="relative flex justify-between">
-          <div className="min-w-[85%] pr-12">
+        <div className="relative flex flex-col-reverse lg:flex-row justify-between">
+          <div className="min-w-[85%] lg:pr-12">
             <Outlet />
           </div>
 
-          <div className="w-full sticky top-0">
-            <ul className="w-full sticky top-0 z-30 text-3xl font-semibold">
-              <li className="w-full text-end">
+          <div className="w-full lg:sticky top-0 py-3 lg:py-0">
+            <ul className="w-full lg:sticky lg:top-0 z-30 text-3xl font-semibold flex flex-wrap justify-center gap-1 lg:gap-0">
+              <li className="lg:w-full text-end">
                 <NavLink
                   to=""
                   end
@@ -235,7 +233,7 @@ function Channel() {
                 </NavLink>
               </li>
 
-              <li className="w-full text-end">
+              <li className="px-3 lg:px-0 lg:w-full text-end">
                 <NavLink
                   to={"snaps"}
                   end
@@ -249,7 +247,7 @@ function Channel() {
                 </NavLink>
               </li>
 
-              <li className="w-full text-end">
+              <li className="lg:w-full text-end">
                 <NavLink
                   to={"playlist"}
                   className={({ isActive }) =>
@@ -262,7 +260,7 @@ function Channel() {
                 </NavLink>
               </li>
 
-              <li className="w-full text-end">
+              <li className="pl-3 lg:pl-0 lg:w-full text-end">
                 <NavLink
                   to={"tweets"}
                   className={({ isActive }) =>
@@ -275,7 +273,7 @@ function Channel() {
                 </NavLink>
               </li>
 
-              <li className="w-full text-end">
+              <li className="px-3 lg:px-0 lg:w-full text-end">
                 <NavLink
                   to={"subscribed"}
                   className={({ isActive }) =>
@@ -288,7 +286,7 @@ function Channel() {
                 </NavLink>
               </li>
 
-              <li className="w-full text-end">
+              <li className="lg:w-full text-end">
                 <NavLink
                   to={"about"}
                   className={({ isActive }) =>

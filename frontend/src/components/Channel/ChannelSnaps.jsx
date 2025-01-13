@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import getUserSnaps from "../../hooks/getUserSnaps.js";
 import ChannelEmptySnap from "./ChannelEmptySnap.jsx";
 import { icons } from "../Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserSnaps } from "../../store/userSlice.js";
 import SnapCard from "../Snap/SnapCard.jsx";
+import SnapPanel from "./SnapPanel.jsx";
+import getUserProfile from "../../hooks/getUserProfile.js";
 
 function ChannelSnaps() {
   const [loading, setLoading] = useState(true);
@@ -13,7 +17,11 @@ function ChannelSnaps() {
   const [hasMore, setHasMore] = useState(true);
   const [sortType, setSortType] = useState("desc");
   const dispatch = useDispatch();
+  const { username } = useParams();
   const userId = useSelector((state) => state.user.user._id);
+  const { status, userData } = useSelector((state) => state.auth);
+  const [profile, setProfile] = useState(null);
+  const [isSnapPanel, setIsSnapPanel] = useState(false);
 
   useEffect(() => {
     if (page === 1) {
@@ -27,6 +35,27 @@ function ChannelSnaps() {
       }
     });
   }, [userId, sortType, page]);
+
+  useEffect(() => {
+    getUserProfile(dispatch, username).then((res) => {
+      if (res?.data) {
+        setProfile(res?.data);
+      } else {
+        setError(
+          <GuestComponent
+            title="Channel does not exist"
+            subtitle="There is no channel for given username. Check the username again."
+            icon={
+              <span className="w-full h-full flex items-center p-4">
+                <FiVideoOff className="w-28 h-28" />
+              </span>
+            }
+            guest={false}
+          />
+        );
+      }
+    });
+  }, [status, username]);
 
   const snaps = useSelector((state) => state.user.userSnaps);
 
@@ -84,13 +113,27 @@ function ChannelSnaps() {
         </div>
 
         <div
-          className={`grid grid-cols-[repeat(auto-fit,_minmax(300px,_max-content))] justify-center gap-1`}
+          className={`grid grid-cols-[repeat(auto-fit,_minmax(300px,50px))]  gap-1 aspect-[9/16]`}
         >
           {snaps?.map((snap) => (
             <SnapCard key={snap?._id} snap={snap} />
           ))}
         </div>
       </InfiniteScroll>
+
+      {/* snap control table */}
+      {status === true && userData?.username === profile?.username && (
+        <button
+          onClick={() => setIsSnapPanel(true)}
+          className="fixed bottom-16 right-2 md:bottom-20 md:right-8 lg:bottom-6 lg:right-6 p-4 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000 font-bold text-gray-100"
+        >
+          SNAP CONTROLS
+        </button>
+      )}
+
+      {isSnapPanel && (
+        <SnapPanel channelSnaps={snaps} setIsSnapPanel={setIsSnapPanel} />
+      )}
     </div>
   );
 }

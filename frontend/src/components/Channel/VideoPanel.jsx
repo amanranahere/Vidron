@@ -26,16 +26,17 @@ function VideoPanel({ channelVideos, setIsVideoPanel }) {
   let videos = filter || channelVideos;
 
   return (
-    <div className="fixed z-50 inset-0 backdrop-blur-md flex flex-col items-center justify-center overflow-auto">
+    <div className="fixed z-50 inset-0 backdrop-blur-md flex flex-col items-center justify-center overflow-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-transparent">
+      {/* close button */}
       <button
         type="button"
         onClick={() => setIsVideoPanel(false)}
-        className="absolute right-10 top-10 h-7 w-7 focus:border-dotted z-50"
+        className="absolute right-2 top-0 md:right-4 md:top-4 lg:right-10 lg:top-10 h-7 w-7 focus:border-dotted z-50"
       >
         <IoClose className="w-9 h-9" />
       </button>
 
-      <div className=" max-w-max max-h-[90%] slide-up ">
+      <div className="max-w-max max-h-[90%] slide-up ">
         {/* search bar */}
         <div className="relative w-full py-4 px-14 rounded-t-[20px] bg-[#3a3a3a]  overflow-hidden">
           <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
@@ -51,16 +52,22 @@ function VideoPanel({ channelVideos, setIsVideoPanel }) {
         </div>
 
         {/* table */}
-        <div className="w-full  bg-[#1a1a1a] rounded-b-[20px] ">
+        <div className="w-full bg-[#1a1a1a] rounded-b-[20px]">
           <table className="min-w-min rounded-b-[20px] text-white">
             <thead>
               <tr>
                 <th className="border-collapse border-b p-4">Toggle</th>
                 <th className="border-collapse border-b p-4">Status</th>
                 <th className="border-collapse border-b p-4">Video</th>
-                <th className="border-collapse border-b p-4">Date Uploaded</th>
-                <th className="border-collapse border-b p-4">Views</th>
-                <th className="border-collapse border-b p-4">Likes</th>
+                <th className="border-collapse border-b p-4 hidden md:table-cell">
+                  Date Uploaded
+                </th>
+                <th className="border-collapse border-b p-4 hidden md:table-cell">
+                  Views
+                </th>
+                <th className="border-collapse border-b p-4 hidden md:table-cell">
+                  Likes
+                </th>
                 <th className="border-collapse border-b p-4">Options</th>
               </tr>
             </thead>

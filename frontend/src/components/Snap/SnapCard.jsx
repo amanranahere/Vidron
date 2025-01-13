@@ -43,7 +43,11 @@ function SnapCard({ snap, width = "60%" }) {
   };
 
   return (
-    <Link to={`/snap-watchpage/${snap?._id}`} onClick={handleSnapClick}>
+    <Link
+      to={`/snap-watchpage/${snap?._id}`}
+      onClick={handleSnapClick}
+      className=""
+    >
       <div
         key={snap._id}
         className="rounded-xl mt-2 text-white pb-1 hover:bg-[#2a2a2a]"
@@ -58,7 +62,7 @@ function SnapCard({ snap, width = "60%" }) {
         </div>
 
         <div className="flex mt-1">
-          <div className="ml-4">
+          <div className="ml-2">
             <h2
               className="text-lg font-semibold line-clamp-2"
               title={snap?.title}

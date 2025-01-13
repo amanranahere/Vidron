@@ -17,7 +17,7 @@ function Search() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex items-center w-full max-w-lg"
+      className="flex items-center w-[40%] md:w-full md:max-w-lg"
     >
       <div className="relative flex-grow">
         <Input

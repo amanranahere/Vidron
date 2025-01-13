@@ -779,7 +779,11 @@
 
 #file-input01,
 #file-input02,
-#tweet-img {
+#tweet-img,
+#upload-video,
+#thumbnail,
+#snapThumbnail,
+#upload-snap {
   width: 350px;
   max-width: 100%;
   color: #fff;
@@ -791,6 +795,10 @@
 
 #file-input01::file-selector-button,
 #file-input02::file-selector-button,
+#upload-video::file-selector-button,
+#thumbnail::file-selector-button,
+#upload-snap::file-selector-button,
+#snapThumbnail::file-selector-button,
 #tweet-img::file-selector-button {
   margin-right: 20px;
   border: none;
@@ -804,6 +812,10 @@
 
 #file-input01::file-selector-button:hover,
 #file-input02::file-selector-button:hover,
+#upload-video::file-selector-button:hover,
+#thumbnail::file-selector-button:hover,
+#upload-snap::file-selector-button:hover,
+#snapThumbnail::file-selector-button:hover,
 #tweet-img::file-selector-button:hover {
   background: #00bfff96;
 }

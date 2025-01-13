@@ -70,7 +70,7 @@ function Snap({
           {icons.bigLoading}
         </span>
       ) : (
-        <div className="flex justify-center h-[calc(100vh-56px)] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-56px)]">
+        <div className="flex justify-center md:h-[calc(100vh-56px)]">
           {/* snap video */}
           <>
             {/* sm and md screen size */}

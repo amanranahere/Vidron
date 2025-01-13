@@ -132,7 +132,7 @@ function ChannelVideos() {
       {status === true && userData?.username === profile?.username && (
         <button
           onClick={() => setIsVideoPanel(true)}
-          className="fixed bottom-20 right-4 lg:bottom-6 lg:right-4 p-4 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000 font-bold text-gray-100"
+          className="fixed bottom-16 right-2 md:bottom-20 md:right-8 lg:bottom-6 lg:right-6 p-4 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000 font-bold text-gray-100"
         >
           VIDEO CONTROLS
         </button>
