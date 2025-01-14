@@ -46,31 +46,33 @@ function EditChannelInfo() {
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-y-4 py-4">
-      <div className="w-full sm:w-1/2 lg:w-1/3">
-        <h5 className="font-semibold">Channel Info</h5>
-        <p className="text-gray-300">Update your channel details.</p>
+    <div className="">
+      <div className="w-full my-3 lg:my-6 pl-3">
+        <p className="text-gray-300 font-semibold text-xl md:text-3xl">
+          Update your channel details
+        </p>
       </div>
 
-      <div className="w-full sm:w-1/2 lg:w-2/3">
-        <form
-          onSubmit={handleSubmit(handleSaveChange)}
-          className="rounded-lg border"
-        >
+      <div className="lg:w-[70%]">
+        <form onSubmit={handleSubmit(handleSaveChange)}>
+          {/* username input */}
           <div className="w-full px-4 py-2">
-            <label htmlFor="username" className="mb-1 inline-block">
+            <label
+              htmlFor="username"
+              className="inline-block mb-1 pl-1 text-[#00bfff]"
+            >
               Username
             </label>
 
-            <div className="flex rounded-lg border">
-              <p className="flex shrink-0 items-center border-r border-white px-3 align-middle">
-                viewify.com/
+            <div className="flex rounded-lg">
+              <p className="flex shrink-0 rounded-l-lg items-center bg-[#2a2a2a] pl-3 text-white/70">
+                vidron.com/
               </p>
 
               <input
                 type="text"
                 id="username"
-                className="w-full px-2 py-1.5 bg-transparent"
+                className="py-2 px-2 bg-[#2a2a2a] text-white outline-none duration-200 rounded-r-lg focus:bg-[#3a3a3a] w-full"
                 placeholder="Enter your username"
                 required
                 defaultValue={userData.username}
@@ -97,8 +99,12 @@ function EditChannelInfo() {
             )}
           </div>
 
+          {/* description */}
           <div className="w-full px-4 py-2">
-            <label htmlFor="desc" className="mb-1 inline-block">
+            <label
+              htmlFor="desc"
+              className="mb-1 pl-1 inline-block text-[#00bfff]"
+            >
               Description
             </label>
 
@@ -107,8 +113,8 @@ function EditChannelInfo() {
                 placeholder="Enter your channel description"
                 name="desc"
                 type="text"
-                className="w-full px-2 py-1.5 border rounded-lg bg-transparent"
-                rows="3"
+                className="px-2 rounded-lg w-full py-1 bg-[#2a2a2a] text-white outline-none duration-200 focus:bg-[#3a3a3a] overflow-y-auto scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-black resize-none"
+                rows="4"
                 defaultValue={userData.description}
                 {...register("description", {
                   maxLength: {
@@ -132,29 +138,26 @@ function EditChannelInfo() {
             )}
           </div>
 
-          <hr className="border border-gray-300 mt-1" />
+          {/* save and cancel buttons */}
+          <div className="flex justify-start items-center gap-4 p-4 mt-4">
+            <button
+              type="submit"
+              disabled={JSON.stringify(data) === JSON.stringify(defaultValues)}
+              className="inline-block rounded-lg px-10 py-1.5 bg-[#00bfff] hover:bg-[#00bfff96] active:bg-[#00bfff63] active:scale-95 disabled:cursor-not-allowed"
+            >
+              Save
+            </button>
 
-          <div className="flex items-center justify-end gap-4 p-4">
-            <Button
+            <button
               onClick={() => {
                 reset();
                 setData(defaultValues);
               }}
               disabled={JSON.stringify(data) === JSON.stringify(defaultValues)}
-              className="inline-block rounded-lg border hover:bg-white/10 disabled:cursor-not-allowed"
+              className="bg-red-400 px-8 py-1.5 inline-block rounded-lg hover:bg-red-400/70 active:bg-red-400/60 active:scale-95 disabled:cursor-not-allowed"
             >
               Cancel
-            </Button>
-
-            <Button
-              type="submit"
-              disabled={JSON.stringify(data) === JSON.stringify(defaultValues)}
-              className="inline-block rounded-lg font-semibold hover:bg-pink-600 disabled:cursor-not-allowed"
-              bgColor="bg-pink-700"
-              textColor="text-black"
-            >
-              Save Changes
-            </Button>
+            </button>
           </div>
         </form>
       </div>

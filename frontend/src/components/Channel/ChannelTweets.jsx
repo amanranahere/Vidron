@@ -88,7 +88,7 @@ function ChannelTweets() {
       <div className="flex flex-col">
         <button
           onClick={() => setAddTweetBox(!addTweetBox)}
-          className="group fixed bottom-16 md:bottom-20 right-4 lg:bottom-6 lg:right-10 p-2  flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000"
+          className="group fixed bottom-16 right-2 md:bottom-20 md:right-8 lg:bottom-6 lg:right-6 p-2 flex justify-center items-center gap-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 border-none rounded-xl z-20 hover:transition duration-1000"
         >
           <span className="hidden md:inline-block pl-2 font-bold text-gray-100">
             CREATE TWEET

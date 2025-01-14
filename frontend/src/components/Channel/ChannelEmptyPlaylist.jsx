@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
-import { FaRegFolderOpen } from "react-icons/fa";
-import { IoAdd } from "react-icons/io5";
+import { RiPlayList2Fill } from "react-icons/ri";
 import PlaylistForm from "../Playlist/PlaylistForm.jsx";
 
 function ChannelEmptyPlaylist({ videos = false }) {
@@ -18,16 +17,16 @@ function ChannelEmptyPlaylist({ videos = false }) {
       <div className="flex justify-center p-4">
         <div className="w-full max-w-sm text-center mt-6">
           <p className="mb-3 w-full">
-            <span className="inline-flex rounded-full bg-pink-500 p-2">
-              <FaRegFolderOpen className="w-6 h-6" />
+            <span className="inline-flex rounded-full bg-[#3a3a3a] p-3">
+              <RiPlayList2Fill className="w-6 h-6" />
             </span>
           </p>
 
-          <h5 className="mb-2 font-semibold">
+          <h5 className="mb-2 font-semibold text-lg4">
             {videos ? "Empty Playlist" : "No playlist created"}
           </h5>
 
-          <p>
+          <p className="text-gray-200">
             {videos
               ? "This Playlist has no videos."
               : "Your channel has yet to create a playlist. Click to create a new playlist"}
@@ -38,9 +37,8 @@ function ChannelEmptyPlaylist({ videos = false }) {
           {!videos && (
             <button
               onClick={playlistPopup}
-              className="mt-4 inline-flex items-center gap-x-2 bg-pink-500 hover:bg-pink-500/90 border border-transparent rounded-lg hover:border-white px-3 py-1.5 font-semibold text-black"
+              className="mt-4 inline-flex items-center gap-x-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-95 rounded-lg px-3 py-1.5 font-semibold "
             >
-              <IoAdd className="w-5 h-5" />
               New Playlist
             </button>
           )}
@@ -52,16 +50,16 @@ function ChannelEmptyPlaylist({ videos = false }) {
       <div className="flex justify-center p-4">
         <div className="w-full max-w-sm text-center mt-6">
           <p className="mb-3 w-full">
-            <span className="inline-flex rounded-full bg-pink-500 p-2">
-              <FaRegFolderOpen className="w-6 h-6" />
+            <span className="inline-flex rounded-full bg-[#3a3a3a] p-3">
+              <RiPlayList2Fill className="w-6 h-6" />
             </span>
           </p>
 
-          <h5 className="mb-2 font-semibold">
+          <h5 className="mb-2 font-semibold text-lg">
             {videos ? "Empty Playlist" : "No playlist created"}
           </h5>
 
-          <p>
+          <p className="text-gray-200">
             {videos
               ? "This Playlist has no videos."
               : "There are no playlist created on this channel."}
