@@ -42,10 +42,14 @@ function LikedVideos() {
   }
 
   return (
-    <>
+    <div className="lg:w-3/4 pb-20 lg:pb-0">
       {loading && (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
+
+      <div className="w-full text-2xl md:text-3xl font-bold px-4 py-2 pb-3">
+        Liked Videos
+      </div>
 
       {likedVideos?.length > 0 && !loading && (
         <InfiniteScroll
@@ -59,11 +63,7 @@ function LikedVideos() {
         >
           {likedVideos.map((video) => (
             <div key={video._id}>
-              <VideoListCard
-                video={video}
-                imgWidth="w-[20vw]"
-                imgHeight="h-[11vw]"
-              />
+              <VideoListCard video={video} />
             </div>
           ))}
         </InfiniteScroll>
@@ -81,7 +81,7 @@ function LikedVideos() {
           guest={false}
         />
       )}
-    </>
+    </div>
   );
 }
 

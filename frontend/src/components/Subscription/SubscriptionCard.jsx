@@ -5,8 +5,6 @@ import formatSubscribers from "../../utils/formatSubscribers.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
-import Button from "../Button.jsx";
-import { FaBell, FaCheckCircle } from "react-icons/fa";
 import { toggleUserSubscribe } from "../../store/userSlice.js";
 
 function SubscriptionCard({ profile }) {
@@ -28,9 +26,9 @@ function SubscriptionCard({ profile }) {
               toggleUserSubscribe({
                 profileId: profile._id,
                 isSubscribed: !profile?.isSubscribed,
-                subscriberCount: profile?.isSubscribed
+                subscribersCount: profile?.isSubscribed
                   ? profile.subscribersCount - 1
-                  : profile.subscriberCount + 1,
+                  : profile.subscribersCount + 1,
               })
             );
           });
@@ -45,6 +43,8 @@ function SubscriptionCard({ profile }) {
     }
   };
 
+  console.log("Profile: ", profile);
+
   return (
     <>
       <LoginPopup
@@ -53,7 +53,10 @@ function SubscriptionCard({ profile }) {
         route={location.pathname}
       />
 
-      <li key={profile._id} className="flex w-full justify-between">
+      <li
+        key={profile._id}
+        className="flex w-full justify-between bg-[#2a2a2a] p-4 rounded-[20px]"
+      >
         <div className="flex items-center gap-x-3">
           <div className="h-14 w-14 shrink-0">
             <Link to={`/channel/${profile.username}`}>
@@ -66,33 +69,27 @@ function SubscriptionCard({ profile }) {
           </div>
 
           <div className="block">
-            <h6 className="font-semibold">{profile.fullname}</h6>
+            <h6 className="font-semibold line-clamp-1">{profile.fullname}</h6>
             <p className="text-sm text-gray-300">
               {formatSubscribers(profile.subscribersCount)}
             </p>
           </div>
         </div>
 
-        <Button
+        <button
           onClick={toggleSubscribe}
-          className={`flex h-9 items-center px-2 rounded-lg ${
-            profile?.isSubscribed ? "hover:bg-pink-700" : "hover:bg-gray-300"
+          className={`flex items-center px-6  rounded-full ${
+            profile?.isSubscribed
+              ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
+              : "hover:bg-white/60 bg-white text-black"
           }`}
-          textColor="text-black"
-          bgColor={profile?.isSubscribed ? "bg-pink-600" : "bg-gray-100"}
         >
           {profile?.isSubscribed ? (
-            <>
-              <p className="mr-2 font-semibold">Subscribed</p>
-              <FaCheckCircle />
-            </>
+            <p className="font-semibold">Subscribed</p>
           ) : (
-            <>
-              <p className="mr-2 font-semibold">Subscribe</p>
-              <FaBell />
-            </>
+            <p className="font-semibold">Subscribe</p>
           )}
-        </Button>
+        </button>
       </li>
     </>
   );

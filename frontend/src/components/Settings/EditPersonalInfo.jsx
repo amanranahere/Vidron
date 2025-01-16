@@ -220,7 +220,7 @@ function EditPersonalInfo() {
 
             <form
               onChange={handleSubmit3(uploadAvatar)}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute inset-0 flex items-center justify-center"
             >
               <input
                 id="profile-image"
@@ -252,7 +252,7 @@ function EditPersonalInfo() {
                     {icons.loading}
                   </span>
                 ) : (
-                  <HiOutlineUpload className="text-white w-6 h-6 rounded-lg bg-white/50 p-1 hover:bg-[#4a4a4a] active:scale-95 cursor-pointer" />
+                  <HiOutlineUpload className="text-white w-8 h-8 rounded-lg bg-white/50 p-1 hover:bg-[#4a4a4a] active:scale-95 cursor-pointer" />
                 )}
               </label>
             </form>
@@ -271,7 +271,7 @@ function EditPersonalInfo() {
 
             <form
               onChange={handleSubmit2(uploadCoverImage)}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-10 inset-0 flex items-center justify-center"
             >
               <input
                 id="cover-image"

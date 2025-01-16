@@ -153,16 +153,18 @@ const userSlice = createSlice({
     },
 
     toggleUserSubscribe: (state, action) => {
-      state.userSubscribed.channels = state.userSubscribed.channels.map(
-        (profile) =>
-          profile._id === action.payload.profileId
-            ? {
-                ...profile,
-                isSubsribed: action.payload.isSubscribed,
-                subscribersCount: action.payload.subscribersCount,
-              }
-            : profile
-      );
+      if (state.userSubscribed?.channels) {
+        state.userSubscribed.channels = state.userSubscribed.channels.map(
+          (profile) =>
+            profile._id === action.payload.profileId
+              ? {
+                  ...profile,
+                  isSubscribed: action.payload.isSubscribed,
+                  subscribersCount: action.payload.subscribersCount,
+                }
+              : profile
+        );
+      }
     },
   },
 });

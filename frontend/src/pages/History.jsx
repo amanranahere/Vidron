@@ -20,6 +20,8 @@ function History() {
   const [hasMore, setHasMore] = useState(true);
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
+  const [showVideos, setShowVideos] = useState(true);
+  const [showSnaps, setShowSnaps] = useState(false);
 
   useEffect(() => {
     if (status) {
@@ -55,95 +57,115 @@ function History() {
   }
 
   return (
-    <>
+    <div className="">
       {loading && (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
 
+      <div className="w-full flex gap-5 font-bold text-2xl md:text-3xl px-4 py-2 pb-3">
+        <button
+          onClick={() => {
+            setShowVideos(true);
+            setShowSnaps(false);
+          }}
+          className={`${
+            showVideos ? "text-white" : "text-[#6a6a6a] hover:text-[#9a9a9a]"
+          }`}
+        >
+          Videos
+        </button>
+
+        <button
+          onClick={() => {
+            setShowSnaps(true);
+            setShowVideos(false);
+          }}
+          className={`${
+            showSnaps ? "text-white" : "text-[#6a6a6a] hover:text-[#9a9a9a]"
+          }`}
+        >
+          Snaps
+        </button>
+      </div>
+
       {/* videos */}
 
-      <div className="w-full h-full">
-        <h1 className="bg-gray text-center text-3xl py-5">Videos</h1>
-        {videoHistory?.length > 0 && !loading && (
-          <InfiniteScroll
-            dataLength={videoHistory.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            loader={
-              <div className="flex justify-center h-7 mt-1">
-                {icons.loading}
-              </div>
-            }
-            scrollableTarget="scrollableDiv"
-          >
-            {videoHistory.map((video) => (
-              <div key={video._id}>
-                <VideoListCard
-                  video={video}
-                  imgWidth="w-[20vw]"
-                  imgHeight="h-[11vw]"
-                />
-              </div>
-            ))}
-          </InfiniteScroll>
-        )}
+      {showVideos && (
+        <div className="w-full lg:w-3/4 h-full pb-20 lg:pb-0">
+          {videoHistory?.length > 0 && !loading && (
+            <InfiniteScroll
+              dataLength={videoHistory.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={
+                <div className="flex justify-center h-7 mt-1">
+                  {icons.loading}
+                </div>
+              }
+              scrollableTarget="scrollableDiv"
+            >
+              {videoHistory.map((video) => (
+                <div key={video._id}>
+                  <VideoListCard video={video} />
+                </div>
+              ))}
+            </InfiniteScroll>
+          )}
 
-        {videoHistory?.length < 1 && !loading && (
-          <GuestComponent
-            icon={
-              <span className="w-full h-full flex items-center p-4 pb-5">
-                <GoHistory className="w-32 h-32" />
-              </span>
-            }
-            title="Empty Video History"
-            subtitle="You have no previously saved video history"
-            guest={false}
-          />
-        )}
-      </div>
+          {videoHistory?.length < 1 && !loading && (
+            <GuestComponent
+              icon={
+                <span className="w-full h-full flex items-center p-4 pb-5">
+                  <GoHistory className="w-32 h-32" />
+                </span>
+              }
+              title="Empty Video History"
+              subtitle="You have no previously saved video history"
+              guest={false}
+            />
+          )}
+        </div>
+      )}
 
       {/* snaps */}
 
-      <div className="w-full h-full bg-gray-900">
-        <h1 className="bg-gray text-center text-3xl py-5">Snaps</h1>
-        {snapHistory?.length > 0 && !loading && (
-          <InfiniteScroll
-            dataLength={snapHistory.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            loader={
-              <div className="flex justify-center h-7 mt-1">
-                {icons.loading}
-              </div>
-            }
-            scrollableTarget="scrollableDiv"
-          >
-            {snapHistory.map((snap) => (
-              <div key={snap._id}>
-                <SnapListCard
-                  snap={snap}
-                  imgWidth="w-[20vw]"
-                  imgHeight="h-[11vw]"
-                />
-              </div>
-            ))}
-          </InfiniteScroll>
-        )}
+      {showSnaps && (
+        <div className="w-full h-full">
+          {snapHistory?.length > 0 && !loading && (
+            <InfiniteScroll
+              dataLength={snapHistory.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={
+                <div className="flex justify-center h-7 mt-1">
+                  {icons.loading}
+                </div>
+              }
+              scrollableTarget="scrollableDiv"
+            >
+              {snapHistory.map((snap) => (
+                <div key={snap._id}>
+                  <SnapListCard snap={snap} />
+                </div>
+              ))}
+            </InfiniteScroll>
+          )}
 
-        {snapHistory?.length < 1 && !loading && (
-          <GuestComponent
-            icon={
-              <span className="w-full h-full flex items-center p-4 pb-5">
-                <GoHistory className="w-32 h-32" />
-              </span>
-            }
-            title="Empty Snap History"
-            subtitle="You have no previously saved snap history"
-            guest={false}
-          />
-        )}
-      </div>
-    </>
+          {snapHistory?.length < 1 && !loading && (
+            <GuestComponent
+              icon={
+                <span className="w-full h-full flex items-center p-4 pb-5">
+                  <GoHistory className="w-32 h-32" />
+                </span>
+              }
+              title="Empty Snap History"
+              subtitle="You have no previously saved snap history"
+              guest={false}
+            />
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

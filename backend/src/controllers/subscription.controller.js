@@ -145,9 +145,17 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "users",
-        localField: "subscriber",
+        localField: "channel",
         foreignField: "_id",
         as: "channels",
+      },
+    },
+    {
+      $lookup: {
+        from: "subscriptions",
+        localField: "channel",
+        foreignField: "channel",
+        as: "subscriptions",
       },
     },
     {
@@ -158,6 +166,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
         channels: {
           $arrayElemAt: ["$channels", 0],
         },
+        subscribersCount: { $size: "$subscriptions" }, // Count subscribers
         createdAt: 1,
         updatedAt: 1,
       },
@@ -170,7 +179,9 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
         channels: {
           username: 1,
           avatar: 1,
+          fullname: 1,
         },
+        subscribersCount: 1,
         createdAt: 1,
         updatedAt: 1,
       },
@@ -190,7 +201,10 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
       200,
       {
         numOfChannelsSubscribedTo: channels.length,
-        channels,
+        channels: channels.map((channel) => ({
+          ...channel.channels,
+          subscribersCount: channel.subscribersCount,
+        })),
       },
       "Successfully fetched the number of channels user is subscribed to"
     )

@@ -1,7 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  video: null,
+  video: {
+    title: null,
+    description: null,
+    owner: {
+      _id: null,
+      username: null,
+      fullname: null,
+      avatar: null,
+      subscribersCount: 0,
+    },
+  },
 };
 
 const videoSlice = createSlice({

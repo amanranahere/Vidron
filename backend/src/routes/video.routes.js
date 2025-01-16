@@ -45,7 +45,7 @@ router.route("/user/:userId").get(getUserVideos);
 
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
 
-router.route("/subscribed").get(getSubscribedVideos);
+router.route("/subscriptions").get(getSubscribedVideos);
 
 router.route("/views/:videoId").patch(updateViewCount);
 

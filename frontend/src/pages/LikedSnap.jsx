@@ -41,10 +41,14 @@ function LikedSnaps() {
   }
 
   return (
-    <>
+    <div className="pb-20 lg:pb-0">
       {loading && (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
+
+      <div className="w-full text-2xl md:text-3xl font-bold px-4 py-2 pb-3">
+        Liked Snaps
+      </div>
 
       {likedSnaps?.length > 0 && !loading && (
         <InfiniteScroll
@@ -80,7 +84,7 @@ function LikedSnaps() {
           guest={false}
         />
       )}
-    </>
+    </div>
   );
 }
 

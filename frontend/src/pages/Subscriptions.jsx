@@ -18,7 +18,7 @@ function Subscriptions() {
   const getData = async (page) => {
     try {
       const response = await axiosInstance.get(
-        `/videos/subscribed?page=${page}&limit=20`
+        `/videos/subscriptions?page=${page}&limit=20`
       );
       console.log("reponse : ", response);
 

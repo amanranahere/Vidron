@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBell, FaCheckCircle } from "react-icons/fa";
-import Button from "../Button.jsx";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import formatSubscriber from "../../utils/formatSubscribers.js";
 import { useSelector, useDispatch } from "react-redux";
@@ -54,6 +52,8 @@ function VideoInfo({ video }) {
     }
   };
 
+  console.log("Subscribers : ", video.owner);
+
   const toggleSubscribe = async () => {
     if (!authStatus) {
       LoginSubsPopupDialog.current.open();
@@ -64,26 +64,27 @@ function VideoInfo({ video }) {
         );
 
         if (response.data.success) {
+          const updatedCountRes = await axiosInstance.get(
+            `/subscriptions/channel/${video.owner._id}/subscribers`
+          );
+
+          const updatedSubscribersCount =
+            updatedCountRes.data.data.numOfSubscribers;
+
           dispatch(
             setVideo({
               ...video,
               owner: {
                 ...video.owner,
                 isSubscribed: !video.owner.isSubscribed,
-                subscriberCount: video.owner.isSubscribed
-                  ? video.owner.subscriberCount - 1
-                  : video.owner.subscriberCount + 1,
+                subscribersCount: updatedSubscribersCount,
               },
             })
           );
         }
       } catch (error) {
-        if (error.status === 403) {
-          toast.error("Cannot subscribe to your own channel");
-        } else {
-          toast.error("Error while toggling subscribe button");
-          console.log(error);
-        }
+        console.log(error);
+        toast.error("Error while toggling subscribe button");
       }
     }
   };
@@ -196,7 +197,7 @@ function VideoInfo({ video }) {
               <p className="font-semibold ">{video?.owner?.fullname}</p>
 
               <p className="text-gray-300  text-[0.8rem]">
-                {formatSubscriber(video?.owner?.subscriberCount)}
+                {formatSubscriber(video?.owner?.subscribersCount)}
               </p>
             </div>
           </div>
@@ -209,30 +210,24 @@ function VideoInfo({ video }) {
               route={location.pathname}
             />
 
-            <Button
+            <button
               onClick={toggleSubscribe}
-              className={`flex h-10 items-center px-2 rounded-full ${
+              className={`flex items-center px-4 py-2 rounded-full ${
                 video.owner.isSubscribed
-                  ? "hover:bg-pink-700"
-                  : "hover:bg-gray-300"
+                  ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
+                  : "hover:bg-white/60 bg-white text-black"
               }`}
-              textColor="text-black"
-              bgColor={
-                video?.owner?.isSubscribed ? "bg-pink-600" : "bg-gray-100"
-              }
             >
               {video?.owner?.isSubscribed ? (
                 <>
-                  <p className="mr-2 font-semibold">Subscribed</p>
-                  <FaCheckCircle />
+                  <p className="font-semibold">Subscribed</p>
                 </>
               ) : (
                 <>
-                  <p className="mr-2 font-semibold">Subscribe</p>
-                  <FaBell />
+                  <p className="font-semibold">Subscribe</p>
                 </>
               )}
-            </Button>
+            </button>
           </div>
         </div>
 

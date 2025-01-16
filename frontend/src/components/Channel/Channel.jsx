@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../Icons.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
 import { FiVideoOff } from "react-icons/fi";
-import Button from "../Button.jsx";
-import { FaBell, FaCheckCircle } from "react-icons/fa";
 import axiosInstance from "../../utils/axios.helper.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import GuestComponent from "../GuestPages/GuestComponent.jsx";
@@ -163,30 +161,24 @@ function Channel() {
                   </div>
                 </div>
               ) : (
-                <Button
+                <button
                   onClick={toggleSubscribe}
-                  className={`flex items-center px-2 rounded-lg ${
+                  className={`flex items-center px-4 py-2 rounded-full lg:mt-4 ${
                     profile?.isSubscribed
-                      ? "hover:bg-pink-700"
-                      : "hover:bg-gray-300"
+                      ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
+                      : "hover:bg-white/60 bg-white text-black"
                   }`}
-                  textColor="text-black"
-                  bgColor={
-                    profile?.isSubscribed ? "bg-pink-600" : "bg-gray-100"
-                  }
                 >
                   {profile?.isSubscribed ? (
                     <>
-                      <p className="mr-2 font-semibold">Subscribed</p>
-                      <FaCheckCircle />
+                      <p className="font-semibold">Subscribed</p>
                     </>
                   ) : (
                     <>
-                      <p className="mr-2 font-semibold">Subscribe</p>
-                      <FaBell />
+                      <p className="font-semibold">Subscribe</p>
                     </>
                   )}
-                </Button>
+                </button>
               )
             ) : (
               <>
@@ -196,17 +188,14 @@ function Channel() {
                   route={location.pathname}
                 />
 
-                <Button
+                <button
                   onClick={() => {
                     LoginPopupDialog.current.open();
                   }}
-                  className="flex items-center rounded-lg hover:bg-pink-700"
-                  bgColor="bg-pink-600"
-                  textColor="text-black"
+                  className="flex items-center rounded-lg hover:bg-white/60 bg-white text-black"
                 >
-                  <p className="mr-2 font-semibold">Subscribe</p>
-                  <FaBell />
-                </Button>
+                  <p className="font-semibold">Subscribe</p>
+                </button>
               </>
             )}
           </div>
