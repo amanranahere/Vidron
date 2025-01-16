@@ -113,7 +113,7 @@ function Sidebar({ onClose }) {
     },
     {
       name: "Send Feedback",
-      route: "/snaps", // replace the route with a send-feedback page
+      route: "/send-feedback",
       icon: <MdOutlineFeedback className="w-6 h-6" />,
       activeIcon: <MdFeedback className="w-6 h-6" />,
     },
@@ -131,10 +131,6 @@ function Sidebar({ onClose }) {
       console.log(error);
     }
   };
-
-  // if (isWatchPage) {
-  //   return null;
-  // }
 
   return (
     <>

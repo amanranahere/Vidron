@@ -22,6 +22,7 @@ import {
   Subscriptions,
   Tweets,
   Video,
+  SendFeedback,
   SnapsHome,
 } from "./pages/index.js";
 import AllSnaps from "./components/Snap/SnapContainer.jsx";
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/help",
         element: <Help />,
+      },
+      {
+        path: "/send-feedback",
+        element: <SendFeedback />,
       },
       {
         path: "/tweets",

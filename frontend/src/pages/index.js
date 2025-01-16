@@ -15,6 +15,7 @@ import Subscriptions from "./Subscriptions.jsx";
 import Tweets from "./Tweets.jsx";
 import Video from "./Video.jsx";
 import SnapsHome from "./SnapsHome.jsx";
+import SendFeedback from "./SendFeedback.jsx";
 
 export {
   Channel,
@@ -34,4 +35,5 @@ export {
   Tweets,
   Video,
   SnapsHome,
+  SendFeedback,
 };
