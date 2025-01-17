@@ -10,7 +10,7 @@ import {
 } from "../controllers/comment.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
 router.route("/video/:videoId").get(getVideoComments).post(addVideoComment);

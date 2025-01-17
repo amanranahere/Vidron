@@ -10,13 +10,14 @@ import {
 } from "../controllers/tweet.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
 router
   .route("/")
   .get(getAllTweets)
   .post(
+    verifyJWT,
     upload.fields([
       {
         name: "tweetImage",
@@ -28,6 +29,9 @@ router
 
 router.route("/user/:userId").get(getUserTweets);
 
-router.route("/:tweetId").patch(updateTweet).delete(deleteTweet);
+router
+  .route("/:tweetId")
+  .patch(verifyJWT, updateTweet)
+  .delete(verifyJWT, deleteTweet);
 
 export default router;

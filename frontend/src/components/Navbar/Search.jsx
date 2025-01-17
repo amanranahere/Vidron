@@ -17,25 +17,22 @@ function Search() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex items-center w-[40%] md:w-full md:max-w-lg"
+      className="flex items-center w-[35%] md:w-full md:max-w-lg"
     >
       <div className="relative flex-grow">
         <Input
-          className="rounded-l-3xl px-8"
+          className="rounded-l-3xl pl-5"
           placeholder="Search"
           {...register("query", { required: true })}
         />
-
-        <GoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-200" />
       </div>
 
-      <Button
+      <button
         type="submit"
-        bgColor="bg-zinc-800"
-        className="rounded-r-3xl hover:bg-gray-500 transition-colors outline-none border-gray-200 border"
+        className="h-full py-2 px-2 md:px-5 bg-[#2a2a2a] rounded-r-3xl hover:bg-[#5a5a5a] transition-colors outline-none"
       >
-        Search
-      </Button>
+        <GoSearch className="text-gray-200 w-6 h-6" />
+      </button>
     </form>
   );
 }

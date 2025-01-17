@@ -12,7 +12,7 @@ import {
 } from "../controllers/playlist.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
 

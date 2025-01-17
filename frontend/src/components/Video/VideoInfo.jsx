@@ -52,8 +52,6 @@ function VideoInfo({ video }) {
     }
   };
 
-  console.log("Subscribers : ", video.owner);
-
   const toggleSubscribe = async () => {
     if (!authStatus) {
       LoginSubsPopupDialog.current.open();

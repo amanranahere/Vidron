@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-
+import { FaUserAltSlash } from "react-icons/fa";
 import getUserSnaps from "../../hooks/getUserSnaps.js";
 import ChannelEmptySnap from "./ChannelEmptySnap.jsx";
 import { icons } from "../Icons.jsx";
@@ -47,7 +47,7 @@ function ChannelSnaps() {
             subtitle="There is no channel for given username. Check the username again."
             icon={
               <span className="w-full h-full flex items-center p-4">
-                <FiVideoOff className="w-28 h-28" />
+                <FaUserAltSlash className="w-28 h-28" />
               </span>
             }
             guest={false}

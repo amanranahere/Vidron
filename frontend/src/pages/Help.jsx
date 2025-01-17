@@ -67,10 +67,7 @@ function Help() {
 
       <p className="w-full lg:w-[70%] text-lg text-[#7a7a7a] font-bold mt-10">
         If you're experiencing issues or have any suggestions, please visit{" "}
-        <a
-          // href="/send-feedback"
-          className="text-blue-500 hover:text-blue-400"
-        >
+        <a href="/send-feedback" className="text-blue-500 hover:text-blue-400">
           Send Feedback
         </a>{" "}
         page, and I'll get back to you as soon as possible!

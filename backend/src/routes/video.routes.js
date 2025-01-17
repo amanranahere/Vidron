@@ -15,13 +15,14 @@ import {
 } from "../controllers/video.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
 router
   .route("/")
   .get(getAllVideos)
   .post(
+    verifyJWT,
     upload.fields([
       {
         name: "videoFile",
@@ -38,14 +39,14 @@ router
 router
   .route("/:videoId")
   .get(getVideoById)
-  .delete(deleteVideo)
-  .patch(upload.single("thumbnail"), updateVideoDetails);
+  .delete(verifyJWT, deleteVideo)
+  .patch(verifyJWT, upload.single("thumbnail"), updateVideoDetails);
 
 router.route("/user/:userId").get(getUserVideos);
 
-router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
+router.route("/toggle/publish/:videoId").patch(verifyJWT, togglePublishStatus);
 
-router.route("/subscriptions").get(getSubscribedVideos);
+router.route("/subscriptions").get(verifyJWT, getSubscribedVideos);
 
 router.route("/views/:videoId").patch(updateViewCount);
 

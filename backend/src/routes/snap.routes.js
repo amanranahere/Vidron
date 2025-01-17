@@ -14,13 +14,14 @@ import {
 } from "../controllers/snaps.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
 router
   .route("/")
   .get(getAllSnaps)
   .post(
+    verifyJWT,
     upload.fields([
       {
         name: "snapFile",
@@ -37,12 +38,12 @@ router
 router
   .route("/:snapId")
   .get(getSnapById)
-  .delete(deleteSnap)
-  .patch(upload.single("snapThumbnail"), updateSnapDetails);
+  .delete(verifyJWT, deleteSnap)
+  .patch(verifyJWT, upload.single("snapThumbnail"), updateSnapDetails);
 
 router.route("/user/:userId").get(getUserSnaps);
 
-router.route("/toggle/publish/:snapId").patch(togglePublishStatus);
+router.route("/toggle/publish/:snapId").patch(verifyJWT, togglePublishStatus);
 
 router.route("/views/:snapId").patch(updateViewCount);
 

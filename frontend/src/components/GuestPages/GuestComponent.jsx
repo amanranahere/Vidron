@@ -31,7 +31,7 @@ function GuestComponent({
 
               <button
                 onClick={() => LoginPopupDialog.current.open()}
-                className="max-w-max cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 md:mr-2 lg:px-4 lg:py-2 rounded-full border border-solid border-[#6a6a6a] text-gray-200 font-bold flex"
+                className="max-w-max cursor-pointer hover:bg-gray-600 active:bg-gray-700 mr-1 md:mr-2 px-4 py-2 rounded-full border border-solid border-[#6a6a6a] text-gray-200 font-bold flex"
               >
                 <IoIosLogIn className="w-7 h-7 mr-2" />
                 Login

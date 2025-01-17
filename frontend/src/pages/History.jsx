@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import getUserVideoHistory from "../hooks/getUserVideoHistory.js";
 import getUserSnapHistory from "../hooks/getUserSnapHistory.js";
 import VideoListCard from "../components/Video/VideoListCard.jsx";
-import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import GuestHistory from "../components/GuestPages/GuestHistory.jsx";
 import {

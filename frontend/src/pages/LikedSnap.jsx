@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import getUserLikedSnaps from "../hooks/getUserLikedSnaps.js";
-import SnapListCard from "../components/Snap/SnapListCard.jsx";
 import { AiOutlineLike } from "react-icons/ai";
 import { icons } from "../components/Icons.jsx";
 import GuestLikedContent from "../components/GuestPages/GuestLikedContent.jsx";

@@ -37,6 +37,7 @@ import { toast } from "react-toastify";
 function Sidebar({ onClose }) {
   const authStatus = useSelector((state) => state.auth.status);
   const userData = useSelector((state) => state.auth.userData);
+  const isVideoWatchPage = location.pathname.includes("/video");
   const isSnapWatchPage = location.pathname.includes("/snap");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -346,11 +347,27 @@ function Sidebar({ onClose }) {
             ))}
           </ul>
 
-          <hr className="mx-5 my-2 opacity-25" />
+          {!isVideoWatchPage && (
+            <div>
+              <hr className="mx-5 my-2 opacity-25" />
 
-          <span className="pl-7 pt-1 pb-3 flex items-center text-[0.8rem] text-gray-200 opacity-60">
-            &copy; 2025
-          </span>
+              <p className="pl-7 pt-1 flex items-center text-[0.8rem] text-gray-200 opacity-60">
+                &copy; 2025 | All Rights Reserved
+              </p>
+
+              <p className="pl-7 pt-1 pb-3 flex items-center text-[0.8rem] text-gray-200 opacity-60">
+                Developed by
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1 hover:text-[#00bfff] hover:opacity-100"
+                >
+                  amanrana
+                </a>
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

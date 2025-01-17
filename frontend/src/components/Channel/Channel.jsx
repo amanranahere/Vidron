@@ -9,12 +9,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../Icons.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
-import { FiVideoOff } from "react-icons/fi";
 import axiosInstance from "../../utils/axios.helper.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import GuestComponent from "../GuestPages/GuestComponent.jsx";
 import VideoForm from "./VideoForm.jsx";
 import SnapForm from "./SnapForm.jsx";
+import { FaUserAltSlash } from "react-icons/fa";
 
 function Channel() {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function Channel() {
             subtitle="There is no channel for given username. Check the username again."
             icon={
               <span className="w-full h-full flex items-center p-4">
-                <FiVideoOff className="w-28 h-28" />
+                <FaUserAltSlash className="w-28 h-28" />
               </span>
             }
             guest={false}
