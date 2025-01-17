@@ -14,7 +14,7 @@ import Snaps from "./Snaps.jsx";
 import Subscriptions from "./Subscriptions.jsx";
 import Tweets from "./Tweets.jsx";
 import Video from "./Video.jsx";
-import SnapsHome from "./SnapsHome.jsx";
+import SingleSnap from "./SingleSnap.jsx";
 import SendFeedback from "./SendFeedback.jsx";
 
 export {
@@ -34,6 +34,6 @@ export {
   Subscriptions,
   Tweets,
   Video,
-  SnapsHome,
+  SingleSnap,
   SendFeedback,
 };

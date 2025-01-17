@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../components/Icons.jsx";
 import Tweet from "../components/Tweet/TweetCard.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
-import { BiLike } from "react-icons/bi";
+import { AiOutlineLike } from "react-icons/ai";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { removeUserLikedTweets } from "../store/userSlice.js";
 import getUserLikedTweets from "../hooks/getUserLikedTweets.js";
@@ -73,7 +73,7 @@ function LikedTweets() {
         <GuestComponent
           icon={
             <span className="w-full h-full flex items-center p-4 pb-5">
-              <BiLike className="w-32 h-32" />
+              <AiOutlineLike className="w-32 h-32" />
             </span>
           }
           title="Empty Liked tweets"

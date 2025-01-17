@@ -113,7 +113,7 @@ function ChannelSnaps() {
         </div>
 
         <div
-          className={`grid grid-cols-[repeat(auto-fit,_minmax(300px,50px))]  gap-1 aspect-[9/16]`}
+          className={`grid grid-cols-[repeat(auto-fit,_minmax(100px,50px))] md:grid-cols-[repeat(auto-fit,_minmax(150px,50px))] lg:grid-cols-[repeat(auto-fit,_minmax(200px,50px))] gap-2 md:gap-4 lg:gap-6 h-[90vh] md:h-[85vh] lg:h-[120vh]`}
         >
           {snaps?.map((snap) => (
             <SnapCard key={snap?._id} snap={snap} />

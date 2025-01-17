@@ -42,7 +42,7 @@ function ChannelSubscribed() {
 
   return data.numOfChannelsSubscribedTo > 0 ? (
     <ul className="flex w-full flex-col gap-y-2 py-4 px-4">
-      <div className="relative w-full py-3 px-14 rounded-full bg-[#3a3a3a]  overflow-hidden">
+      <div className="relative w-full py-3 px-14 rounded-full bg-[#3a3a3a] overflow-hidden">
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
           <GoSearch />
         </span>

@@ -55,7 +55,7 @@ function SubscriptionCard({ profile }) {
 
       <li
         key={profile._id}
-        className="flex w-full justify-between bg-[#2a2a2a] p-4 rounded-[20px]"
+        className="flex w-full justify-between bg-[#2a2a2a] hover:bg-[#4a4a4a] transition duration-500 p-4 rounded-[20px]"
       >
         <div className="flex items-center gap-x-3">
           <div className="h-14 w-14 shrink-0">

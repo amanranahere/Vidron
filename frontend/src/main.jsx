@@ -18,14 +18,13 @@ import {
   Search,
   Settings,
   Signup,
-  Snaps,
   Subscriptions,
   Tweets,
   Video,
   SendFeedback,
-  SnapsHome,
+  SingleSnap,
 } from "./pages/index.js";
-import AllSnaps from "./components/Snap/SnapContainer.jsx";
+import AllSnaps from "./components/Snap/AllSnaps.jsx";
 import ChannelVideos from "./components/Channel/ChannelVideos.jsx";
 import ChannelSnaps from "./components/Channel/ChannelSnaps.jsx";
 import ChannelTweets from "./components/Channel/ChannelTweets.jsx";
@@ -66,7 +65,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/snap-watchpage/:snapId",
-        element: <Snaps />,
+        element: <SingleSnap />,
       },
       {
         path: "/liked-videos",

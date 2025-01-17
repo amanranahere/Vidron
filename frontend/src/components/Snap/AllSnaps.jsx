@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../utils/axios.helper.js";
 import Snaps from "../../pages/Snaps.jsx";
 
-function SnapContainer({}) {
+function AllSnaps({}) {
   const [snaps, setSnaps] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef();
@@ -89,4 +89,4 @@ function SnapContainer({}) {
   );
 }
 
-export default SnapContainer;
+export default AllSnaps;

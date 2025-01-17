@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../utils/axios.helper.js";
-import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { setSnap } from "../store/snapSlice.js";
 import SnapPlayer from "../components/Snap/SnapPlayer.jsx";
 import SnapInfo from "../components/Snap/SnapInfo.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
-import { IoPlayCircleOutline, IoArrowUp, IoArrowDown } from "react-icons/io5";
+import { BiFilm } from "react-icons/bi";
 import { icons } from "../components/Icons.jsx";
 
-function Snap({
-  snapId,
-  handleUpButtonClick,
-  handleDownButtonClick,
-  disableUp,
-  disableDown,
-}) {
+function SingleSnap() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { snapId } = useParams();
+  const { snap } = useSelector((state) => state.snap);
   const [showSnapInfo, setShowSnapInfo] = useState(false);
-  const [snap, setSnapData] = useState(null);
+  const [showMoreSnaps, setShowMoreSnaps] = useState(true);
 
   const toggleSnapInfo = () => {
     setShowSnapInfo((prev) => !prev);
@@ -31,7 +28,6 @@ function Snap({
       const response = await axiosInstance.get(`/snaps/${snapId}`);
       if (response?.data?.data) {
         const snapData = response.data.data;
-        setSnapData(snapData);
         dispatch(setSnap(snapData));
       }
     } catch (error) {
@@ -41,7 +37,7 @@ function Snap({
           subtitle="There is no snap present for the given snapId. It may have been moved or deleted."
           icon={
             <span className="w-full h-full flex items-center p-4">
-              <IoPlayCircleOutline className="w-28 h-28" />
+              <BiFilm className="w-28 h-28" />
             </span>
           }
           guest={false}
@@ -80,6 +76,7 @@ function Snap({
                   snap={snap}
                   onToggle={toggleSnapInfo}
                   showSnapInfo={showSnapInfo}
+                  showMoreSnaps={showMoreSnaps}
                 />
               </div>
             )}
@@ -97,6 +94,7 @@ function Snap({
                   snap={snap}
                   onToggle={toggleSnapInfo}
                   showSnapInfo={showSnapInfo}
+                  showMoreSnaps={showMoreSnaps}
                 />
               </div>
             )}
@@ -120,35 +118,10 @@ function Snap({
               )}
             </>
           )}
-
-          {/* prev and next button */}
-          {!showSnapInfo && (
-            <div className="hidden lg:block">
-              <div className="absolute top-[38%] right-10 z-40 p-2">
-                <button
-                  onClick={handleUpButtonClick}
-                  disabled={disableUp}
-                  className="bg-[#2a2a2a] text-white/90 p-3 rounded-full hover:bg-[#3a3a3a] cursor-pointer active:bg-[#2a2a2a]"
-                >
-                  <IoArrowUp className="w-9 h-9" />
-                </button>
-              </div>
-
-              <div className="absolute bottom-[38%] right-10 z-40 p-2">
-                <button
-                  onClick={handleDownButtonClick}
-                  disabled={disableDown}
-                  className="bg-[#2a2a2a] text-white/90 p-3 rounded-full hover:bg-[#3a3a3a] cursor-pointer active:bg-[#2a2a2a]"
-                >
-                  <IoArrowDown className="w-9 h-9" />
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
   );
 }
 
-export default Snap;
+export default SingleSnap;

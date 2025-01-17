@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import getUserLikedSnaps from "../hooks/getUserLikedSnaps.js";
 import SnapListCard from "../components/Snap/SnapListCard.jsx";
-import { BiLike } from "react-icons/bi";
+import { AiOutlineLike } from "react-icons/ai";
 import { icons } from "../components/Icons.jsx";
 import GuestLikedContent from "../components/GuestPages/GuestLikedContent.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import { removeUserLikedSnaps } from "../store/userSlice.js";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SnapCard from "../components/Snap/SnapCard.jsx";
 
 function LikedSnaps() {
   const [loading, setLoading] = useState(true);
@@ -60,15 +61,15 @@ function LikedSnaps() {
           }
           scrollableTarget="scrollableDiv"
         >
-          {likedSnaps.map((snap) => (
-            <div key={snap._id}>
-              <SnapListCard
-                snap={snap}
-                imgWidth="w-[20vw]"
-                imgHeight="h-[11vw]"
-              />
-            </div>
-          ))}
+          <div
+            className={`px-6 grid grid-cols-[repeat(auto-fit,_minmax(100px,50px))] md:grid-cols-[repeat(auto-fit,_minmax(150px,50px))] lg:grid-cols-[repeat(auto-fit,_minmax(200px,50px))] gap-2 md:gap-4 lg:gap-6 h-[90vh] md:h-[85vh] lg:h-[120vh]`}
+          >
+            {likedSnaps.map((snap) => (
+              <div key={snap._id}>
+                <SnapCard snap={snap} />
+              </div>
+            ))}
+          </div>
         </InfiniteScroll>
       )}
 
@@ -76,7 +77,7 @@ function LikedSnaps() {
         <GuestComponent
           icon={
             <span className="w-full h-full flex items-center p-4 pb-5">
-              <BiLike className="w-32 h-32" />
+              <AiOutlineLike className="w-32 h-32" />
             </span>
           }
           title="Empty Liked Snaps"

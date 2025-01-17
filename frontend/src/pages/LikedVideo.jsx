@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import getUserLikedVideos from "../hooks/getUserLikedVideos.js";
 import VideoListCard from "../components/Video/VideoListCard.jsx";
-import { BiLike } from "react-icons/bi";
+import { AiOutlineLike } from "react-icons/ai";
 import { icons } from "../components/Icons.jsx";
 import GuestLikedContent from "../components/GuestPages/GuestLikedContent.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
@@ -42,7 +42,7 @@ function LikedVideos() {
   }
 
   return (
-    <div className="lg:w-3/4 pb-20 lg:pb-0">
+    <div className="w-full pb-20 lg:pb-0">
       {loading && (
         <span className="flex justify-center mt-20">{icons.bigLoading}</span>
       )}
@@ -51,29 +51,33 @@ function LikedVideos() {
         Liked Videos
       </div>
 
-      {likedVideos?.length > 0 && !loading && (
-        <InfiniteScroll
-          dataLength={likedVideos.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          loader={
-            <div className="flex justify-center h-7 mt-1">{icons.loading}</div>
-          }
-          scrollableTarget="scrollableDiv"
-        >
-          {likedVideos.map((video) => (
-            <div key={video._id}>
-              <VideoListCard video={video} />
-            </div>
-          ))}
-        </InfiniteScroll>
-      )}
+      <div className="lg:w-3/4">
+        {likedVideos?.length > 0 && !loading && (
+          <InfiniteScroll
+            dataLength={likedVideos.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={
+              <div className="flex justify-center h-7 mt-1">
+                {icons.loading}
+              </div>
+            }
+            scrollableTarget="scrollableDiv"
+          >
+            {likedVideos.map((video) => (
+              <div key={video._id}>
+                <VideoListCard video={video} />
+              </div>
+            ))}
+          </InfiniteScroll>
+        )}
+      </div>
 
       {likedVideos?.length < 1 && !loading && (
         <GuestComponent
           icon={
             <span className="w-full h-full flex items-center p-4 pb-5">
-              <BiLike className="w-32 h-32" />
+              <AiOutlineLike className="w-32 h-32" />
             </span>
           }
           title="Empty Liked Videos"

@@ -13,6 +13,7 @@ import {
 import { GoHistory } from "react-icons/go";
 import { icons } from "../components/Icons.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SnapCard from "../components/Snap/SnapCard.jsx";
 
 function History() {
   const [loading, setLoading] = useState(true);
@@ -130,7 +131,7 @@ function History() {
       {/* snaps */}
 
       {showSnaps && (
-        <div className="w-full h-full">
+        <div className="w-full h-full pb-10 lg:pb-12">
           {snapHistory?.length > 0 && !loading && (
             <InfiniteScroll
               dataLength={snapHistory.length}
@@ -143,11 +144,15 @@ function History() {
               }
               scrollableTarget="scrollableDiv"
             >
-              {snapHistory.map((snap) => (
-                <div key={snap._id}>
-                  <SnapListCard snap={snap} />
-                </div>
-              ))}
+              <div
+                className={`px-6 grid grid-cols-[repeat(auto-fit,_minmax(100px,50px))] md:grid-cols-[repeat(auto-fit,_minmax(150px,50px))] lg:grid-cols-[repeat(auto-fit,_minmax(200px,50px))] gap-2 md:gap-4 lg:gap-6 h-[90vh] md:h-[85vh] lg:h-[120vh]`}
+              >
+                {snapHistory.map((snap) => (
+                  <div key={snap._id}>
+                    <SnapCard snap={snap} />
+                  </div>
+                ))}
+              </div>
             </InfiniteScroll>
           )}
 

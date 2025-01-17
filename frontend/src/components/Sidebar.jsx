@@ -298,7 +298,7 @@ function Sidebar({ onClose }) {
 
                 <li
                   onClick={handleLogout}
-                  className="px-5 py-2 hover:bg-[#2a2a2a] transition-all duration-100 cursor-pointer flex items-center rounded-lg"
+                  className="px-5 py-2 hover:bg-red-400 transition-all duration-100 cursor-pointer flex items-center rounded-lg"
                 >
                   <span>
                     <IoIosLogOut className="w-7 h-6 mr-2" />

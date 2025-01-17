@@ -114,30 +114,20 @@ function SnapInfo({ snap }) {
               route={location.pathname}
             />
 
-            <Button
+            <button
               onClick={toggleSubscribe}
-              className={`flex h-10 items-center px-2 rounded-full ${
+              className={`flex items-center px-4 py-2 rounded-full ${
                 snap.owner.isSubscribed
-                  ? "hover:bg-pink-700"
-                  : "hover:bg-gray-300"
+                  ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
+                  : "hover:bg-white/60 bg-white text-black"
               }`}
-              textColor="text-black"
-              bgColor={
-                snap?.owner?.isSubscribed ? "bg-pink-600" : "bg-gray-100"
-              }
             >
               {snap?.owner?.isSubscribed ? (
-                <>
-                  <p className="mr-2 font-semibold">Subscribed</p>
-                  <FaCheckCircle />
-                </>
+                <p className="font-semibold">Subscribed</p>
               ) : (
-                <>
-                  <p className="mr-2 font-semibold">Subscribe</p>
-                  <FaBell />
-                </>
+                <p className="font-semibold">Subscribe</p>
               )}
-            </Button>
+            </button>
           </>
         </div>
 

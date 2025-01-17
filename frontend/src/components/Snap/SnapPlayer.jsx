@@ -8,7 +8,14 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axios.helper.js";
 import { setSnap } from "../../store/snapSlice.js";
 
-const SnapPlayer = ({ snapFile, snap, onToggle, showSnapInfo, autoPlay }) => {
+const SnapPlayer = ({
+  snapFile,
+  snap,
+  onToggle,
+  showSnapInfo,
+  autoPlay,
+  showMoreSnaps,
+}) => {
   const authStatus = useSelector((state) => state.auth.status);
   const LoginLikePopupDialog = useRef();
   const dispatch = useDispatch();
@@ -44,9 +51,19 @@ const SnapPlayer = ({ snapFile, snap, onToggle, showSnapInfo, autoPlay }) => {
       <div className="absolute hidden group-hover:block inset-0 bg-gradient-to-b from-black/70 to-transparent"></div>
 
       {/* title */}
-      <div className="absolute w-4/5 left-2 top-3 hidden group-hover:block text-xl text-shadow-lg ">
+      <div className="z-40 absolute w-4/5 left-2 top-3 hidden group-hover:block text-xl text-shadow-lg ">
         {snap.title}
       </div>
+
+      {/* more snaps button */}
+      {showMoreSnaps && (
+        <button
+          onClick={() => navigate("/snaps")}
+          className="z-30 absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-[#1a1a1a] hover:bg-[#fff] hover:text-black px-4 py-2 rounded-full text-white font-semibold bg-opacity-70"
+        >
+          More Snaps
+        </button>
+      )}
 
       {/* back button */}
       <button
