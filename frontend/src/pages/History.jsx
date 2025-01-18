@@ -130,7 +130,7 @@ function History() {
       {/* snaps */}
 
       {showSnaps && (
-        <div className="w-full h-full pb-10 lg:pb-12">
+        <div className="w-full h-full pb-16 lg:pb-12">
           {snapHistory?.length > 0 && !loading && (
             <InfiniteScroll
               dataLength={snapHistory.length}
@@ -144,7 +144,11 @@ function History() {
               scrollableTarget="scrollableDiv"
             >
               <div
-                className={`px-6 grid grid-cols-[repeat(auto-fit,_minmax(100px,50px))] md:grid-cols-[repeat(auto-fit,_minmax(150px,50px))] lg:grid-cols-[repeat(auto-fit,_minmax(200px,50px))] gap-2 md:gap-4 lg:gap-6 h-[90vh] md:h-[85vh] lg:h-[120vh]`}
+                className={`h-full px-2 grid grid-cols-[repeat(auto-fit,_minmax(100px,1fr))] 
+                md:grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] 
+                lg:grid-cols-[repeat(auto-fit,_minmax(200px,1fr))] 
+                gap-1 
+                grid-auto-rows-[minmax(200px,_auto)]`}
               >
                 {snapHistory.map((snap) => (
                   <div key={snap._id}>

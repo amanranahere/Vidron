@@ -25,7 +25,15 @@ const findVideoByIdAndOwner = async (id, owner) => {
 };
 
 const getAllVideos = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
+  const {
+    page = 1,
+    limit = 10,
+    skip = 0,
+    query,
+    sortBy,
+    sortType,
+    userId,
+  } = req.query;
 
   let filter = { isPublished: true };
   let sortObject = {};
@@ -51,7 +59,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
   try {
     const videos = await Video.find(filter)
       .sort(sortObject)
-      .skip((page - 1) * limit)
+      .skip(skip ? Number(skip) : (page - 1) * limit)
       .limit(Number(limit))
       .populate("owner", "avatar fullname username");
 

@@ -59,7 +59,7 @@ const SnapPlayer = ({
       {showMoreSnaps && (
         <button
           onClick={() => navigate("/snaps")}
-          className="z-30 absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-[#1a1a1a] hover:bg-[#fff] hover:text-black px-4 py-2 rounded-full text-white font-semibold bg-opacity-70"
+          className="z-10 absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-[#1a1a1a] hover:bg-[#fff] hover:text-black px-4 py-2 rounded-full text-white font-semibold bg-opacity-70"
         >
           More Snaps
         </button>

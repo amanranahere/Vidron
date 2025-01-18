@@ -130,7 +130,13 @@ function Login() {
               type="submit"
               disabled={loading}
             >
-              {loading ? <span>{icons.loading}</span> : "Login"}
+              {loading ? (
+                <span className="w-full h-full flex justify-center items-center">
+                  {icons.loading}
+                </span>
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
         </div>

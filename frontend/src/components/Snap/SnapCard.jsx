@@ -6,7 +6,7 @@ import { addUserSnapHistory } from "../../store/userSlice.js";
 import axiosInstance from "../../utils/axios.helper.js";
 
 function SnapCard({ snap, width = "100%" }) {
-  const formattedDuration = snap?.duration;
+  // const formattedDuration = snap?.duration;
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,29 +48,25 @@ function SnapCard({ snap, width = "100%" }) {
       onClick={handleSnapClick}
       className=""
     >
-      <div
-        key={snap._id}
-        className="rounded-xl mt-2 text-white pb-1 hover:bg-[#2a2a2a] h-40"
-        style={{ width }}
-      >
-        <div className="relative aspect-[9/16] mb-2 rounded-xl border border-gray-800 overflow-hidden">
+      <div key={snap._id} className="rounded-xl text-white" style={{ width }}>
+        <div className="relative aspect-[9/16] rounded-xl border border-gray-800 overflow-hidden">
           <img
             className="w-full h-full object-cover"
             src={snap?.snapThumbnail}
             alt={snap?.title}
           />
-        </div>
 
-        <div className="flex mt-1">
-          <div className="ml-2">
-            <h2
-              className="text-lg font-semibold line-clamp-1 md:line-clamp-2"
-              title={snap?.title}
-            >
-              {snap?.title}
-            </h2>
+          <div className="absolute bottom-2 left-0 flex">
+            <div className="ml-2">
+              <h2
+                className="text-sm md:text-lg font-semibold line-clamp-2 "
+                title={snap?.title}
+              >
+                {snap?.title}
+              </h2>
 
-            <p className="text-gray-300 text-[0.5rem] md:text-[0.7rem] lg:text-[0.95rem]">{`${snap?.views} views • ${timeDistance}`}</p>
+              <p className="text-gray-300 text-[0.5rem] md:text-[0.95rem]">{`${snap?.views} views • ${timeDistance}`}</p>
+            </div>
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ import Tweets from "./Tweets.jsx";
 import Video from "./Video.jsx";
 import SingleSnap from "./SingleSnap.jsx";
 import SendFeedback from "./SendFeedback.jsx";
+import AllSnaps from "./AllSnaps.jsx";
 
 export {
   Channel,
@@ -36,4 +37,5 @@ export {
   Video,
   SingleSnap,
   SendFeedback,
+  AllSnaps,
 };

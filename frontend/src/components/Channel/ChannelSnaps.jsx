@@ -82,7 +82,7 @@ function ChannelSnaps() {
         }
         scrollableTarget="scrollableDiv"
       >
-        <div className="flex mx-2">
+        <div className="flex mx-2 mb-2">
           <button
             type="button"
             className={`mr-3 font-semibold ${
@@ -113,7 +113,11 @@ function ChannelSnaps() {
         </div>
 
         <div
-          className={`grid grid-cols-[repeat(auto-fit,_minmax(100px,50px))] md:grid-cols-[repeat(auto-fit,_minmax(150px,50px))] lg:grid-cols-[repeat(auto-fit,_minmax(200px,50px))] gap-2 md:gap-4 lg:gap-6 h-[90vh] md:h-[85vh] lg:h-[120vh]`}
+          className={`h-full px-2 grid grid-cols-[repeat(auto-fit,_minmax(100px,1fr))] 
+          md:grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] 
+          lg:grid-cols-[repeat(auto-fit,_minmax(200px,1fr))] 
+          gap-1 
+          grid-auto-rows-[minmax(200px,_auto)]`}
         >
           {snaps?.map((snap) => (
             <SnapCard key={snap?._id} snap={snap} />

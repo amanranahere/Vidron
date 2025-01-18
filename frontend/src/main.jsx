@@ -23,8 +23,9 @@ import {
   Video,
   SendFeedback,
   SingleSnap,
+  AllSnaps,
 } from "./pages/index.js";
-import AllSnaps from "./components/Snap/AllSnaps.jsx";
+import SnapsFeed from "./components/Snap/SnapsFeed.jsx";
 import ChannelVideos from "./components/Channel/ChannelVideos.jsx";
 import ChannelSnaps from "./components/Channel/ChannelSnaps.jsx";
 import ChannelTweets from "./components/Channel/ChannelTweets.jsx";
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/snaps",
-        element: <AllSnaps />,
+        element: <SnapsFeed />,
       },
       {
         path: "/login",
@@ -140,6 +141,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/metrics",
         element: <Metrics />,
+      },
+      {
+        path: "/all-snaps",
+        element: <AllSnaps />,
       },
     ],
   },
