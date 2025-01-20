@@ -12,7 +12,7 @@ function GuestComponent({
   const LoginPopupDialog = useRef();
 
   return (
-    <section className="w-full flex justify-center pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+    <section className="w-full flex justify-center pb-[70px] sm:ml-[70px] md:ml-0 sm:pb-0 lg:ml-0">
       <div className="flex relative top-20 justify-center p-4">
         <div className="w-full max-w-fit text-center">
           <p className="mb-3 w-full">

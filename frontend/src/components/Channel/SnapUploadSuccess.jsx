@@ -23,9 +23,9 @@ function SnapUploadSuccess({ snap, updating = false }, ref) {
       ref={dialog}
       className="h-full text-white backdrop:backdrop-blur-sm"
     >
-      <div className="relative flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-        <div className="fixed inset-0 z-10 flex flex-col bg-black/50 px-4  pt-4 sm:px-14 sm:py-8">
-          <div className="inset-x-0 top-0 z-10 flex h-[calc(100vh-66px)] items-center justify-center bg-black/50 px-4 pb-[86px] pt-4 sm:h-[calc(100vh-82px)] sm:px-14 sm:py-8">
+      <div className="relative flex ">
+        <div className="fixed inset-0 z-10 flex flex-col bg-black/50 ">
+          <div className="inset-x-0 top-0 z-10 flex items-center justify-center bg-black/50">
             <div className="w-full max-w-lg overflow-auto rounded-[20px] bg-[#1a1a1a] p-4">
               <div className="mb-4 flex items-start justify-center">
                 <h2 className="text-xl font-semibold">
