@@ -139,7 +139,7 @@ const router = createBrowserRouter([
         element: <Subscriptions />,
       },
       {
-        path: "/admin/metrics",
+        path: "/admin/metrics/:username?",
         element: <Metrics />,
       },
       {

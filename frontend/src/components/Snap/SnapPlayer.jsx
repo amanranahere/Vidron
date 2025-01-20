@@ -115,9 +115,8 @@ const SnapPlayer = ({
       <video
         className="md:rounded-[20px] aspect-[9/16] object-cover"
         controls
-        autoPlay={autoPlay}
+        autoPlay
         loop
-        muted // remove this after implementing volume control
       >
         <source src={snapFile} type="video/mp4" />
       </video>

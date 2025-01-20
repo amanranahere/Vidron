@@ -48,7 +48,7 @@ function Video() {
 
   const fetchVideos = async () => {
     try {
-      const response = await axiosInstance.get(`/videos?sortBy=views&limit=8`);
+      const response = await axiosInstance.get(`/videos?sortBy=views&limit=20`);
       if (response?.data?.videos?.length > 0) {
         setVideos(response.data.videos);
       }

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBell, FaCheckCircle } from "react-icons/fa";
-import Button from "../Button.jsx";
 import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import formatSubscriber from "../../utils/formatSubscribers.js";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +8,7 @@ import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import Comments from "./SnapComments.jsx";
+import getUserProfile from "../../hooks/getUserProfile.js";
 
 function SnapInfo({ snap }) {
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
@@ -20,6 +19,7 @@ function SnapInfo({ snap }) {
   const ref = useRef(null);
   const location = useLocation();
   const dispatch = useDispatch();
+  const [profile, setProfile] = useState(null);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -72,6 +72,17 @@ function SnapInfo({ snap }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (snap?.owner?.username) {
+      getUserProfile(dispatch, snap.owner.username).then((res) => {
+        if (res?.data) {
+          setProfile(res.data);
+        }
+      });
+    }
+  }, [snap?.owner?.username]);
+  console.log("profile : ", profile);
+
   return (
     <>
       <div className="z-20 relative bg-[#121212] rounded-[20px] border border-[#333] h-full">
@@ -100,7 +111,7 @@ function SnapInfo({ snap }) {
                 </p>
 
                 <p className="text-gray-300  text-[0.8rem]">
-                  {formatSubscriber(snap?.owner?.subscriberCount)}
+                  {formatSubscriber(profile?.subscribersCount)}
                 </p>
               </div>
             </div>

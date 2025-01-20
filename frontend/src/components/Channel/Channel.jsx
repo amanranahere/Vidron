@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  NavLink,
-  Outlet,
-  useParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { NavLink, Outlet, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { icons } from "../Icons.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
@@ -19,7 +13,6 @@ import { FaUserAltSlash } from "react-icons/fa";
 function Channel() {
   const dispatch = useDispatch();
   const { username } = useParams();
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
   const { status, userData } = useSelector((state) => state.auth);
@@ -28,7 +21,7 @@ function Channel() {
   const snapUploadRef = useRef();
   const location = useLocation();
 
-  const viewify_coverImage = "/viewify_coverImage.jpg";
+  const vidron_coverImage = "/vidron_coverImage.jpg";
 
   useEffect(() => {
     setError("");
@@ -82,7 +75,7 @@ function Channel() {
       <div className="relative min-h-[150px] w-full pt-[20%]">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src={profile?.coverImage || viewify_coverImage}
+            src={profile?.coverImage || vidron_coverImage}
             alt="user"
             className="object-cover"
           />
@@ -192,7 +185,7 @@ function Channel() {
                   onClick={() => {
                     LoginPopupDialog.current.open();
                   }}
-                  className="flex items-center rounded-lg hover:bg-white/60 bg-white text-black"
+                  className="flex px-4 py-2 items-center rounded-full hover:bg-white/60 active:scale-95 bg-white text-black"
                 >
                   <p className="font-semibold">Subscribe</p>
                 </button>

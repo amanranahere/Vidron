@@ -57,7 +57,7 @@ router
   .route("/cover-image")
   .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
-router.route("/channel/:username").get(verifyJWT, getUserChannelProfile);
+router.route("/channel/:username").get(getUserChannelProfile);
 
 router.route("/videos-history").get(verifyJWT, getVideoWatchHistory);
 

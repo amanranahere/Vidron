@@ -13,7 +13,7 @@ const getUserSubscribed = async (dispatch, subscriberId) => {
       return response.data;
     }
   } catch (error) {
-    toast.error("Error fetching subscribed channels");
+    toast.warn("No data found for subscriptions");
   }
 };
 

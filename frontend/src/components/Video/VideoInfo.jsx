@@ -9,6 +9,7 @@ import PlaylistForm from "../Playlist/PlaylistForm.jsx";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
+import getUserProfile from "../../hooks/getUserProfile.js";
 
 function VideoInfo({ video }) {
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
@@ -23,6 +24,7 @@ function VideoInfo({ video }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const userPlaylist = useSelector((state) => state.user.userPlaylist);
+  const [profile, setProfile] = useState(null);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -171,6 +173,16 @@ function VideoInfo({ video }) {
 
   const playlists = useSelector((state) => state.playlists.playlists);
 
+  useEffect(() => {
+    if (video?.owner?.username) {
+      getUserProfile(dispatch, video.owner.username).then((res) => {
+        if (res?.data) {
+          setProfile(res.data);
+        }
+      });
+    }
+  }, [video?.owner?.username]);
+
   return (
     <div className="px-2 lg:px-0 pb-2 md:mx-1 lg:mx-0 mt-2 bg-opacity-5">
       {/* title */}
@@ -194,8 +206,8 @@ function VideoInfo({ video }) {
             <div>
               <p className="font-semibold ">{video?.owner?.fullname}</p>
 
-              <p className="text-gray-300  text-[0.8rem]">
-                {formatSubscriber(video?.owner?.subscribersCount)}
+              <p className="text-gray-300 text-[0.8rem]">
+                {formatSubscriber(profile?.subscribersCount)}
               </p>
             </div>
           </div>

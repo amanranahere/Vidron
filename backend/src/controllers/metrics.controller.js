@@ -9,13 +9,13 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const getChannelStats = asyncHandler(async (req, res) => {
-  // get user id and check if it exists
-  const user = await User.findOne({
-    refreshToken: req.cookies.refreshToken,
-  });
+  const { username } = req.params;
+  let user;
 
-  if (!user) {
-    throw new ApiError(404, "User not found");
+  if (username) {
+    user = await User.findOne({ username });
+  } else {
+    user = await User.findOne({ refreshToken: req.cookies.refreshToken });
   }
 
   // aggregation pipelines

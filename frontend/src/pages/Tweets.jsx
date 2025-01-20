@@ -258,7 +258,7 @@ function Tweets() {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={
-            <div className="flex justify-center h-7 mt-1">{icons.loading}</div>
+            <div className="flex justify-center h-12 mt-1">{icons.loading}</div>
           }
           scrollableTarget="scrollableDiv"
         >

@@ -14,8 +14,8 @@ function EditPersonalInfo() {
   const [loadingCoverImage, setLoadingCoverImage] = useState(false);
   const [loadingAvatar, setLoadingAvatar] = useState(false);
 
-  const viewify_coverImage = "/viewify_coverImage.jpg";
-  const viewify_avatar = "/viewify_avatar";
+  const vidron_coverImage = "/vidron_coverImage.jpg";
+  const vidron_avatar = "/vidron_avatar";
 
   const defaultValues = {
     fullname: userData?.fullname,
@@ -212,7 +212,7 @@ function EditPersonalInfo() {
             <p className="pl-3 md:pl-0 text-[#00bfff]">Avatar</p>
             <img
               src={
-                userData && userData.avatar ? userData.avatar : viewify_avatar
+                userData && userData.avatar ? userData.avatar : vidron_avatar
               }
               alt="image"
               className="h-full w-full object-cover"
@@ -263,7 +263,7 @@ function EditPersonalInfo() {
             <p className="pl-3 md:pl-0 text-[#00bfff]">Cover Image</p>
             <div className="absolute top-7 inset-0 overflow-hidden">
               <img
-                src={userData?.coverImage || viewify_coverImage}
+                src={userData?.coverImage || vidron_coverImage}
                 alt="cover-image"
                 className="object-cover"
               />

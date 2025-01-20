@@ -19,7 +19,7 @@ function AboutChannel() {
 
   const getAboutChannel = async () => {
     try {
-      const response = await axiosInstance.get(`/metrics/stats`);
+      const response = await axiosInstance.get(`/metrics/stats/${username}`);
       if (response?.data?.success) {
         setAboutChannel(response.data.data);
       }
@@ -33,6 +33,12 @@ function AboutChannel() {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (username) {
+      getAboutChannel();
+    }
+  }, [username]);
 
   if (loading) {
     return (

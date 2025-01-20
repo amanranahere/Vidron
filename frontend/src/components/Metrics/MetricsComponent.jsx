@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { GoDeviceCameraVideo } from "react-icons/go";
-import InfoBox from "../InfoBox";
 import { IoEyeOutline } from "react-icons/io5";
 import { BiFilm, BiMessageSquareDots } from "react-icons/bi";
 import { MdOutlineSubscriptions } from "react-icons/md";

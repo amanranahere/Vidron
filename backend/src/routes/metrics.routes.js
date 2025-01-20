@@ -7,10 +7,10 @@ import {
 } from "../controllers/metrics.controller.js";
 
 const router = Router();
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 // routes
-router.route("/stats").get(getChannelStats);
+router.route("/stats/:username?").get(getChannelStats);
 
 router.route("/videos").get(getChannelVideos);
 

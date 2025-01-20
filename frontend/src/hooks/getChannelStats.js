@@ -4,7 +4,7 @@ import { setStats } from "../store/metricsSlice.js";
 
 const getChannelStats = async (dispatch) => {
   try {
-    const response = await axiosInstance.get("/metrics/stats");
+    const response = await axiosInstance.get(`/metrics/stats`);
 
     if (response?.data?.success) {
       dispatch(setStats(response.data.data));
