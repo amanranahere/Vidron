@@ -148,7 +148,10 @@ function PlaylistForm({ playlist, route }, ref) {
                     />
 
                     <div className="w-full">
-                      <label htmlFor="desc" className="mb-1 pl-1 inline-block">
+                      <label
+                        htmlFor="desc"
+                        className="mb-1 pl-1 inline-block text-[#00bfff]"
+                      >
                         Description
                       </label>
 
@@ -168,8 +171,6 @@ function PlaylistForm({ playlist, route }, ref) {
                     <button
                       onClick={handleClose}
                       className="w-full border-none outline-none py-2 bg-red-400 hover:bg-red-400/80 active:bg-red-400/60 border rounded-[10px] select-none hover:transition duration-1000 ease-out"
-                      bgColor="bg-gray-300"
-                      textColor="text-black"
                     >
                       Cancel
                     </button>

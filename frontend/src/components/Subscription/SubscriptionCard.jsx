@@ -43,8 +43,6 @@ function SubscriptionCard({ profile }) {
     }
   };
 
-  console.log("Profile: ", profile);
-
   return (
     <>
       <LoginPopup

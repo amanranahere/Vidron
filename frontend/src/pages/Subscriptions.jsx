@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+
 import VideoCard from "../components/Video/VideoCard.jsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { icons } from "../components/Icons.jsx";
 import axiosInstance from "../utils/axios.helper.js";
 import { FaRegPlayCircle } from "react-icons/fa";
 import GuestSubscriptions from "../components/GuestPages/GuestSubscriptions.jsx";
 import GuestComponent from "../components/GuestPages/GuestComponent.jsx";
 import InfiniteScroll from "react-infinite-scroll-component";
+import getUserSubscribed from "../hooks/getUserSubscribed.js";
 
 function Subscriptions() {
   const [videos, setVideos] = useState([]);

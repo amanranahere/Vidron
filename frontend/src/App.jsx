@@ -29,8 +29,8 @@ function App() {
 
   if (loading) {
     return (
-      <div className="h-screen w-full  overflow-y-auto bg-[#121212] text-white">
-        <div className="flex flex-col items-center justify-center mt-64">
+      <div className="h-screen w-full overflow-y-auto bg-[#121212] text-white">
+        <div className="flex flex-col items-center justify-center w-full h-full">
           <span>{icons.words}</span>
         </div>
       </div>

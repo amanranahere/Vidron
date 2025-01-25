@@ -48,7 +48,7 @@ function ChannelPlaylist() {
             <div className="flex items-center justify-center">
               <button
                 onClick={popupPlaylistForm}
-                className="mt-4 inline-flex items-center gap-x-2 bg-pink-500 hover:bg-pink-500/90 border border-transparent rounded-lg hover:border-white px-3 py-1.5 font-semibold text-black"
+                className="mt-4 inline-flex items-center gap-x-2 border border-transparent rounded-lg hover:border-white px-3 py-1.5 font-semibold text-black"
               >
                 <IoAdd className="w-5 h-5" />
                 New Playlist

@@ -377,61 +377,99 @@ const getUserVideos = asyncHandler(async (req, res) => {
 });
 
 const getSubscribedVideos = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
-  const sortType = req.query.sortType === "asc" ? 1 : -1;
+  const { page = 1, limit = 10, sortType = "desc" } = req.query;
 
-  if (!mongoose.isValidObjectId(req.user?._id)) {
-    console.error("Invalid User ID:", req.user?._id);
-    throw new ApiError(400, "Invalid user ID");
+  const userId = req.cookies?.user_id;
+
+  // validate user_id
+  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+    throw new ApiError(400, "Invalid or missing user ID in cookies");
   }
 
-  try {
-    const subscriptions = await Subscription.find({
-      subscriber: new mongoose.Types.ObjectId(req.user._id),
-    }).select("channel");
+  // fetch subscriptions
+  const subscriptions = await Subscription.find({
+    subscriber: mongoose.Types.ObjectId(userId),
+  }).select("channel");
 
-    console.log("Subscriptions from DB:", subscriptions);
+  const channelIds = subscriptions.map((sub) => sub.channel);
 
-    const channelIds = subscriptions
-      .map((sub) => sub.channel)
-      .filter((id) => mongoose.isValidObjectId(id));
-
-    console.log("Valid Channel IDs:", channelIds);
-
-    if (channelIds.length === 0) {
-      return res
-        .status(200)
-        .json(new ApiResponse(200, [], "No subscribed channels found"));
-    }
-
-    const videos = await Video.aggregate([
-      {
-        $match: {
-          owner: {
-            $in: channelIds.map((id) => new mongoose.Types.ObjectId(id)),
-          },
-        },
-      },
-      {
-        $match: { isPublished: true },
-      },
-      { $sort: { createdAt: sortType } },
-      { $skip: (page - 1) * limit },
-      { $limit: limit },
-    ]);
-
-    console.log("Videos:", videos);
-
+  if (channelIds.length === 0) {
     return res
       .status(200)
-      .json(
-        new ApiResponse(200, videos, "Subscribed videos fetched successfully")
-      );
-  } catch (error) {
-    console.error("Error in getSubscribedVideos:", error.message);
-    throw new ApiError(500, "Error while fetching subscribed videos");
+      .json(new ApiResponse(200, [], "No subscribed channels found"));
   }
+
+  const videos = await Video.aggregate([
+    {
+      $match: {
+        owner: {
+          $in: channelIds.map((id) => mongoose.Types.ObjectId(id)),
+        },
+      },
+    },
+    {
+      $match: { isPublished: true },
+    },
+    {
+      $sort: {
+        createdAt: sortType === "asc" ? 1 : -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: parseInt(limit),
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              avatar: 1,
+              username: 1,
+              fullName: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        owner: 1,
+        videoFile: 1,
+        thumbnail: 1,
+        createdAt: 1,
+        description: 1,
+        title: 1,
+        duration: 1,
+        views: 1,
+        isPublished: 1,
+      },
+    },
+  ]);
+
+  if (!videos) {
+    throw new ApiError(404, "Error while fetching videos");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, videos, "Subscribed videos fetched successfully")
+    );
 });
 
 const updateViewCount = asyncHandler(async (req, res) => {

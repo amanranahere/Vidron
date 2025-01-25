@@ -81,7 +81,6 @@ function SnapInfo({ snap }) {
       });
     }
   }, [snap?.owner?.username]);
-  console.log("profile : ", profile);
 
   return (
     <>
