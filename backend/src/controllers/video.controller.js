@@ -7,6 +7,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { convertToMMSS } from "../utils/convertToMMSS.js";
 import { cloudinary } from "../utils/cloudinary.js";
 import mongoose, { isValidObjectId } from "mongoose";
+import { User } from "../models/user.model.js";
 
 const findVideoByIdAndOwner = async (id, owner) => {
   try {
@@ -376,102 +377,6 @@ const getUserVideos = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, videos, "Videos fetched successfully"));
 });
 
-const getSubscribedVideos = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 10, sortType = "desc" } = req.query;
-
-  const userId = req.cookies?.user_id;
-
-  // validate user_id
-  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
-    throw new ApiError(400, "Invalid or missing user ID in cookies");
-  }
-
-  // fetch subscriptions
-  const subscriptions = await Subscription.find({
-    subscriber: mongoose.Types.ObjectId(userId),
-  }).select("channel");
-
-  const channelIds = subscriptions.map((sub) => sub.channel);
-
-  if (channelIds.length === 0) {
-    return res
-      .status(200)
-      .json(new ApiResponse(200, [], "No subscribed channels found"));
-  }
-
-  const videos = await Video.aggregate([
-    {
-      $match: {
-        owner: {
-          $in: channelIds.map((id) => mongoose.Types.ObjectId(id)),
-        },
-      },
-    },
-    {
-      $match: { isPublished: true },
-    },
-    {
-      $sort: {
-        createdAt: sortType === "asc" ? 1 : -1,
-      },
-    },
-    {
-      $skip: (page - 1) * limit,
-    },
-    {
-      $limit: parseInt(limit),
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "owner",
-        foreignField: "_id",
-        as: "owner",
-        pipeline: [
-          {
-            $project: {
-              avatar: 1,
-              username: 1,
-              fullName: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $addFields: {
-        owner: {
-          $first: "$owner",
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        owner: 1,
-        videoFile: 1,
-        thumbnail: 1,
-        createdAt: 1,
-        description: 1,
-        title: 1,
-        duration: 1,
-        views: 1,
-        isPublished: 1,
-      },
-    },
-  ]);
-
-  if (!videos) {
-    throw new ApiError(404, "Error while fetching videos");
-  }
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, videos, "Subscribed videos fetched successfully")
-    );
-});
-
 const updateViewCount = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
@@ -499,6 +404,55 @@ const updateViewCount = asyncHandler(async (req, res) => {
   } catch (error) {}
 });
 
+const getSubscribedVideos = asyncHandler(async (req, res) => {
+  try {
+    // find user based on refreshToken from cookies
+    const user = await User.findOne({ refreshToken: req.cookies.refreshToken });
+
+    if (!user) {
+      throw new ApiError(401, "Unauthorized: Invalid refresh token");
+    }
+
+    const userId = user._id;
+
+    const { page = 1, limit = 20 } = req.query;
+    const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+
+    // get subscribed channels
+    const subscriptions = await Subscription.find({
+      subscriber: userId,
+    }).select("channel");
+    const subscribedChannelIds = subscriptions.map((sub) => sub.channel);
+
+    if (subscribedChannelIds.length === 0) {
+      return res
+        .status(200)
+        .json(new ApiResponse(200, [], "No subscribed channels"));
+    }
+
+    // fetch videos from subscribed channels
+    const videos = await Video.find({
+      owner: { $in: subscribedChannelIds },
+      isPublished: true,
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit, 10))
+      .populate("owner", "avatar fullname username");
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, videos, "Subscribed videos fetched successfully")
+      );
+  } catch (error) {
+    throw new ApiError(
+      500,
+      error.message || "Error fetching subscribed videos"
+    );
+  }
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -507,6 +461,6 @@ export {
   deleteVideo,
   togglePublishStatus,
   getUserVideos,
-  getSubscribedVideos,
   updateViewCount,
+  getSubscribedVideos,
 };

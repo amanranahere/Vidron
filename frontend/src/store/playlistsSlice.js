@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  playlists: null,
+  playlists: [],
 };
 
 const playlistsSlice = createSlice({
@@ -9,7 +9,16 @@ const playlistsSlice = createSlice({
   initialState,
   reducers: {
     setPlaylists: (state, action) => {
-      state.playlists = action.payload;
+      const newPlaylist = action.payload;
+      state.playlists = [
+        ...state.playlists,
+        ...newPlaylist.filter(
+          (playlist) =>
+            !state.playlists.some(
+              (existingPlaylists) => existingPlaylists._id === playlist._id
+            )
+        ),
+      ];
     },
     updatePlaylists: (state, action) => {
       if (state.playlists) {

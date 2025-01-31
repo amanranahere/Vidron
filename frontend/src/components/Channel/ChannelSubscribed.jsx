@@ -30,7 +30,6 @@ function ChannelSubscribed() {
   }
 
   let subscribed = filter || data?.channels;
-  console.log("subs channels : ", subscribed);
 
   function handleUserInput(input) {
     if (!input || input === "") setFilter(data?.channels);

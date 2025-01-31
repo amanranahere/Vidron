@@ -26,13 +26,16 @@ function PlaylistVideos() {
   const [error, setError] = useState("");
   const [menu, setMenu] = useState(false);
   const location = useLocation();
+  const playlist_default_img = "/playlist_default.png";
 
   const { status, userData } = useSelector((state) => state.auth);
 
   const getPlaylistById = async () => {
     setError("");
     try {
-      const response = await axiosInstance.get(`/playlists/${playlistId}`);
+      const response = await axiosInstance.get(
+        `/playlists/playlist/${playlistId}`
+      );
 
       if (response?.data?.success) {
         dispatch(setPlaylist(response.data.data));
@@ -60,15 +63,34 @@ function PlaylistVideos() {
 
   const playlist = useSelector((state) => state.playlist.playlist);
 
+  useEffect(() => {
+    const fetchFullVideos = async () => {
+      if (!playlist?.videos || playlist.videos.length === 0) return;
+
+      const fullVideos = await Promise.all(
+        playlist.videos.map(async (videoId) => {
+          const res = await axiosInstance.get(`/videos/${videoId}`);
+          return res.data.data;
+        })
+      );
+
+      dispatch(setPlaylist({ ...playlist, videos: fullVideos }));
+    };
+
+    if (playlist?.videos?.length && typeof playlist.videos[0] === "string") {
+      fetchFullVideos();
+    }
+  }, [playlist]);
+
   const deletePlaylist = async (isConfirm) => {
     if (isConfirm) {
       try {
-        await axiosInstance.delete(`/playlists/${playlistId}`).then(() => {
-          navigate(`/playlists/user/:userId`);
+        await axiosInstance.delete(`/playlists/playlist/${playlistId}`);
 
-          toast.success("Playlist deleted successfully");
-        });
+        navigate(`/channel/${playlist.owner.username}/playlist`);
+        toast.success("Playlist deleted successfully");
       } catch (error) {
+        toast.error("Playlist couldn't be deleted. Try again!");
         console.log("Error while deleting playlist", error);
       }
     }
@@ -76,13 +98,12 @@ function PlaylistVideos() {
 
   const deleteVideo = async (videoId) => {
     try {
-      await axiosInstance.delete(
-        `/playlists/playlist/${playlistId}/video/:${videoId}`.then((res) => {
-          dispatch(removePlaylistVideo(videoId));
-
-          toast.success(res.data.message);
-        })
+      const res = await axiosInstance.delete(
+        `/playlists/playlist/${playlistId}/video/${videoId}`
       );
+
+      dispatch(removePlaylistVideo(videoId));
+      toast.success(res.data.message);
     } catch (error) {
       toast.error("Error while removing video. Try again!");
       console.log("Error while removing video", error);
@@ -106,7 +127,7 @@ function PlaylistVideos() {
   };
 
   useEffect(() => {
-    document.addEventListner("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -124,48 +145,30 @@ function PlaylistVideos() {
   }
 
   return (
-    <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+    <section className="w-full ">
       <div className="flex flex-wrap gap-x-4 gap-y-10 p-4 xl:flex-nowrap">
-        <div className="w-full shrink-0 sm:max-w-md ">
+        <div
+          className="lg:sticky lg:top-4 w-full lg:max-w-[35%] bg-gradient-to-b from-blue-200 to-transparent rounded-[20px]"
+          style={{ height: "calc(100vh - 88px)" }}
+        >
           <div className="relative w-full pt-[60%]">
             <div className="absolute inset-0">
               <img
                 src={
                   playlist?.thumbnail
                     ? playlist?.thumbnail
-                    : "https://res.cloudinary.com/dgfh6tf6j/image/upload/v1727779646/Screenshot_2024-10-01_161624_bwpw83.png"
+                    : playlist_default_img
                 }
                 alt={playlist.name}
-                className="h-full w-full object-cover"
+                className=" w-[95%] mx-auto mt-3 aspect-video rounded-[20px] object-cover"
               />
-
-              <div className="absolute inset-x-0 bottom-0">
-                <div className="relative border-t bg-white/30 px-4 py-2 text-white backdrop-blur-sm before:absolute before:inset-0 before:bg-black/40">
-                  <div className="relative z-[1]">
-                    <p className="flex justify-between">
-                      <span className="inline-block">Playlist</span>
-
-                      <span className="inline-block text-center">
-                        {playlist.videosCount} video
-                        {playlist.videosCount > 1 ? "s" : ""}
-                      </span>
-                    </p>
-
-                    <p className="text-sm text-gray-200">
-                      {playlist.totalViews} view
-                      {playlist.totalViews > 1 ? "s" : ""} ·{" "}
-                      {formatDate(playlist.createdAt)}
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
-          <h2 className="mt-2 text-2xl font-semibold">{playlist.name}</h2>
+          <h2 className="mt-2 mx-2 text-2xl font-bold">{playlist.name}</h2>
 
-          <div className="mt-4 flex items-center gap-x-3">
-            <div className="h-12 w-12 shrink-0">
+          <div className="mt-4 mx-2 flex items-center gap-x-3">
+            <div className="h-10 w-10 shrink-0 mt-1">
               <Link to={`/channel/${playlist.owner.username}`}>
                 <img
                   src={playlist.owner.avatar}
@@ -182,6 +185,7 @@ function PlaylistVideos() {
                 @{playlist.owner.username}
               </p>
             </div>
+
             {status && userData.username === playlist.owner.username && (
               <div ref={ref} className="relative">
                 <button
@@ -195,19 +199,20 @@ function PlaylistVideos() {
                   <div className="absolute right-0 w-24 bg-black rounded-lg shadow-lg text-sm">
                     <button
                       onClick={() => handleUpdate()}
-                      className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
+                      className="block w-full text-left px-4 py-2 hover:bg-[#3a3a3a] rounded-t-lg"
                     >
                       Edit
                     </button>
 
                     <button
                       onClick={() => handleDelete()}
-                      className="block w-full text-left px-4 py-2 hover:bg-slate-900 hover:rounded-lg"
+                      className="block w-full text-left px-4 py-2 hover:bg-red-400 rounded-b-lg"
                     >
                       Delete
                     </button>
                   </div>
                 )}
+
                 <ConfirmPopup
                   ref={deletePlaylistPopup}
                   title={`Confirm to Delete ${playlist.name}`}
@@ -228,42 +233,48 @@ function PlaylistVideos() {
             )}
           </div>
 
-          <p className="flex mt-4 text-sm text-gray-200">
+          <div className="flex gap-1 mx-2 mt-4">
+            <p className="flex justify-between">
+              <span className="text-sm font-medium text-gray-100">
+                {playlist.videos.length > 0 ? playlist.videos.length : 0} video
+                {playlist.videos.length > 1 ? "s" : ""} ·{" "}
+              </span>
+            </p>
+
+            <p className="text-sm font-medium text-gray-100">
+              {/* {playlist.totalViews > 0 ? playlist.totalViews : 0} view
+              {playlist.totalViews > 1 ? "s" : ""} ·{" "} */}
+              {formatDate(playlist.createdAt)}
+            </p>
+          </div>
+
+          <p className="flex pb-4 mt-2 mx-2 text-sm font-medium text-gray-200">
             {playlist.description}
           </p>
         </div>
 
-        <ul className="flex w-full flex-col gap-y-4">
-          {playlist.videosCount > 0 || (
+        <ul className="flex w-full flex-col gap-y-4 pb-16">
+          {playlist.videos.length > 0 || (
             <div className="h-full w-full flex items-center justify-center">
               <ChannelEmptyPlaylist videos={true} />
             </div>
           )}
 
           {playlist?.videos?.map((video) => (
-            <div className="flex hover:bg-zinc-900 rounded-lg" key={video._id}>
-              <VideoListCard
-                video={video}
-                imgWidth="w-[300px]"
-                imgHeight="h-[180px]"
-                titleWidth="w-[100%]"
-                titleSize="text-[1.1rem]"
-                titleFont=""
-                paddingY="py-1"
-                marginLeft="ml-2"
-                marginLeft2="ml-4"
-                avatarHeight="h-10"
-                avatarWidth="w-10"
-                textFont="text-[0.9rem]"
-                descriptionWidth="w-[100%]"
-              />
+            <div
+              className="flex hover:bg-zinc-900 rounded-lg relative"
+              key={video._id}
+            >
+              <VideoListCard video={video} />
 
               {status && userData.username === playlist.owner.username && (
-                <button title="remove video" className="flex p-1">
-                  <MdDelete
-                    onClick={() => deleteVideo(video._id)}
-                    className="w-6 h-6 hover:text-red-500"
-                  />
+                <button
+                  title="remove video"
+                  className="absolute top-1 right-1 max-h-min flex rounded-full p-2 hover:bg-[#3a3a3a] bg-[#2a2a2a]
+                  hover:text-red-400"
+                  onClick={() => deleteVideo(video._id)}
+                >
+                  <MdDelete className="w-6 h-6" />
                 </button>
               )}
             </div>

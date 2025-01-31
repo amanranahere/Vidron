@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   userVideo: [],
-  userPlaylist: null,
+  userPlaylist: [],
   userTweets: [],
   userSnaps: [],
   userLikedVideos: [],
@@ -41,7 +41,10 @@ const userSlice = createSlice({
     },
 
     addUserPlaylist: (state, action) => {
-      state.userPlaylist = action.payload;
+      state.userPlaylist = [
+        ...state.userPlaylist,
+        ...(Array.isArray(action.payload) ? action.payload : []),
+      ];
     },
 
     addUserTweets: (state, action) => {

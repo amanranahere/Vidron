@@ -6,8 +6,6 @@ import React, {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { IoClose } from "react-icons/io5";
-import Button from "./Button.jsx";
 
 function ConfirmPopup(
   {
@@ -129,8 +127,6 @@ function ConfirmPopup(
                     <button
                       type="submit"
                       disabled={checkbox && !isChecked}
-                      textColor=""
-                      bgColor=""
                       className={`${
                         critical
                           ? "bg-red-400 text-white"

@@ -2,7 +2,6 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { icons } from "../Icons.jsx";
-import Button from "../Button.jsx";
 import Input from "../Input.jsx";
 import { IoClose } from "react-icons/io5";
 import axiosInstance from "../../utils/axios.helper.js";
@@ -62,7 +61,7 @@ function PlaylistForm({ playlist, route }, ref) {
     try {
       if (playlist) {
         const response = await axiosInstance.patch(
-          `/playlists/${playlist._id}`,
+          `/playlists/playlist/${playlist._id}`,
           data
         );
 

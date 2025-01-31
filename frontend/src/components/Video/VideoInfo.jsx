@@ -4,12 +4,13 @@ import getTimeDistanceToNow from "../../utils/getTimeDistance.js";
 import formatSubscriber from "../../utils/formatSubscribers.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setVideo } from "../../store/videoSlice.js";
-import { setPlaylists, updatePlaylists } from "../../store/playlistsSlice.js";
+import { updatePlaylists } from "../../store/playlistsSlice.js";
 import PlaylistForm from "../Playlist/PlaylistForm.jsx";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import getUserProfile from "../../hooks/getUserProfile.js";
+import getUserPlaylist from "../../hooks/getUserPlaylist.js";
 
 function VideoInfo({ video }) {
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
@@ -23,8 +24,9 @@ function VideoInfo({ video }) {
   const dialog = useRef();
   const location = useLocation();
   const dispatch = useDispatch();
-  const userPlaylist = useSelector((state) => state.user.userPlaylist);
   const [profile, setProfile] = useState(null);
+  const userId = useSelector((state) => state.auth.userData._id);
+  const [playlists, setPlaylists] = useState([]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -89,25 +91,19 @@ function VideoInfo({ video }) {
     }
   };
 
-  const handleSavePlaylist = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/playlists/user/playlist/${video._id}`
-      );
-      if (response.data.success) {
-        dispatch(setPlaylists(response.data.data));
-      }
-    } catch (error) {
-      toast.error("Error while fetching your playlist");
-      console.log("Error while fetching playlist", error);
-    }
-  };
+  useEffect(() => {
+    getUserPlaylist(dispatch, userId)
+      .then((fetchedPlaylists) => {
+        setPlaylists(fetchedPlaylists?.data?.userPlaylist || []);
+      })
+      .catch(() => setLoading(false));
+  }, [userId, dispatch]);
 
   useEffect(() => {
     if (authStatus) {
-      handleSavePlaylist();
+      getUserPlaylist();
     }
-  }, [authStatus, userPlaylist]);
+  }, [authStatus]);
 
   const handlePlaylistVideo = async (playlistId, status) => {
     if (!playlistId && !status) return;
@@ -170,8 +166,6 @@ function VideoInfo({ video }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const playlists = useSelector((state) => state.playlists.playlists);
 
   useEffect(() => {
     if (video?.owner?.username) {
@@ -279,11 +273,31 @@ function VideoInfo({ video }) {
 
                 {menu && (
                   <div className="absolute left-0 md:left-auto md:right-0 top-full z-10 w-64 overflow-hidden rounded-[20px] bg-[#1a1a1a] p-4 hover:block peer-focus:block flex-col">
-                    <h3 className="mb-4 text-center text-lg font-semibold">
-                      Save to playlist
-                    </h3>
+                    <div className="flex justify-between">
+                      <h3 className="mb-4 text-center text-lg font-semibold">
+                        Save to playlist
+                      </h3>
 
-                    <ul className="mb-4">
+                      <div className="">
+                        <div
+                          tabIndex="0"
+                          className="max-w-7 max-h-7 plusButton"
+                          onClick={popupPlaylistForm}
+                        >
+                          <svg
+                            className="plusIcon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 30 30"
+                          >
+                            <g mask="url(#mask0_21_345)">
+                              <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ul className="">
                       {playlists?.length > 0 ? (
                         playlists?.map((item) => (
                           <li key={item._id} className="mb-2 last:mb-0 text-sm">
@@ -308,27 +322,11 @@ function VideoInfo({ video }) {
                           </li>
                         ))
                       ) : (
-                        <div className="text-center">No playlist created.</div>
+                        <div className="text-center text-gray-400 py-4">
+                          No playlist created
+                        </div>
                       )}
                     </ul>
-
-                    <div className="flex justify-end">
-                      <div
-                        tabIndex="0"
-                        className="max-w-7 max-h-7 plusButton"
-                        onClick={popupPlaylistForm}
-                      >
-                        <svg
-                          className="plusIcon"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 30 30"
-                        >
-                          <g mask="url(#mask0_21_345)">
-                            <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>
