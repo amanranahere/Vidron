@@ -9,6 +9,8 @@ import GuestComponent from "../GuestPages/GuestComponent.jsx";
 import VideoForm from "./VideoForm.jsx";
 import SnapForm from "./SnapForm.jsx";
 import { FaUserAltSlash } from "react-icons/fa";
+import getUserSubscribed from "../../hooks/getUserSubscribed.js";
+import { setSubscriptions } from "../../store/authSlice.js";
 
 function Channel() {
   const dispatch = useDispatch();
@@ -20,8 +22,8 @@ function Channel() {
   const videoUploadRef = useRef();
   const snapUploadRef = useRef();
   const location = useLocation();
-
-  const vidron_coverImage = "/vidron_coverImage.jpg";
+  const userId = useSelector((state) => state.auth.userData._id);
+  const vidron_coverImage = "/coverImage_default.jpg";
 
   useEffect(() => {
     setError("");
@@ -45,11 +47,26 @@ function Channel() {
     });
   }, [status, username]);
 
+  const subscriptions = useSelector((state) => state.auth.subscriptions);
+
+  const isSubscribed =
+    Array.isArray(subscriptions) &&
+    subscriptions.some(
+      (subscribedChannel) => subscribedChannel.username === username
+    );
+
+  console.log("sdlfkgj ", username);
+
   const toggleSubscribe = async () => {
     try {
+      const isSubscribed = subscriptions.some(
+        (sub) => sub.username === username
+      );
+
       const response = await axiosInstance.post(
         `/subscriptions/channel/${profile._id}`
       );
+
       if (response?.data?.success) {
         setProfile({
           ...profile,
@@ -58,12 +75,37 @@ function Channel() {
             ? profile.subscribersCount - 1
             : profile.subscribersCount + 1,
         });
+
+        if (isSubscribed) {
+          dispatch(
+            setSubscriptions(
+              subscriptions.filter((sub) => sub.username !== username)
+            )
+          );
+        } else {
+          dispatch(
+            setSubscriptions([
+              ...subscriptions,
+              { username: username, _id: profile._id },
+            ])
+          );
+        }
       }
     } catch (error) {
       toast.error("Error while toggling subscribe button");
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (status && userId) {
+      getUserSubscribed(dispatch, userId).then((response) => {
+        if (response?.data) {
+          dispatch(setSubscriptions(response.data));
+        }
+      });
+    }
+  }, [status, userId, dispatch]);
 
   if (error) {
     return error;
@@ -157,19 +199,15 @@ function Channel() {
                 <button
                   onClick={toggleSubscribe}
                   className={`flex items-center px-4 py-2 rounded-full lg:mt-4 ${
-                    profile?.isSubscribed
+                    isSubscribed
                       ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
                       : "hover:bg-white/60 bg-white text-black"
                   }`}
                 >
-                  {profile?.isSubscribed ? (
-                    <>
-                      <p className="font-semibold">Subscribed</p>
-                    </>
+                  {isSubscribed ? (
+                    <p className="font-semibold">Subscribed</p>
                   ) : (
-                    <>
-                      <p className="font-semibold">Subscribe</p>
-                    </>
+                    <p className="font-semibold">Subscribe</p>
                   )}
                 </button>
               )

@@ -9,6 +9,8 @@ import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import Comments from "./SnapComments.jsx";
 import getUserProfile from "../../hooks/getUserProfile.js";
+import getUserSubscribed from "../../hooks/getUserSubscribed.js";
+import { setSubscriptions } from "../../store/authSlice.js";
 
 function SnapInfo({ snap }) {
   const timeDistance = getTimeDistanceToNow(snap?.createdAt);
@@ -20,16 +22,29 @@ function SnapInfo({ snap }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const [profile, setProfile] = useState(null);
+  const userId = useSelector((state) => state.auth.userData?._id);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
+
+  const subscriptions = useSelector((state) => state.auth.subscriptions);
+
+  const isSubscribed =
+    Array.isArray(subscriptions) &&
+    subscriptions.some(
+      (subscribedChannel) => subscribedChannel.username === snap.owner.username
+    );
 
   const toggleSubscribe = async () => {
     if (!authStatus) {
       LoginSubsPopupDialog.current.open();
     } else {
       try {
+        const isSubscribed = subscriptions.some(
+          (sub) => sub.username === snap.owner.username
+        );
+
         const response = await axiosInstance.post(
           `/subscriptions/channel/${snap.owner._id}`
         );
@@ -40,24 +55,45 @@ function SnapInfo({ snap }) {
               ...snap,
               owner: {
                 ...snap.owner,
-                isSubscribed: !snap.owner.isSubscribed,
-                subscriberCount: snap.owner.isSubscribed
-                  ? snap.owner.subscriberCount - 1
-                  : snap.owner.subscriberCount + 1,
+                isSubscribed: !isSubscribed,
+                subscribersCount: response.data.data.numOfSubscribers,
               },
             })
           );
+
+          if (isSubscribed) {
+            dispatch(
+              setSubscriptions(
+                subscriptions.filter(
+                  (sub) => sub.username !== snap.owner.username
+                )
+              )
+            );
+          } else {
+            dispatch(
+              setSubscriptions([
+                ...subscriptions,
+                { username: snap.owner.username, _id: snap.owner._id },
+              ])
+            );
+          }
         }
       } catch (error) {
-        if (error.status === 403) {
-          toast.error("Cannot subscribe to your own channel");
-        } else {
-          toast.error("Error while toggling subscribe button");
-          console.log(error);
-        }
+        console.log(error);
+        toast.error("Error while toggling subscribe button");
       }
     }
   };
+
+  useEffect(() => {
+    if (authStatus && userId) {
+      getUserSubscribed(dispatch, userId).then((response) => {
+        if (response?.data) {
+          dispatch(setSubscriptions(response.data));
+        }
+      });
+    }
+  }, [authStatus, userId, dispatch]);
 
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
@@ -126,13 +162,13 @@ function SnapInfo({ snap }) {
 
             <button
               onClick={toggleSubscribe}
-              className={`flex items-center px-4 py-2 rounded-full ${
-                snap.owner.isSubscribed
-                  ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
-                  : "hover:bg-white/60 bg-white text-black"
+              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 ${
+                isSubscribed
+                  ? "bg-[#3a3a3a] text-white hover:bg-[#2a2a2a]"
+                  : "bg-white text-black hover:bg-white/60"
               }`}
             >
-              {snap?.owner?.isSubscribed ? (
+              {isSubscribed ? (
                 <p className="font-semibold">Subscribed</p>
               ) : (
                 <p className="font-semibold">Subscribe</p>

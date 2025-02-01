@@ -11,6 +11,8 @@ import axiosInstance from "../../utils/axios.helper.js";
 import { toast } from "react-toastify";
 import getUserProfile from "../../hooks/getUserProfile.js";
 import getUserPlaylist from "../../hooks/getUserPlaylist.js";
+import getUserSubscribed from "../../hooks/getUserSubscribed.js";
+import { setSubscriptions } from "../../store/authSlice.js";
 
 function VideoInfo({ video }) {
   const timeDistance = getTimeDistanceToNow(video?.createdAt);
@@ -56,33 +58,55 @@ function VideoInfo({ video }) {
     }
   };
 
+  const subscriptions = useSelector((state) => state.auth.subscriptions);
+
+  const isSubscribed =
+    Array.isArray(subscriptions) &&
+    subscriptions.some(
+      (subscribedChannel) => subscribedChannel.username === video.owner.username
+    );
+
   const toggleSubscribe = async () => {
     if (!authStatus) {
       LoginSubsPopupDialog.current.open();
     } else {
       try {
+        const isSubscribed = subscriptions.some(
+          (sub) => sub.username === video.owner.username
+        );
+
         const response = await axiosInstance.post(
           `/subscriptions/channel/${video.owner._id}`
         );
 
         if (response.data.success) {
-          const updatedCountRes = await axiosInstance.get(
-            `/subscriptions/channel/${video.owner._id}/subscribers`
-          );
-
-          const updatedSubscribersCount =
-            updatedCountRes.data.data.numOfSubscribers;
-
           dispatch(
             setVideo({
               ...video,
               owner: {
                 ...video.owner,
-                isSubscribed: !video.owner.isSubscribed,
-                subscribersCount: updatedSubscribersCount,
+                isSubscribed: !isSubscribed,
+                subscribersCount: response.data.data.numOfSubscribers,
               },
             })
           );
+
+          if (isSubscribed) {
+            dispatch(
+              setSubscriptions(
+                subscriptions.filter(
+                  (sub) => sub.username !== video.owner.username
+                )
+              )
+            );
+          } else {
+            dispatch(
+              setSubscriptions([
+                ...subscriptions,
+                { username: video.owner.username, _id: video.owner._id },
+              ])
+            );
+          }
         }
       } catch (error) {
         console.log(error);
@@ -90,6 +114,16 @@ function VideoInfo({ video }) {
       }
     }
   };
+
+  useEffect(() => {
+    if (authStatus && userId) {
+      getUserSubscribed(dispatch, userId).then((response) => {
+        if (response?.data) {
+          dispatch(setSubscriptions(response.data));
+        }
+      });
+    }
+  }, [authStatus, userId, dispatch]);
 
   useEffect(() => {
     getUserPlaylist(dispatch, userId)
@@ -216,20 +250,16 @@ function VideoInfo({ video }) {
 
             <button
               onClick={toggleSubscribe}
-              className={`flex items-center px-4 py-2 rounded-full ${
-                video.owner.isSubscribed
-                  ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
-                  : "hover:bg-white/60 bg-white text-black"
+              className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 ${
+                isSubscribed
+                  ? "bg-[#3a3a3a] text-white hover:bg-[#2a2a2a]"
+                  : "bg-white text-black hover:bg-white/60"
               }`}
             >
-              {video?.owner?.isSubscribed ? (
-                <>
-                  <p className="font-semibold">Subscribed</p>
-                </>
+              {isSubscribed ? (
+                <p className="font-semibold">Subscribed</p>
               ) : (
-                <>
-                  <p className="font-semibold">Subscribe</p>
-                </>
+                <p className="font-semibold">Subscribe</p>
               )}
             </button>
           </div>

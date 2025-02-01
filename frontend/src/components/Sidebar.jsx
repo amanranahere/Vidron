@@ -62,12 +62,12 @@ function Sidebar({ onClose }) {
       icon: <BiMessageSquareDots className="w-6 h-6" />,
       activeIcon: <BiSolidMessageSquareDots className="w-6 h-6" />,
     },
-    {
-      name: "Subscriptions",
-      route: "/subscriptions",
-      icon: <MdOutlineSubscriptions className="w-6 h-6" />,
-      activeIcon: <MdSubscriptions className="w-6 h-6" />,
-    },
+    // {
+    //   name: "Subscriptions",
+    //   route: "/subscriptions",
+    //   icon: <MdOutlineSubscriptions className="w-6 h-6" />,
+    //   activeIcon: <MdSubscriptions className="w-6 h-6" />,
+    // },
     {
       name: "Metrics",
       route: "/admin/metrics",

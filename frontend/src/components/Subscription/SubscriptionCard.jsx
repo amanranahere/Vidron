@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import formatSubscribers from "../../utils/formatSubscribers.js";
 import LoginPopup from "../Auth/LoginPopup.jsx";
 import axiosInstance from "../../utils/axios.helper.js";
@@ -11,7 +11,8 @@ function SubscriptionCard({ profile }) {
   const LoginPopupDialog = useRef();
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.auth);
+  const username = useParams();
   const status = useSelector((state) => state.auth.status);
 
   const toggleSubscribe = async () => {
@@ -19,19 +20,21 @@ function SubscriptionCard({ profile }) {
       LoginPopupDialog.current.open();
     } else {
       try {
-        await axiosInstance
-          .post(`/subscriptions/channel/${profile._id}`)
-          .then(() => {
-            dispatch(
-              toggleUserSubscribe({
-                profileId: profile._id,
-                isSubscribed: !profile?.isSubscribed,
-                subscribersCount: profile?.isSubscribed
-                  ? profile.subscribersCount - 1
-                  : profile.subscribersCount + 1,
-              })
-            );
-          });
+        const response = await axiosInstance.post(
+          `/subscriptions/channel/${profile._id}`
+        );
+
+        if (response.data.success) {
+          dispatch(
+            toggleUserSubscribe({
+              profileId: profile._id,
+              isSubscribed: !profile?.isSubscribed,
+              subscribersCount: profile?.isSubscribed
+                ? profile.subscribersCount - 1
+                : profile.subscribersCount + 1,
+            })
+          );
+        }
       } catch (error) {
         if (error.status === 403) {
           toast.error("Cannot subscribe to your own channel");
@@ -74,20 +77,14 @@ function SubscriptionCard({ profile }) {
           </div>
         </div>
 
-        <button
-          onClick={toggleSubscribe}
-          className={`flex items-center px-6  rounded-full ${
-            profile?.isSubscribed
-              ? "hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"
-              : "hover:bg-white/60 bg-white text-black"
-          }`}
-        >
-          {profile?.isSubscribed ? (
+        {user.userData?.username === username.username && (
+          <button
+            onClick={toggleSubscribe}
+            className={`flex items-center px-6 rounded-full ${"hover:bg-[#2a2a2a] bg-[#3a3a3a] text-white"}`}
+          >
             <p className="font-semibold">Subscribed</p>
-          ) : (
-            <p className="font-semibold">Subscribe</p>
-          )}
-        </button>
+          </button>
+        )}
       </li>
     </>
   );

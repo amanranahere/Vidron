@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoginPopup from "../Auth/LoginPopup.jsx";
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axios.helper.js";
@@ -13,7 +13,6 @@ const SnapPlayer = ({
   snap,
   onToggle,
   showSnapInfo,
-  autoPlay,
   showMoreSnaps,
 }) => {
   const authStatus = useSelector((state) => state.auth.status);
@@ -95,18 +94,11 @@ const SnapPlayer = ({
           route={location.pathname}
         />
         <button
-          onClick={toggleSnapLike}
-          className="z-30 absolute right-2 top-20 bg-[#1a1a1a] hover:bg-[#fff] hover:text-black p-3 rounded-full bg-opacity-50"
+          onClick={() => toggleSnapLike()}
+          className="z-30 absolute right-2 top-20 bg-[#1a1a1a] hover:bg-[#fff] hover:text-black p-3 rounded-full bg-opacity-50 transition duration-200 active:scale-75"
         >
           <p>
-            {snap.isLiked ? (
-              <AiFillLike className="w-7 h-7" />
-            ) : (
-              <AiOutlineLike className="w-7 h-7" />
-            )}
-          </p>
-          <p className="absolute -bottom-5 right-5 text-white text-sm font-semibold ml-2">
-            {snap?.likesCount}
+            <AiFillLike className="w-7 h-7" />
           </p>
         </button>
       </div>
