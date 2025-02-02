@@ -1,4 +1,4 @@
-const DB_NAME = "videotube";
+const DB_NAME = "vidron";
 
 const options = {
   httpOnly: true,

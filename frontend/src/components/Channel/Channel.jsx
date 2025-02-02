@@ -55,8 +55,6 @@ function Channel() {
       (subscribedChannel) => subscribedChannel.username === username
     );
 
-  console.log("sdlfkgj ", username);
-
   const toggleSubscribe = async () => {
     try {
       const isSubscribed = subscriptions.some(

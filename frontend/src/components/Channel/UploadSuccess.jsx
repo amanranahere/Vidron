@@ -24,7 +24,7 @@ function UploadSuccess({ video, updating = false }, ref) {
       className="h-full text-white backdrop:backdrop-blur-sm"
     >
       <div className="relative flex ">
-        <div className="fixed inset-0 z-10 flex flex-col bg-black/50 ">
+        <div className="fixed inset-0 z-10 flex flex-col justify-center bg-black/50 ">
           <div className="inset-x-0 top-0 z-10 flex h-full items-center justify-center bg-black/50 ">
             <div className="w-full max-w-lg overflow-auto bg-[#1a1a1a] rounded-[20px] p-4">
               <div className="mb-4 flex items-start justify-center">

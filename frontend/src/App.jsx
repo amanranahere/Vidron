@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import { icons } from "./components/Icons.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Sidebar from "./components/Sidebar.jsx";
@@ -52,7 +52,7 @@ function App() {
         </main>
       </div>
 
-      <div id="popup-models" className="bg-pink-400 relative"></div>
+      <div id="popup-models" className="bg-[#00bfff] relative"></div>
 
       <ToastContainer
         position="top-right"
@@ -65,7 +65,7 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
-        transition={Bounce}
+        transition={Slide}
       />
     </div>
   );

@@ -183,7 +183,13 @@ function Signup() {
               type="submit"
               disabled={loading}
             >
-              {loading ? <span>{icons.loading}</span> : "Sign up"}
+              {loading ? (
+                <span className="w-full h-full flex justify-center items-center">
+                  {icons.loading}
+                </span>
+              ) : (
+                "Sign up"
+              )}
             </button>
           </div>
 

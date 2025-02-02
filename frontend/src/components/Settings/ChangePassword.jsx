@@ -139,9 +139,14 @@ function ChangePassword() {
             <Input
               label="Confirm Password"
               placeholder="Enter your new password again"
-              type="text"
+              type="password"
               className="px-2 py-2 rounded-lg"
               required
+              {...register("confPassword", {
+                required: true,
+                validate: (value) =>
+                  value === data.newPassword || "Passwords do not match",
+              })}
               onChange={(e) =>
                 setData((prevData) => ({
                   ...prevData,
