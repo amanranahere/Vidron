@@ -2,21 +2,35 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+// Initialize Express app
 const app = express();
 
+// ✅ CORS Configuration
 app.use(
   cors({
-    origin: "*",
-    credentials: true,
+    origin: ["https://vidron.vercel.app", "http://localhost:5173"], // Add frontend URLs
+    credentials: true, // Allow cookies/auth headers
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// ✅ Handle preflight requests
+app.options("*", cors());
+
+// ✅ Middleware
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-// routes import
+// ✅ Debugging Middleware (Logs each request)
+app.use((req, res, next) => {
+  console.log(`🔹 Request received: ${req.method} ${req.path}`);
+  next();
+});
+
+// ✅ Routes Import
 import userRouter from "./routes/user.routes.js";
 import videoRouter from "./routes/video.routes.js";
 import commentRouter from "./routes/comment.routes.js";
@@ -28,7 +42,7 @@ import metricsRouter from "./routes/metrics.routes.js";
 import healthCheckRouter from "./routes/healthCheck.routes.js";
 import snapRouter from "./routes/snap.routes.js";
 
-// routes declaration
+// ✅ Routes Setup
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/comments", commentRouter);
@@ -40,4 +54,23 @@ app.use("/api/v1/metrics", metricsRouter);
 app.use("/api/v1/health", healthCheckRouter);
 app.use("/api/v1/snaps", snapRouter);
 
+// ✅ Global Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error("🔥 Server Error:", err);
+  res.status(500).json({ success: false, message: "Internal Server Error" });
+});
+
+// ✅ Handle CORS manually in responses (Fallback)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://vidron.vercel.app"); // Allow frontend
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+
+// Export the app
 export { app };
