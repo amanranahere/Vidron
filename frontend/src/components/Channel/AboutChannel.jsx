@@ -69,7 +69,9 @@ function AboutChannel() {
             href={`/channel/${username}`}
             className="text-blue-500 hover:text-blue-400 transition-colors"
           >
-            {`http://localhost:8000/api/v1/channel/${username}`}
+            {`${
+              import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+            }/channel/${username}`}
           </a>
         </p>
 
