@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { parseErrorMessage } from "./parseErrorMsg.js";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_REACT_APP_BACKEND_BASEURL,
+  baseURL: "https://vidron-backend.vercel.app/api/v1",
   withCredentials: true,
 });
 
