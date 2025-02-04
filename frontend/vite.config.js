@@ -5,8 +5,13 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://vidron-backend.vercel.app/api/v1",
+      "/api": {
+        target: "https://vidron-backend.vercel.app",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
     },
   },
+
   plugins: [react()],
 });
