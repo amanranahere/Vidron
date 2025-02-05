@@ -3,11 +3,14 @@ import fs from "fs";
 import ffprobe from "@ffprobe-installer/ffprobe";
 import ffmpeg from "fluent-ffmpeg";
 
-// Manually set a fallback path
-const ffprobePath = ffprobe.path || "/usr/bin/ffprobe";
+// Check if we are in a Vercel environment
+const isVercel = process.env.VERCEL === "1";
+
+// If running on Vercel, set a manual ffprobe path
+const ffprobePath = isVercel ? "/usr/bin/ffprobe" : ffprobe.path;
 ffmpeg.setFfprobePath(ffprobePath);
 
-console.log("FFprobe Path:", ffprobePath); // Debugging log
+console.log("Using FFprobe Path:", ffprobePath); // Debugging log
 
 // Cloudinary config
 cloudinary.config({
@@ -16,12 +19,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Function to upload video to Cloudinary with video processing
 const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
 
-    // Check video properties using ffprobe
     const videoDetails = await new Promise((resolve, reject) => {
       ffmpeg(localFilePath).ffprobe((err, data) => {
         if (err) {
@@ -32,12 +33,10 @@ const uploadOnCloudinary = async (localFilePath) => {
       });
     });
 
-    // Upload the file to Cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
     });
 
-    // Delete local file after successful upload
     fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
