@@ -3,10 +3,13 @@ import fs from "fs";
 import ffprobe from "@ffprobe-installer/ffprobe";
 import ffmpeg from "fluent-ffmpeg";
 
-// Set ffprobe path for fluent-ffmpeg
-ffmpeg.setFfprobePath(ffprobe.path);
+// Manually set a fallback path
+const ffprobePath = ffprobe.path || "/usr/bin/ffprobe";
+ffmpeg.setFfprobePath(ffprobePath);
 
-// Configuration for Cloudinary
+console.log("FFprobe Path:", ffprobePath); // Debugging log
+
+// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -31,14 +34,13 @@ const uploadOnCloudinary = async (localFilePath) => {
 
     // Upload the file to Cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "auto", // Automatically determines whether the file is an image, video, etc.
+      resource_type: "auto",
     });
 
-    // File has been uploaded successfully, delete the local file
+    // Delete local file after successful upload
     fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
-    // Remove the locally saved temporary file if the upload failed
     fs.unlinkSync(localFilePath);
     console.error("Upload failed:", error);
     return null;
