@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-    "build": "npm install --force",
-    "vercel-build": "npm run build"
+   
   },
   "keywords": [
     "javascript",
