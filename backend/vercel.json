@@ -21,7 +21,10 @@
   ],
   "functions": {
     "src/index.js": {
-      "includeFiles": ["node_modules/@ffprobe-installer/ffprobe/**"]
+      "includeFiles": [
+        "node_modules/@ffprobe-installer/ffprobe/**",
+        "node_modules/@ffprobe-installer/**"
+      ]
     }
   }
 }
