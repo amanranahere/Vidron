@@ -18,10 +18,5 @@
         "Access-Control-Allow-Headers": "Content-Type,Authorization"
       }
     }
-  ],
-  "functions": {
-    "src/index.js": {
-      "includeFiles": "node_modules/@ffprobe-installer/**"
-    }
-  }
+  ]
 }
