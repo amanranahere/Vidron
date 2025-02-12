@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import connectDB from "../db/db_index.js";
 
 const healthCheck = asyncHandler(async (req, res) => {
   // if not connected, attempt to connect
