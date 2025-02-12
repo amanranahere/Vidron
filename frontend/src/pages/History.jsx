@@ -148,7 +148,9 @@ function History() {
                 md:grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] 
                 lg:grid-cols-[repeat(auto-fit,_minmax(200px,1fr))] 
                 gap-1 
-                grid-auto-rows-[minmax(200px,_auto)]`}
+                grid-auto-rows-[minmax(200px,_auto)] ${
+                  snapHistory.length <= 2 ? "w-[25%]" : ""
+                }`}
               >
                 {snapHistory.map((snap) => (
                   <div key={snap._id}>

@@ -118,7 +118,7 @@ function ChannelSnaps() {
           lg:grid-cols-[repeat(auto-fit,_minmax(200px,1fr))] 
           gap-1 
           grid-auto-rows-[minmax(200px,_auto)] ${
-            snaps.length <= 2 ? "w-[50%]" : ""
+            snaps.length <= 2 ? "w-[25%]" : ""
           }`}
         >
           {snaps?.map((snap) => (

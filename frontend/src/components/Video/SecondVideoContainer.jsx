@@ -8,7 +8,7 @@ import VideoCard from "./VideoCard.jsx";
 function VideoContainer() {
   const [videos, setVideos] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const limit = 10;
 
@@ -20,7 +20,7 @@ function VideoContainer() {
 
       if (response?.data?.videos?.length > 0) {
         setVideos(response.data.videos);
-        setLoading(false);
+        // setLoading(false);
         if (response.data.videos.length !== 20) {
           setHasMore(false);
         }
@@ -40,22 +40,11 @@ function VideoContainer() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  if (loading) {
-    return (
-      <span className="flex justify-center mt-20">{icons.bigLoading}</span>
-    );
-  }
-
-  if (videos.length === 0) {
-    return (
-      <div className="flex justify-center mt-[30vh]">
-        <div className="flex flex-col items-center">
-          <FaVideo className="w-20 h-20" />
-          <h1>No Videos Available</h1>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+  //   );
+  // }
 
   return (
     <div className="overflow-auto">

@@ -12,7 +12,7 @@ const getCurrentUser = async (dispatch) => {
       return response.data;
     }
   } catch (error) {
-    toast.error("Error fetching current user");
+    // toast.error("Error fetching current user");
     console.log(error);
   }
 };
