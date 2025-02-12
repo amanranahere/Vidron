@@ -3,6 +3,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const healthCheck = asyncHandler(async (req, res) => {
+  // if not connected, attempt to connect
+  if (mongoose.connection.readyState !== 1) {
+    await connectDB();
+  }
+
   // mongoose ready-state
   const readyStateMap = {
     0: "Disconnected",
