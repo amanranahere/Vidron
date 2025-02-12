@@ -5,7 +5,22 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const healthCheck = asyncHandler(async (req, res) => {
   // if not connected, attempt to connect
   if (mongoose.connection.readyState !== 1) {
-    await connectDB();
+    try {
+      await connectDB();
+      console.log("DB connected on health check");
+    } catch (err) {
+      console.error("Error connecting to DB in health check:", err);
+
+      return res
+        .status(503)
+        .json(
+          new ApiResponse(
+            503,
+            { status: "FAIL", database: { status: "Error" } },
+            "Health check failed: Database connection error"
+          )
+        );
+    }
   }
 
   // mongoose ready-state
