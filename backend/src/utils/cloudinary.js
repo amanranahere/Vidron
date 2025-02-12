@@ -3,9 +3,7 @@ import fs from "fs";
 import ffprobeInstaller from "@ffprobe-installer/ffprobe";
 import ffmpeg from "fluent-ffmpeg";
 
-const isVercel = process.env.VERCEL === "1";
-
-const ffprobePath = isVercel ? ffprobeInstaller.path : ffprobeInstaller.path;
+const ffprobePath = ffprobeInstaller.path;
 ffmpeg.setFfprobePath(ffprobePath);
 
 console.log("Using FFprobe Path:", ffprobePath);
