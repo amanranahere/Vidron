@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "start": "node src/index.js",
-    "postinstall": "npm install @ffprobe-installer/linux-x64 || true"
+    "postinstall": "npm install @ffprobe-installer/linux-x64 && npm rebuild",
+    "vercel-build": "npm run build"
   },
   "keywords": [
     "javascript",
