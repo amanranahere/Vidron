@@ -40,4 +40,5 @@ app.use("/api/v1/metrics", metricsRouter);
 app.use("/api/v1/health", healthCheckRouter);
 app.use("/api/v1/snaps", snapRouter);
 
-export { app };
+// export { app };
+export default app;
