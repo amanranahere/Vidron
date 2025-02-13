@@ -25,7 +25,7 @@ function VideoContainer() {
 
   if (loading) {
     return (
-      <span className="flex justify-center items-center h-screen w-full">
+      <span className="flex justify-center mt-32 h-screen w-full">
         {icons.bigLoading}
       </span>
     );
