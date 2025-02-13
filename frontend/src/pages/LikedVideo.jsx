@@ -43,13 +43,13 @@ function LikedVideos() {
 
   return (
     <div className="w-full pb-20 lg:pb-0">
-      {loading && (
-        <span className="flex justify-center mt-20">{icons.bigLoading}</span>
-      )}
-
       <div className="w-full text-2xl md:text-3xl font-bold px-4 py-2 pb-3">
         Liked Videos
       </div>
+
+      {loading && (
+        <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+      )}
 
       <div className="lg:w-3/4">
         {likedVideos?.length > 0 && !loading && (

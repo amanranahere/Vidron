@@ -8,7 +8,7 @@ import VideoCard from "./VideoCard.jsx";
 function VideoContainer() {
   const [videos, setVideos] = useState([]);
   const [page, setPage] = useState(1);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const limit = 10;
 
@@ -20,7 +20,7 @@ function VideoContainer() {
 
       if (response?.data?.videos?.length > 0) {
         setVideos(response.data.videos);
-        // setLoading(false);
+        setLoading(false);
         if (response.data.videos.length !== 20) {
           setHasMore(false);
         }
@@ -53,7 +53,7 @@ function VideoContainer() {
         next={fetchMoreData}
         hasMore={hasMore}
         loader={
-          <div className="flex justify-center h-7 mt-1">{icons.loading}</div>
+          <div className="flex justify-center h-10 mt-1">{icons.loading}</div>
         }
         scrollableTarget="scrollableDiv"
       >
