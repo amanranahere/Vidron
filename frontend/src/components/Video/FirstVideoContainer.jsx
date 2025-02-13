@@ -25,13 +25,15 @@ function VideoContainer() {
 
   if (loading) {
     return (
-      <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+      <span className="flex justify-center items-center mt-20 h-screen w-full">
+        {icons.bigLoading}
+      </span>
     );
   }
 
   if (videos.length === 0) {
     return (
-      <div className="flex justify-center mt-[30vh]">
+      <div className="flex justify-center items-center h-screen">
         <div className="flex flex-col items-center">
           <FaVideo className="w-20 h-20" />
           <h1>No Videos Available</h1>
