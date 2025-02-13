@@ -22,7 +22,7 @@ function Channel() {
   const videoUploadRef = useRef();
   const snapUploadRef = useRef();
   const location = useLocation();
-  const userId = useSelector((state) => state.auth.userData._id);
+  const userId = useSelector((state) => state.auth.userData?._id);
   const vidron_coverImage = "/coverImage_default.jpg";
 
   useEffect(() => {

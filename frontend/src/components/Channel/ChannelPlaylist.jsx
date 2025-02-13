@@ -15,19 +15,23 @@ function ChannelPlaylist() {
   const [loading, setLoading] = useState(true);
   const [playlists, setPlaylists] = useState([]);
   const { status, userData } = useSelector((state) => state.auth);
-  const userId = useSelector((state) => state.user.user._id);
+  const userId = useSelector((state) => state.user.user?._id);
   const dialog = useRef();
   const location = useLocation();
   const playlist_default_img = "/playlist_default.png";
 
   useEffect(() => {
-    getUserPlaylist(dispatch, userId || userData._id)
-      .then((fetchedPlaylists) => {
-        setPlaylists(fetchedPlaylists?.data?.userPlaylist || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [username, userId, userData._id, dispatch]);
+    if (userId || userData?._id) {
+      getUserPlaylist(dispatch, userId || userData._id)
+        .then((fetchedPlaylists) => {
+          setPlaylists(fetchedPlaylists?.data?.userPlaylist || []);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [username, userId, userData?._id, dispatch]);
 
   if (loading) {
     return (

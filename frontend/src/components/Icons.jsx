@@ -83,11 +83,11 @@ export const icons = {
       <div className="w-loader">
         <p>loading</p>
         <div className="words">
-          <span className="word">videos</span>
-          <span className="word">snaps</span>
-          <span className="word">channels</span>
-          <span className="word">comments</span>
-          <span className="word">likes</span>
+          <span className="word">data</span>
+          <span className="word">content</span>
+          <span className="word">media</span>
+          <span className="word">posts</span>
+          <span className="word">updates</span>
         </div>
       </div>
     </div>

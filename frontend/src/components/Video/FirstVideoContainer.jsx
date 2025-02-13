@@ -27,7 +27,7 @@ function VideoContainer() {
     return (
       <span
         className="flex justify-center items-centerw-full"
-        style={{ height: "calc(100vh - 56px)" }}
+        style={{ height: "calc(100vh - 66px)" }}
       >
         {icons.bigLoading}
       </span>
@@ -38,7 +38,7 @@ function VideoContainer() {
     return (
       <div
         className="flex justify-center items-center"
-        style={{ height: "calc(100vh - 56px)" }}
+        style={{ height: "calc(100vh - 66px)" }}
       >
         <div className="flex flex-col items-center">
           <FaVideo className="w-20 h-20" />
