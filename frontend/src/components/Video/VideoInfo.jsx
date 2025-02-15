@@ -27,7 +27,7 @@ function VideoInfo({ video }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const [profile, setProfile] = useState(null);
-  const userId = useSelector((state) => state.auth.userData._id);
+  const userId = useSelector((state) => state.auth.userData?._id);
   const [playlists, setPlaylists] = useState([]);
 
   const toggleDescription = () => {

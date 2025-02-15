@@ -3,14 +3,16 @@
 @tailwind utilities;
 
 @layer utilities {
-  ::-webkit-scrollbar {
-    @apply w-3;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-[#9a9a9a];
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-black;
+  @media (min-width: 1024px) {
+    ::-webkit-scrollbar {
+      @apply w-3;
+    }
+    ::-webkit-scrollbar-thumb {
+      @apply bg-[#9a9a9a];
+    }
+    ::-webkit-scrollbar-track {
+      @apply bg-black;
+    }
   }
 }
 
