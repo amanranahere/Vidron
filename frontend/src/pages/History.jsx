@@ -58,10 +58,6 @@ function History() {
 
   return (
     <div className="">
-      {loading && (
-        <span className="flex justify-center mt-20">{icons.bigLoading}</span>
-      )}
-
       <div className="w-full flex gap-5 font-bold text-2xl md:text-3xl px-4 py-2 pb-3">
         <button
           onClick={() => {
@@ -87,6 +83,10 @@ function History() {
           Snaps
         </button>
       </div>
+
+      {loading && (
+        <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+      )}
 
       {/* videos */}
 

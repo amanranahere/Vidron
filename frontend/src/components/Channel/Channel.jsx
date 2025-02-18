@@ -117,7 +117,7 @@ function Channel() {
           <img
             src={profile?.coverImage || vidron_coverImage}
             alt="user"
-            className="object-cover"
+            className="w-full object-cover"
           />
         </div>
       </div>
