@@ -24,11 +24,11 @@ function SnapContainer() {
     getData();
   }, []);
 
-  if (loading) {
-    return (
-      <span className="flex justify-center mt-20">{icons.bigLoading}</span>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <span className="flex justify-center mt-20">{icons.bigLoading}</span>
+  //   );
+  // }
 
   return (
     <div className="flex flex-wrap justify-evenly md:flex-nowrap lg:px-2 gap-1 md:gap-2 w-full">
