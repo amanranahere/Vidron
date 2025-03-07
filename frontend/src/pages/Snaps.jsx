@@ -64,7 +64,7 @@ function Snap({
   return (
     <div className="flex justify-center items-center">
       {loading ? (
-        <span className="flex justify-center items-center h-[calc(100vh-56px)] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-76px)] md:aspect-[9/16] md:rounded-[20px] md:bg-[#2a2a2a]">
+        <span className="flex justify-center items-center h-[100vh] md:h-[calc(100vh-112px)] lg:h-[calc(100vh-76px)] md:aspect-[9/16] md:rounded-[20px] md:bg-[#2a2a2a]">
           {icons.bigLoading}
         </span>
       ) : (

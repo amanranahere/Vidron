@@ -67,7 +67,7 @@ function SnapsFeed({}) {
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="h-screen md:h-[calc(100vh-56px)] overflow-y-scroll snap-y snap-mandatory"
+      className="h-screen md:h-[calc(100vh-56px)] overflow-y-scroll snap-y snap-mandatory scrollbar-thin scrollbar-none"
     >
       {snaps.map((snap, index) => (
         <div
