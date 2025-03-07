@@ -31,7 +31,7 @@ function SnapContainer() {
   // }
 
   return (
-    <div className="flex flex-wrap justify-evenly md:flex-nowrap lg:px-2 gap-1 md:gap-2 w-full">
+    <div className="flex flex-wrap justify-evenly md:flex-nowrap lg:px-2 gap-2 md:gap-2 w-full">
       {snaps.map((snap, index) => (
         <div
           key={snap._id}

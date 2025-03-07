@@ -95,15 +95,15 @@ const publishASnap = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Files required");
   }
 
-  // check duration of the snap, it shouldn't exceed 30 seconds
+  // check duration of the snap, it shouldn't exceed 60 seconds
   const duration = await getVideoDurationInSeconds(snapFileLocalPath);
 
-  if (duration > 30) {
+  if (duration > 60) {
     // remove the snap file as it's too long
     fs.unlinkSync(snapFileLocalPath);
     throw new ApiError(
       400,
-      "Video duration cannot exceed 30 seconds. Please upload a shorter video."
+      "Video duration cannot exceed 60 seconds. Please upload a shorter video."
     );
   }
 
