@@ -38,7 +38,9 @@ function SnapContainer() {
     <div className="relative">
       <div
         ref={scrollRef}
-        className="overflow-x-scroll scrollbar-none flex flex-wrap justify-evenly md:flex-nowrap px-1 lg:px-2 gap-2 w-full snap-container-mask"
+        className={`overflow-x-scroll scrollbar-none flex flex-wrap justify-evenly md:flex-nowrap px-1 lg:px-2 gap-2 w-full ${
+          window.innerWidth >= 768 ? "snap-container-mask" : ""
+        }`}
       >
         {snaps.map((snap, index) => (
           <div
