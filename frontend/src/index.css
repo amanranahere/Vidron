@@ -62,6 +62,24 @@
 
 /* masking of avatar-img in metrics - end */
 
+/* masking of snap container on home page - start */
+
+.snap-container-mask {
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  transition: mask-image 0.3s ease;
+}
+
+/* masking of snap container on home page - end */
+
 /* loader - start */
 
 .loader {

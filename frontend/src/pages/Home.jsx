@@ -10,13 +10,13 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 lg:pb-0">
       {/* first videos container */}
 
       <FirstVideoContainer />
 
       {/* snaps container */}
-      <div className="mb-4 md:px-4 lg:px-0">
+      <div className="mb-4 md:px-4 lg:px-0 pb-6">
         <div className="flex justify-between items-end">
           <div className="flex items-center gap-2 pb-3 pt-5 px-2 ">
             <BiFilm className="w-7 h-9 text-cyan-300" />
@@ -35,8 +35,13 @@ function Home() {
       </div>
 
       {/* second videos container */}
+      <div className="h-full w-full pb-32">
+        <SecondVideoContainer />
+      </div>
 
-      <SecondVideoContainer />
+      <div className="w-full text-center text-[#7a7a7a] font-bold p-4">
+        &mdash; You have reached the end &mdash;
+      </div>
     </div>
   );
 }

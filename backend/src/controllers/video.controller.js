@@ -313,9 +313,7 @@ const getUserVideos = asyncHandler(async (req, res) => {
         owner: new mongoose.Types.ObjectId(userId),
       },
     },
-    {
-      $match: { isPublished: true },
-    },
+
     {
       $sort: {
         createdAt: sortType === "asc" ? 1 : -1,
