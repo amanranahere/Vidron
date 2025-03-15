@@ -214,7 +214,7 @@ function SnapComments({ snap }) {
 
       <div
         id="dialogScrollableDiv"
-        className="h-[calc(100vh-380px)] lg:h-[calc(100vh-310px)] bg-[#121212] rounded-bl-[20px] rounded-br-[20px] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212]"
+        className="h-[calc(100vh-380px)] lg:h-[calc(100vh-350px)] bg-[#121212] rounded-bl-[20px] rounded-br-[20px] overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2a2a2a] scrollbar-track-[#121212]"
       >
         <div className="px-2 pt-2 pb-4">
           <form
