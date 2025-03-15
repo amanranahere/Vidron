@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../utils/axios.helper";
 import SnapCard from "./SnapCard.jsx";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function SnapContainer() {
   const scrollRef = useRef(null);
@@ -57,7 +57,7 @@ function SnapContainer() {
         onClick={() => scroll("left")}
         className="hidden lg:block absolute right-6 bottom-6 z-30 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-90 text-white/80 p-4 rounded-full shadow-md"
       >
-        <FaArrowLeft className="h-6 w-6" />
+        <IoIosArrowBack className="h-6 w-6" />
       </button>
 
       {/* right scroll button */}
@@ -65,7 +65,7 @@ function SnapContainer() {
         onClick={() => scroll("right")}
         className="hidden lg:block absolute right-6 bottom-24 z-50 bg-[#2a2a2a] hover:bg-[#3a3a3a] active:scale-90 text-white/80 p-4 rounded-full shadow-md"
       >
-        <FaArrowRight className="h-6 w-6" />
+        <IoIosArrowForward className="h-6 w-6" />
       </button>
     </div>
   );
