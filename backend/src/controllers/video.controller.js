@@ -165,37 +165,40 @@ const updateVideoDetails = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
     const { title, description } = req.body;
 
+    // Check if title or description is provided
     if (!title && !description) {
-      throw new ApiError(400, "Invalid input(s)");
+      throw new ApiError(
+        400,
+        "Invalid input(s): Title or description is required"
+      );
     }
 
-    // check if user is owner of the video
+    // Check if the video exists and belongs to the logged-in user
     const userVideo = await findVideoByIdAndOwner(videoId, req.user._id);
     if (!userVideo) {
-      throw new ApiError(404, "Video not found");
+      throw new ApiError(404, "Video not found or unauthorized access");
     }
 
-    // check if thumbnail is updated or not
-    let thumbnailUrl = null;
-
+    // Handle thumbnail update (if a new one is provided)
+    let thumbnailUrl = userVideo.thumbnail;
     if (req.file) {
       const thumbnailLocalPath = req.file.path;
       const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
 
       if (!thumbnail || !thumbnail.url) {
-        throw new ApiError(400, "Error while uploading the Thumbnail");
+        throw new ApiError(400, "Error while uploading the new thumbnail");
       }
-
       thumbnailUrl = thumbnail.url;
     }
 
-    const video = await Video.findByIdAndUpdate(
+    // Update video details
+    const updatedVideo = await Video.findByIdAndUpdate(
       videoId,
       {
         $set: {
-          title,
-          description,
-          ...(thumbnailUrl && { thumbnail: thumbnailUrl }),
+          title: title || userVideo.title,
+          description: description || userVideo.description,
+          thumbnail: thumbnailUrl,
         },
       },
       { new: true }
@@ -206,12 +209,16 @@ const updateVideoDetails = asyncHandler(async (req, res) => {
       .json(
         new ApiResponse(
           200,
-          video,
-          "Video details has been updated successfully"
+          updatedVideo,
+          "Video details have been updated successfully"
         )
       );
   } catch (error) {
-    throw new ApiError(400, "Error while updating the video details");
+    console.error("Error updating video details:", error);
+    throw new ApiError(
+      400,
+      error?.message || "Error while updating the video details"
+    );
   }
 });
 

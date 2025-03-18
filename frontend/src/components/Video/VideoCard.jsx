@@ -50,7 +50,7 @@ function VideoCard({ video, name = true, displayAvatar = true }) {
     >
       <div
         key={video._id}
-        className="md:rounded-xl mt-2 text-white md:p-1 w-screen md:w-full"
+        className="md:rounded-xl mt-2 text-white md:p-1 w-screen md:w-full hover:bg-[#2a2a2a]"
       >
         <div className="relative w-screen md:w-full pt-[60%]">
           <div className="absolute inset-0">

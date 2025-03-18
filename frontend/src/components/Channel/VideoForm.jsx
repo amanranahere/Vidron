@@ -80,28 +80,35 @@ function VideoForm({ video = false }, ref) {
   };
 
   const updateVideo = async (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
+    if (!video?._id) {
+      toast.error("Invalid video ID");
+      return;
     }
-    if (data.thumbnail) formData.append("thumbnail", data.thumbnail[0]);
+
+    const updateData = {
+      title: data.title,
+      description: data.description,
+    };
 
     try {
-      await axiosInstance.patch(`/videos/${video._id}`).then(() => {
-        uploadingDialog.current.close();
-        successDialog.current.open();
-        reset();
-        getChannelVideos(dispatch);
-      });
+      await axiosInstance.patch(`/videos/${video._id}`, updateData);
+      uploadingDialog.current.close();
+      successDialog.current.open();
+      reset();
+      getChannelVideos(dispatch);
+      toast.success("Video updated successfully!");
     } catch (error) {
       uploadingDialog.current.close();
-      toast.error("Error while updating video. Try again!");
+      toast.error(
+        error.response?.data?.message ||
+          "Error while updating video. Try again!"
+      );
       console.error("Error updating video", error);
     }
   };
 
   const handleVideo = async (data) => {
-    if (video) {
+    if (video?._id) {
       updateVideo(data);
     } else {
       publishVideo(data);

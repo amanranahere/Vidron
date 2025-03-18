@@ -49,7 +49,8 @@ function SnapCard({ snap, width = "100%" }) {
       className=""
     >
       <div key={snap._id} className="rounded-xl text-white" style={{ width }}>
-        <div className="relative aspect-[9/16] rounded-xl border border-gray-800 overflow-hidden">
+        <div className="relative aspect-[9/16] rounded-xl border border-gray-800 overflow-hidden group">
+          <div className="absolute hidden group-hover:block inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
           <img
             className="w-full h-full object-cover"
             src={snap?.snapThumbnail}
