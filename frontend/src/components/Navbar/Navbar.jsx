@@ -85,7 +85,7 @@ function Navbar() {
       )}
 
       {authStatus && userData && (
-        <div className="">
+        <div className="md:pr-2">
           <Link to={`/channel/${userData.username}`}>
             <img
               title={userData.username}
