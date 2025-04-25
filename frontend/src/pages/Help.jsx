@@ -40,7 +40,7 @@ function Help() {
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold my-0">LinkedIn</h2>
               <a
-                // href="https://www.linkedin.com/in/aman-rana-709a0a330/"
+                href="https://www.linkedin.com/in/aman-rana-709a0a330/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 text-sm hover:text-blue-400"
@@ -50,7 +50,7 @@ function Help() {
             </div>
           </li>
 
-          <li className="flex items-center space-x-4">
+          {/* <li className="flex items-center space-x-4">
             <span className="w-9 h-9 rounded-full flex items-center justify-center">
               <IoIosLink className="w-6 h-6 text-white" />
             </span>
@@ -61,7 +61,7 @@ function Help() {
                 @amanrana
               </p>
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
 

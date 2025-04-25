@@ -358,7 +358,7 @@ function Sidebar({ onClose }) {
               <p className="pl-7 pt-1 pb-3 flex items-center text-[0.8rem] text-gray-200 opacity-60">
                 Developed by
                 <a
-                  href="/"
+                  href="https://amanrana.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-1 hover:text-[#00bfff] hover:opacity-100"
