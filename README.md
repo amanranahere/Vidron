@@ -9,9 +9,7 @@ Vidron is a dynamic video streaming platform designed to deliver an engaging vie
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Live Website](#live-website)
-- [Login Credentials](#login-credentials)
 - [Screenshots](#screenshots)
-- [Acknowledgements](#acknowledgements)
 - [License](#license)
 
 <br><br>
@@ -54,10 +52,6 @@ Vidron is a dynamic video streaming platform designed to deliver an engaging vie
 ## Live Website
 
 Check out **Vidron** live here: [Vidron](https://vidron.vercel.app)
-
-<br>
-
-## Login Credentials
 
 Use the following credentials to log in and explore the full functionality of the website:
 
