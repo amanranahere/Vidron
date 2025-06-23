@@ -39,7 +39,6 @@ Vidron is a dynamic video streaming platform designed to deliver an engaging vie
 - **React**: A JavaScript library for building interactive user interfaces.
 - **Tailwind CSS**: A utility-first CSS framework for modern styling.
 - **Vite**: A fast build tool for frontend development.
-- **Framer Motion**: For creating smooth animations.
 - **React Router DOM**: For seamless page navigation.
 
 ### Backend & Services:
